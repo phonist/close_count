@@ -122,7 +122,6 @@ router.get(
       const profile = await Profile.findOne({
         user: user_id
       }).populate('user', ['name', 'avatar']);
-
       if (!profile) return res.status(400).json({ msg: 'Profile not found' });
 
       return res.json(profile);

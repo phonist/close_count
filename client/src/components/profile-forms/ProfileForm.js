@@ -20,6 +20,7 @@ const initialState = {
 };
 
 const ProfileForm = ({
+  auth: { user },
   profile: { profile, loading },
   createProfile,
   getCurrentProfile,
@@ -239,9 +240,8 @@ const ProfileForm = ({
             </div>
           </Fragment>
         )}
-
         <input type="submit" className="btn btn-primary my-1" />
-        <Link className="btn btn-light my-1" to="/dashboard">
+        <Link className="btn btn-light my-1" to={`/profile/${user._id}`}>
           Go Back
         </Link>
       </form>
@@ -252,11 +252,13 @@ const ProfileForm = ({
 ProfileForm.propTypes = {
   createProfile: PropTypes.func.isRequired,
   getCurrentProfile: PropTypes.func.isRequired,
-  profile: PropTypes.object.isRequired
+  profile: PropTypes.object.isRequired,
+  auth: PropTypes.object.isRequired,
 };
 
 const mapStateToProps = (state) => ({
-  profile: state.profile
+  profile: state.profile,
+  auth: state.auth
 });
 
 export default connect(mapStateToProps, { createProfile, getCurrentProfile })(

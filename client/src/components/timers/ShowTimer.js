@@ -61,7 +61,7 @@ const Show = ({
         {timerComponents.length ? timerComponents : <span> Times Up!</span>}
         {showActions && (
           <Fragment>
-            {!auth.loading && user === auth.user._id && (
+            {!auth.loading && user === user._id && (
               <button
                 onClick={() => destroy(_id)}
                 type="button"

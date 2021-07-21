@@ -135,7 +135,7 @@ export const destroy = id => async dispatch => {
 
 //start count down
 export const startCountDown = id => async dispatch => {
-    console.log(id);
+    
     try {
         await api.put(`/timers/${id}`);
 

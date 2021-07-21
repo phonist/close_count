@@ -18,7 +18,10 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-const Timers = ({ getTimers, timer: { timers } }) => {
+const Timers = ({ 
+  getTimers, 
+  timer: { timers }
+}) => {
   const classes = useStyles();
   useEffect(() => {
     getTimers();

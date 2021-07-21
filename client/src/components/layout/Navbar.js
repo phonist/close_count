@@ -1,30 +1,31 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { logout } from '../../actions/auth';
+import { logout } from '../../actions/auth'; 
 
-const Navbar = ({ auth: { isAuthenticated }, logout }) => {
+const Navbar = ({ 
+  auth: { isAuthenticated, user },
+  logout
+}) => {
+  const [link, setLink] = useState('');
+
+  useEffect(() => {
+    if (isAuthenticated && user !== null) setLink(`profile/${user._id}`);
+    else setLink('');
+  }, [isAuthenticated, logout, user]);
+
   const authLinks = (
     <ul>
-      <li>
-        <Link to="/profiles">
-          <i className="fas fa-user" /> Profiles 
-        </Link>
-      </li>
-      {/* <li>
-        <Link to="/posts">Posts</Link>
-      </li> */}
       <li>
         <i className="fas fa-clock" />
         <Link to="/timers">Timers</Link>
       </li>
-      {/* <li>
-        <Link to="/dashboard">
-          <i className="fas fa-user" />{' '}
-          <span className="hide-sm">Dashboard</span>
+      <li>
+        <Link to= {link}>
+          <i className="fas fa-user" /> Your Profile
         </Link>
-      </li> */}
+      </li>
       <li>
         <a onClick={logout} href="#!">
           <i className="fas fa-sign-out-alt" />{' '}
@@ -33,12 +34,8 @@ const Navbar = ({ auth: { isAuthenticated }, logout }) => {
       </li>
     </ul>
   );
-
   const guestLinks = (
     <ul>
-      <li>
-        <Link to="/profiles">Developers</Link>
-      </li>
       <li>
         <Link to="/register">Register</Link>
       </li>

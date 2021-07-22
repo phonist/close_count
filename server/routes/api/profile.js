@@ -10,7 +10,6 @@ const checkObjectId = require('../../middleware/checkObjectId');
 
 const Profile = require('../../models/Profile');
 const User = require('../../models/User');
-const Post = require('../../models/Post');
 
 // @route    GET api/profile/me
 // @desc     Get current users profile
@@ -86,10 +85,11 @@ router.post(
     try {
       // Using upsert option (creates new doc if no match is found):
       let profile = await Profile.findOneAndUpdate(
-        { user: req.user.id },
+        { user: req.user._id },
         { $set: profileFields },
         { new: true, upsert: true, setDefaultsOnInsert: true }
       );
+
       return res.json(profile);
     } catch (err) {
       console.error(err.message);
@@ -106,7 +106,6 @@ router.get('/', async (req, res) => {
     const profiles = await Profile.find().populate('user', ['name', 'avatar']);
     res.json(profiles);
   } catch (err) {
-    console.error(err.message);
     res.status(500).send('Server Error');
   }
 });
@@ -141,7 +140,6 @@ router.delete('/', auth, async (req, res) => {
     // Remove profile
     // Remove user
     await Promise.all([
-      Post.deleteMany({ user: req.user.id }),
       Profile.findOneAndRemove({ user: req.user.id }),
       User.findOneAndRemove({ _id: req.user.id })
     ]);

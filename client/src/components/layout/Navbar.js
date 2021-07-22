@@ -22,7 +22,7 @@ const Navbar = ({
         <Link to="/timers">Timers</Link>
       </li>
       <li>
-        <Link to= {link}>
+        <Link to={link}>
           <i className="fas fa-user" /> Your Profile
         </Link>
       </li>

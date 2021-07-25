@@ -11,7 +11,7 @@ import Timers from '../timers/Timers';
 
 const Routes = props => {
   return (
-    <section className="container">
+    <>
       <Alert />
       <Switch>
         <Route exact path="/register" component={Register} />
@@ -22,7 +22,7 @@ const Routes = props => {
         <PrivateRoute exact path="/timers" component={Timers}/>
         <Route component={NotFound} />
       </Switch>
-    </section>
+    </>
   );
 };
 

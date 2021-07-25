@@ -1,8 +1,16 @@
-import React, { Fragment, useState } from 'react';
+import React, { useState } from 'react';
 import { Link, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { login } from '../../actions/auth';
+//material ui
+import Card from '@material-tailwind/react/Card';
+import CardHeader from '@material-tailwind/react/CardHeader';
+import CardBody from '@material-tailwind/react/CardBody';
+import CardFooter from '@material-tailwind/react/CardFooter';
+import H5 from '@material-tailwind/react/Heading5';
+import Button from '@material-tailwind/react/Button';
+import Container from '../layout/Container';
 
 const Login = ({ login, isAuthenticated }) => {
   const [formData, setFormData] = useState({
@@ -25,38 +33,55 @@ const Login = ({ login, isAuthenticated }) => {
   }
 
   return (
-    <Fragment>
-      <h1 className="large text-primary">Sign In</h1>
-      <p className="lead">
-        <i className="fas fa-user" /> Sign Into Your Account
-      </p>
-      <form className="form" onSubmit={onSubmit}>
-        <div className="form-group">
-          <input
-            type="email"
-            placeholder="Email Address"
-            name="email"
-            value={email}
-            onChange={onChange}
-            required
-          />
-        </div>
-        <div className="form-group">
-          <input
-            type="password"
-            placeholder="Password"
-            name="password"
-            value={password}
-            onChange={onChange}
-            minLength="6"
-          />
-        </div>
-        <input type="submit" className="btn btn-primary" value="Login" />
-      </form>
-      <p className="my-1">
-        Don't have an account? <Link to="/register">Sign Up</Link>
-      </p>
-    </Fragment>
+      <Container>
+        <Card>
+          <CardHeader color="lightBlue">
+              <H5 color="white" style={{ marginBottom: 0 }}>
+                  Login
+              </H5>
+          </CardHeader>
+          <CardBody>
+          <form className="form" onSubmit={onSubmit}>
+              <div className="mb-12 px-4 bg-bb">
+                  <input
+                    type="email"
+                    placeholder="Email Address"
+                    name="email"
+                    value={email}
+                    onChange={onChange}
+                    required
+                  />
+              </div>
+              <div className="mb-8 px-4">
+                  <input
+                    type="password"
+                    placeholder="Password"
+                    name="password"
+                    value={password}
+                    onChange={onChange}
+                    minLength="6"
+                  />
+              </div>
+              <div className="mb-4 px-4">
+                  <input type="submit" className="btn btn-primary" value="Login" />
+              </div>
+          </form>
+          </CardBody>
+          <CardFooter>
+              <div className="flex justify-center bg-bb">
+                  <Button
+                      color="lightBlue"
+                      buttonType="link"
+                      size="lg"
+                      ripple="dark"
+                  >
+                    <Link to="/register">Get Started</Link>
+                  </Button>
+              </div>
+          </CardFooter>
+        </Card>
+      </Container>
+    
   );
 };
 

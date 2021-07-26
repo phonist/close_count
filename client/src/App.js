@@ -1,9 +1,10 @@
-import React, { Fragment, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
-import Navbar from './components/layout/Navbar';
+import NavigationBar from './components/layout/NavigationBar';
 import Landing from './components/layout/Landing';
 import Routes from './components/routing/Routes';
 import { LOGOUT } from './actions/types';
+import "@material-tailwind/react/tailwind.css";
 
 // Redux
 import { Provider } from 'react-redux';
@@ -11,7 +12,7 @@ import store from './store';
 import { loadUser } from './actions/auth';
 import setAuthToken from './utils/setAuthToken';
 
-import './App.css';
+// import './App.css';
 
 const App = () => {
   useEffect(() => {
@@ -20,7 +21,7 @@ const App = () => {
       setAuthToken(localStorage.token);
     }
     store.dispatch(loadUser());
-
+    
     // log user out from all tabs if they log out in one tab
     window.addEventListener('storage', () => {
       if (!localStorage.token) store.dispatch({ type: LOGOUT });
@@ -30,13 +31,11 @@ const App = () => {
   return (
     <Provider store={store}>
       <Router>
-        <Fragment>
-          <Navbar />
+          <NavigationBar />
           <Switch>
             <Route exact path="/" component={Landing} />
             <Route component={Routes} />
           </Switch>
-        </Fragment>
       </Router>
     </Provider>
   );

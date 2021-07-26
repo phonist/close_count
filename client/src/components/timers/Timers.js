@@ -1,49 +1,38 @@
-import React, { Fragment, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import ShowTimer from './ShowTimer';
 import Create from './CreateTimer';
 import { getTimers } from '../../actions/timer';
-import { makeStyles } from '@material-ui/core';
-import Grid from '@material-ui/core/Grid';
-
-const useStyles = makeStyles(theme => ({
-  root: {
-    flexGrow: 1,
-  },
-  paper: {
-    padding: theme.spacing(2),
-    textAlign: 'center',
-    color: theme.palette.text.secondary,
-  },
-}));
+//Material-UI
+import H1 from '@material-tailwind/react/Heading1';
+import Paragraph from "@material-tailwind/react/Paragraph";
+import Card from '@material-tailwind/react/Card';
+import CardBody from '@material-tailwind/react/CardBody';
 
 const Timers = ({ 
   getTimers, 
   timer: { timers }
 }) => {
-  const classes = useStyles();
   useEffect(() => {
     getTimers();
   }, [getTimers]);
 
   return (
-    <Fragment>
-      <h1 className="large text-primary">Timers</h1>
-      <p className="lead">
+    <section className="relative py-16 bg-gray-100">
+      <H1 color="lightBlue">Timers</H1>
+      <Paragraph color="lightBlue">
         <i className="fas fa-clock" /> Timer List
-      </p>
+      </Paragraph>
       <Create />
-      <div className={classes.root}>
-        <Grid container spacing={1}>
-          {timers.map((timer) => (
-            <Grid key={timer._id} item xs={4}>
-              <ShowTimer className={classes.paper} timer={timer} />
-            </Grid>
-          ))}
-        </Grid>
-      </div>
-    </Fragment>
+      <Card>
+        {timers.map((timer) => (
+            <CardBody key={timer._id}>
+              <ShowTimer timer={timer} />
+            </CardBody>
+        ))}
+      </Card>
+    </section>
   );
 };
 

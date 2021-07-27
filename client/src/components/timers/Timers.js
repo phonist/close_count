@@ -5,33 +5,47 @@ import ShowTimer from './ShowTimer';
 import Create from './CreateTimer';
 import { getTimers } from '../../actions/timer';
 //Material-UI
-import H1 from '@material-tailwind/react/Heading1';
-import Paragraph from "@material-tailwind/react/Paragraph";
-import Card from '@material-tailwind/react/Card';
-import CardBody from '@material-tailwind/react/CardBody';
+import { makeStyles } from '@material-ui/core/styles';
+import Grid from '@material-ui/core/Grid';
+import Paper from '@material-ui/core/Paper';
+
+const useStyles = makeStyles((theme) => ({
+  root: {
+    flexGrow: 1,
+  },
+  control: {
+    padding: theme.spacing(2),
+  },
+}));
 
 const Timers = ({ 
   getTimers, 
   timer: { timers }
 }) => {
+  const classes = useStyles();
+  
   useEffect(() => {
     getTimers();
   }, [getTimers]);
 
   return (
     <section className="relative py-16 bg-gray-100">
-      <H1 color="lightBlue">Timers</H1>
-      <Paragraph color="lightBlue">
-        <i className="fas fa-clock" /> Timer List
-      </Paragraph>
       <Create />
-      <Card>
-        {timers.map((timer) => (
-            <CardBody key={timer._id}>
-              <ShowTimer timer={timer} />
-            </CardBody>
-        ))}
-      </Card>
+      <div className={classes.control}></div>
+      
+      <Grid container justifyContent="center" className={classes.root} spacing={2}>
+        <Grid item xs={10}>
+          <Grid container direction="row" justifyContent="flex-start" alignItems="center" spacing={2}>
+            {timers.map((timer) => (
+                <Grid key={timer._id} item xs={4} spacing={2}>
+                  <Paper elevation={2}>
+                    <ShowTimer timer={timer} />
+                  </Paper>
+                </Grid>
+            ))}
+          </Grid>
+        </Grid>
+      </Grid>
     </section>
   );
 };

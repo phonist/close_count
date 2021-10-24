@@ -5,10 +5,7 @@ import formatDate from '../../utils/formatDate';
 import { connect } from 'react-redux';
 import { destroy, startCountDown } from '../../actions/timer';
 //Material UI tailwind css
-import CardFooter from '@material-tailwind/react/CardFooter';
-import CardBody from '@material-tailwind/react/CardBody';
-import Paragraph from '@material-tailwind/react/Paragraph';
-import Button from '@material-tailwind/react/Button';
+import { CardContent, CardActions, Typography, Button } from '@mui/material';
 
 const Show = ({
   destroy,
@@ -59,19 +56,19 @@ const Show = ({
 
   return (
       <div>
-        <CardBody>
-          <Paragraph>
+        <CardContent>
+          <Typography variant="subtitle1" gutterBottom component="div">
             {title}
-          </Paragraph>
-          <Paragraph>
+          </Typography>
+          <Typography variant="subtitle2" gutterBottom component="div">
             {description}
-          </Paragraph>
-          <Paragraph>
+          </Typography>
+          <Typography variant="body1" gutterBottom>
             Date: {formatDate(timer)}
-          </Paragraph>
+          </Typography>
           {timerComponents.length ? timerComponents : <span> Times Up!</span>}
-        </CardBody>
-        <CardFooter>
+        </CardContent>
+        <CardActions>
         {showActions && (
           <>
             <Button
@@ -87,7 +84,7 @@ const Show = ({
             </Button> 
           </>
         )}
-        </CardFooter>
+        </CardActions>
       </div>
   );
 }

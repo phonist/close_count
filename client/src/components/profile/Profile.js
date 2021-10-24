@@ -9,23 +9,25 @@ import ProfileGithub from './ProfileGithub';
 import { getProfileById } from '../../actions/profile';
 //Material-UI 
 import ProfileHeader from './ProfileHeader';
-import Button from '@material-tailwind/react/Button';
-import Image from '@material-tailwind/react/Image';
-import Grid from '@material-ui/core/Grid';
-import { makeStyles } from '@material-ui/core/styles';
+// import Button from '@material-tailwind/react/Button';
+// import Image from '@material-tailwind/react/Image';
+// import Grid from '@material-ui/core/Grid';
+// import { makeStyles } from '@material-ui/core/styles';
+
+import { Button, Avatar, Grid } from '@mui/material';
 
 
-const useStyles = makeStyles((theme) => ({
-  root: {
-    flexGrow: 1,
-  },
-  control: {
-    padding: theme.spacing(2),
-  },
-}));
+// const useStyles = makeStyles((theme) => ({
+//   root: {
+//     flexGrow: 1,
+//   },
+//   control: {
+//     padding: theme.spacing(2),
+//   },
+// }));
 
 const Profile = ({ getProfileById, profile: { profile }, auth, match }) => {
-  const classes = useStyles();
+  // const classes = useStyles();
   
   useEffect(() => {
     getProfileById(match.params.id);
@@ -46,7 +48,7 @@ const Profile = ({ getProfileById, profile: { profile }, auth, match }) => {
       
       <ProfileHeader/>
       <section className="relative py-16 bg-gray-100">
-        <Grid container justifyContent="center" className={classes.root} spacing={2}>
+        <Grid container justifyContent="center" spacing={2}>
           <Grid item xs={8}>
             <div className="container max-w-7xl px-4 mx-auto" style={profileStyle}>
                 <div className="relative flex flex-col min-w-0 break-words bg-white w-full mb-6 shadow-xl rounded-2xl -mt-64">
@@ -55,11 +57,9 @@ const Profile = ({ getProfileById, profile: { profile }, auth, match }) => {
                             <div className="w-full lg:w-3/12 px-4 lg:order-2 flex justify-center">
                                 <div className="relative">
                                     <div className="w-40 -mt-20">
-                                        <Image
+                                        <Avatar
                                             src={profile.user.avatar}
                                             alt="Profile picture"
-                                            raised
-                                            rounded
                                         />
                                     </div>
                                 </div>
@@ -69,7 +69,7 @@ const Profile = ({ getProfileById, profile: { profile }, auth, match }) => {
                                 {auth.isAuthenticated &&
                                   auth.loading === false &&
                                   auth.user._id === profile.user._id && (
-                                    <Button color="lightBlue" ripple="light">
+                                    <Button variant='outlined'>
                                       <Link to="/edit-profile" className="btn btn-dark">
                                         Edit Profile
                                       </Link>

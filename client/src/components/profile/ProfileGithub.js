@@ -3,8 +3,9 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { getGithubRepos } from '../../actions/profile';
 //Material-UI 
-import H3 from '@material-tailwind/react/Heading3';
-import Icon from '@material-tailwind/react/Icon';
+import { Typography } from '@mui/material';
+import Icon from '@mui/material/Icon';
+
 
 const ProfileGithub = ({ username, getGithubRepos, repos }) => {
   useEffect(() => {
@@ -13,11 +14,13 @@ const ProfileGithub = ({ username, getGithubRepos, repos }) => {
 
   return (
     <div className="text-center my-8">
-      <H3 color="gray">Github Repos</H3>
+      <Typography variant="h3" gutterBottom component="div">
+        Github repos
+      </Typography>
       {repos.map(repo => (
         <div key={repo.id} className="repo bg-white p-1 my-1">
           <div className="mt-0 mb-2 text-gray-700 font-medium flex items-center justify-center gap-2">
-              <Icon name="place" size="xl" />
+              <Icon> Place </Icon>
               <a href={repo.html_url} target="_blank" rel="noopener noreferrer">
                 {repo.name}
               </a>

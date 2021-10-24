@@ -3,27 +3,23 @@ import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { logout } from '../../actions/auth'; 
-import Navbar from "@material-tailwind/react/Navbar";
-import NavbarContainer from "@material-tailwind/react/NavbarContainer";
-import NavbarWrapper from "@material-tailwind/react/NavbarWrapper";
-import NavbarBrand from "@material-tailwind/react/NavbarBrand";
-import NavbarToggler from "@material-tailwind/react/NavbarToggler";
-import NavbarCollapse from "@material-tailwind/react/NavbarCollapse";
-import Nav from "@material-tailwind/react/Nav";
-import NavLink from "@material-tailwind/react/NavLink";
-// import Icon from "@material-tailwind/react/Icon";
-import NavItem from "@material-tailwind/react/NavItem";
-import AccountCircle from "@material-ui/icons/AccountCircle";
-import Person from "@material-ui/icons/Person";
-import ExitToApp from "@material-ui/icons/ExitToApp";
-import Timer from "@material-ui/icons/Timer";
+
+import AppBar from '@mui/material/AppBar';
+import Box from '@mui/material/Box';
+import Toolbar from '@mui/material/Toolbar';
+import Typography from '@mui/material/Typography';
+import Button from '@mui/material/Button';
+import IconButton from '@mui/material/IconButton';
+import MenuIcon from '@mui/icons-material/Menu';
+import Link from '@mui/material/Link';
+
 
 const NavigationBar = ({ 
   auth: { isAuthenticated, user },
   logout
 }) => {
   const [link, setLink] = useState('');
-  const [openNavbar, setOpenNavbar] = useState(false);
+  // const [openNavbar, setOpenNavbar] = useState(false);
 
   useEffect(() => {
     if (isAuthenticated && user !== null) setLink(`profile/${user._id}`);
@@ -31,58 +27,94 @@ const NavigationBar = ({
   }, [isAuthenticated, logout, user]);
 
   const authLinks = (
-    <NavbarCollapse open={openNavbar}>
-        <Nav>
-            <NavLink href="/timers" ripple="light">
-                <AccountCircle name="account_circle" size="xl" />
-                Timers
-            </NavLink>
-            <NavLink href={link} ripple="light">
-                <Person name="person" size="xl" />
-                  Your Profile
-            </NavLink>
-            <NavItem onClick={logout} ripple="light">
-                <ExitToApp name="exit_to_app" size="xl" />
-                Logout
-            </NavItem>
-        </Nav>
-    </NavbarCollapse>
+    // <NavbarCollapse open={openNavbar}>
+    //     <Nav>
+    //         <NavLink href="/timers" ripple="light">
+    //             <AccountCircle name="account_circle" size="xl" />
+    //             Timers
+    //         </NavLink>
+    //         <NavLink href={link} ripple="light">
+    //             <Person name="person" size="xl" />
+    //               Your Profile
+    //         </NavLink>
+    //         <NavItem onClick={logout} ripple="light">
+    //             <ExitToApp name="exit_to_app" size="xl" />
+    //             Logout
+    //         </NavItem>
+    //     </Nav>
+    // </NavbarCollapse>
+    <Toolbar>
+      <IconButton
+        size="large"
+        edge="start"
+        color="inherit"
+        aria-label="menu"
+        sx={{ mr: 2 }}
+      >
+        <MenuIcon />
+        Timers
+      </IconButton>
+      <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+        Your Profile
+      </Typography>
+      <Link color="inherit" href={link}> Your Profile </Link>
+      <Button color="inherit" onClick={logout}>Logout</Button>
+    </Toolbar>
   );
 
   const guestLinks = (
-    <NavbarCollapse open={openNavbar}>
-        <Nav>
-            <NavLink href="/register" ripple="light">
-                Register
-            </NavLink>
-            <NavLink href="/login" ripple="light">
-                Login
-            </NavLink>
-        </Nav>
-    </NavbarCollapse>
+    // <NavbarCollapse open={openNavbar}>
+    //     <Nav>
+    //         <NavLink href="/register" ripple="light">
+    //             Register
+    //         </NavLink>
+    //         <NavLink href="/login" ripple="light">
+    //             Login
+    //         </NavLink>
+    //     </Nav>
+    // </NavbarCollapse>
+    <Toolbar>
+      <IconButton
+        size="large"
+        edge="start"
+        color="inherit"
+        aria-label="menu"
+        sx={{ mr: 2 }}
+      >
+        <MenuIcon />
+        Timers
+      </IconButton>
+      <Link color="inherit" href='/register'>Logout</Link>
+      <Link color="inherit" href='/login'>Logout</Link>
+    </Toolbar>
   );
 
   return (
-    <Navbar color="lightBlue" navbar>
-        <NavbarContainer>
-            <NavbarWrapper>
-                <NavbarBrand>
-                  <NavLink href="/">
-                    <Timer name="timer" size="xl" />
-                    Close Count
-                  </NavLink>
-                </NavbarBrand>
-                <NavbarToggler
-                    color="white"
-                    onClick={() => setOpenNavbar(!openNavbar)}
-                    ripple="light"
-                />
-            </NavbarWrapper>
+    // <Navbar color="lightBlue" navbar>
+    //     <NavbarContainer>
+    //         <NavbarWrapper>
+    //             <NavbarBrand>
+    //               <NavLink href="/">
+    //                 <Timer name="timer" size="xl" />
+    //                 Close Count
+    //               </NavLink>
+    //             </NavbarBrand>
+    //             <NavbarToggler
+    //                 color="white"
+    //                 onClick={() => setOpenNavbar(!openNavbar)}
+    //                 ripple="light"
+    //             />
+    //         </NavbarWrapper>
         
-            {isAuthenticated ? authLinks : guestLinks}
+    //         {isAuthenticated ? authLinks : guestLinks}
     
-        </NavbarContainer>
-    </Navbar>
+    //     </NavbarContainer>
+    // </Navbar>
+    <Box sx={{ flexGrow: 1 }}>
+      <AppBar position="static">
+        {isAuthenticated ? authLinks : guestLinks}
+      </AppBar>
+    </Box>
   );
 };
 

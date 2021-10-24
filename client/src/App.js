@@ -4,7 +4,6 @@ import NavigationBar from './components/layout/NavigationBar';
 import Landing from './components/layout/Landing';
 import Routes from './components/routing/Routes';
 import { LOGOUT } from './actions/types';
-import "@material-tailwind/react/tailwind.css";
 
 // Redux
 import { Provider } from 'react-redux';

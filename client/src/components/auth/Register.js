@@ -6,13 +6,8 @@ import { register } from '../../actions/auth';
 import PropTypes from 'prop-types';
 //material ui
 //material ui
-import Card from '@material-tailwind/react/Card';
-import CardHeader from '@material-tailwind/react/CardHeader';
-import CardBody from '@material-tailwind/react/CardBody';
-import CardFooter from '@material-tailwind/react/CardFooter';
-import H5 from '@material-tailwind/react/Heading5';
-import Button from '@material-tailwind/react/Button';
-import Container from '../layout/Container';
+import { Card, CardContent, CardActions, Typography, Button, Container } from '@mui/material';
+
 
 const Register = ({ setAlert, register, isAuthenticated }) => {
   const [formData, setFormData] = useState({
@@ -43,12 +38,10 @@ const Register = ({ setAlert, register, isAuthenticated }) => {
   return (
     <Container>
       <Card>
-        <CardHeader color="lightBlue">
-            <H5 color="white" style={{ marginBottom: 0 }}>
-                Register
-            </H5>
-        </CardHeader>
-        <CardBody>
+        <CardContent color="lightBlue">
+          <Typography variant="h5" component="div">
+            Register
+          </Typography>
           <form className="form" onSubmit={onSubmit}>
             <div className="mb-10 px-4">
               <input
@@ -93,21 +86,18 @@ const Register = ({ setAlert, register, isAuthenticated }) => {
             <input type="submit" className="btn btn-primary" value="Register" />
           </form>
           
-        </CardBody>
-        <CardFooter>
+        </CardContent>
+        <CardActions>
             <div className="flex justify-center">
                 <Button
-                    color="lightBlue"
-                    buttonType="link"
-                    size="lg"
-                    ripple="dark"
+                    variant='outlined'
                 >
-                    <p className="my-1">
+            <p className="my-1">
             Already have an account? <Link to="/login">Sign In</Link>
-          </p>
+            </p>
                 </Button>
             </div>
-        </CardFooter>
+        </CardActions>
       </Card>
     </Container>
   );

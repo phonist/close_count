@@ -2,24 +2,17 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { store } from '../../actions/timer';
-import Grid from '@material-ui/core/Grid';
 //Material-UI
-import { makeStyles } from '@material-ui/core/styles';
-import H6 from '@material-tailwind/react/Heading6';
-import Card from "@material-tailwind/react/Card";
-import CardHeader from '@material-tailwind/react/CardHeader';
-import CardBody from "@material-tailwind/react/CardBody";
-import Input from '@material-tailwind/react/Input';
-import Button from '@material-tailwind/react/Button';
+import { Grid, Card, CardContent, Typography, Input, Button } from '@mui/material';
 
-const useStyles = makeStyles((theme) => ({
-  root: {
-    flexGrow: 1,
-  },
-}));
+// const useStyles = makeStyles((theme) => ({
+//   root: {
+//     flexGrow: 1,
+//   },
+// }));
 
 const Create = ({ store }) => {
-  const classes = useStyles();
+  // const classes = useStyles();
 
   const [formData, setFormData] = useState({
     title: '',
@@ -33,14 +26,14 @@ const Create = ({ store }) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
 
   return (
-    <Grid container justifyContent="center" className={classes.root} spacing={2}>
+    <Grid container justifyContent="center" spacing={2}>
       <Grid item xs={10}>
         <Grid container justifyContent="center" spacing={2}>
           <Card>
-            <CardHeader>
-              <H6>Set Timer</H6>
-            </CardHeader>
-            <CardBody>
+            <CardContent>
+              <Typography variant="h6" gutterBottom component="div">
+              Set Timer
+              </Typography>
               <form
                 className='form my-1'
                 onSubmit={e => {
@@ -87,20 +80,13 @@ const Create = ({ store }) => {
                     </Grid>
                     <Grid container item xs={3} justifyContent="flex-end" spacing={1}>
                       <Button 
-                        type="submit"
-                        color="lightBlue"
-                        buttonType="filled"
-                        size="regular"
-                        rounded={false}
-                        block={false}
-                        iconOnly={false}
-                        ripple="light">
+                        variant='outlined'>
                         Add Timer
                       </Button>
                     </Grid>
                 </Grid>
               </form>
-            </CardBody>
+            </CardContent>
           </Card>
         </Grid>
       </Grid>

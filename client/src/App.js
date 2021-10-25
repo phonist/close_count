@@ -19,7 +19,7 @@ const App = () => {
     if (localStorage.token) {
       setAuthToken(localStorage.token);
     }
-    store.dispatch(loadUser());
+    store.dispatch(loadUser()); 
     
     // log user out from all tabs if they log out in one tab
     window.addEventListener('storage', () => {
@@ -30,11 +30,12 @@ const App = () => {
   return (
     <Provider store={store}>
       <Router>
-          <NavigationBar />
-          <Switch>
-            <Route exact path="/" component={Landing} />
-            <Route component={Routes} />
-          </Switch>
+        <NavigationBar />
+        
+        <Switch>
+          <Route exact path="/" component={Landing} />
+          <Route component={Routes} />
+        </Switch>
       </Router>
     </Provider>
   );

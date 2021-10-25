@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import ShowTimer from './ShowTimer';
 import Create from './CreateTimer';
 import { getTimers } from '../../actions/timer';
-import { Grid, Box, Container, Typography, Stack, Button, Card, CardMedia } from '@mui/material';
+import { Grid, Box, Container, Card } from '@mui/material';
 
 const Timers = ({ 
   getTimers, 

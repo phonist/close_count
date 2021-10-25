@@ -21,68 +21,66 @@ const Create = ({ store }) => {
   return (
     <Grid container justifyContent="center" spacing={2}>
       <Grid item xs={10}>
-        <Grid container justifyContent="center" spacing={2}>
-          <Card>
-            <CardContent>
-              <Typography variant="h6" gutterBottom component="div">
-              Set Timer
-              </Typography>
-              <form
-                className='form my-1'
-                onSubmit={e => {
-                  e.preventDefault();
-                  store( formData );
-                }}
-              >
-                <Grid container spacing={1}>
-                    <Grid container item xs={3} spacing={1}>
-                      <Input
-                        placeholder='Title'
-                        variant="outlined"
-                        id="title"
-                        label="Title"
-                        type="string"
-                        name="title"
-                        value={title}
-                        onChange={onChange}
-                      />
-                    </Grid>
-                    <Grid container item xs={3} spacing={1}>
-                      <Input
-                        placeholder='Description'
-                        variant="outlined"
-                        id="description"
-                        label="Description"
-                        type="string"
-                        name="description"
-                        value={description}
-                        onChange={onChange}
-                      />
-                    </Grid>
-                    <Grid container item xs={3} spacing={1}>
-                      <Input
-                        placeholder='Timer'
-                        variant="outlined"
-                        id="timer"
-                        label="Count Down Date"
-                        type="date"
-                        name="timer"
-                        value={timer}
-                        onChange={onChange}
-                      />
-                    </Grid>
-                    <Grid container item xs={3} justifyContent="flex-end" spacing={1}>
-                      <Button 
-                        variant='outlined'
-                        type='submit'>
-                        Add Timer
-                      </Button>
-                    </Grid>
-                </Grid>
-              </form>
-            </CardContent>
-          </Card>
-        </Grid>
+        <Card>
+          <CardContent>
+            <Typography variant="h6" gutterBottom component="div">
+            Set Timer
+            </Typography>
+            <form
+              className='form my-1'
+              onSubmit={e => {
+                e.preventDefault();
+                store( formData );
+              }}
+            >
+              <Grid container spacing={1}>
+                  <Grid container item xs={3} spacing={1}>
+                    <Input
+                      placeholder='Title'
+                      variant="outlined"
+                      id="title"
+                      label="Title"
+                      type="string"
+                      name="title"
+                      value={title}
+                      onChange={onChange}
+                    />
+                  </Grid>
+                  <Grid container item xs={3} spacing={1}>
+                    <Input
+                      placeholder='Description'
+                      variant="outlined"
+                      id="description"
+                      label="Description"
+                      type="string"
+                      name="description"
+                      value={description}
+                      onChange={onChange}
+                    />
+                  </Grid>
+                  <Grid container item xs={3} spacing={1}>
+                    <Input
+                      placeholder='Timer'
+                      variant="outlined"
+                      id="timer"
+                      label="Count Down Date"
+                      type="date"
+                      name="timer"
+                      value={timer}
+                      onChange={onChange}
+                    />
+                  </Grid>
+                  <Grid container item xs={3} justifyContent="flex-end" spacing={1}>
+                    <Button 
+                      variant='outlined'
+                      type='submit'>
+                      Add Timer
+                    </Button>
+                  </Grid>
+              </Grid>
+            </form>
+          </CardContent>
+        </Card>
       </Grid>
     </Grid>
     

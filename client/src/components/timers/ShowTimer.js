@@ -55,37 +55,24 @@ const Show = ({
   });
 
   return (
-      <div>
-        <CardContent>
-          <Typography variant="subtitle1" gutterBottom component="div">
-            {title}
-          </Typography>
-          <Typography variant="subtitle2" gutterBottom component="div">
-            {description}
-          </Typography>
-          <Typography variant="body1" gutterBottom>
-            Date: {formatDate(timer)}
-          </Typography>
-          {timerComponents.length ? timerComponents : <span> Times Up!</span>}
-        </CardContent>
-        <CardActions>
-        {showActions && (
-          <>
-            <Button
-                onClick={() => destroy(_id)}
-              >
-                <i className="fas fa-times" />
-            </Button>
-
-            <Button
-              onClick={() => startCountDown(_id)}
-            >
-              <i className="fas fa-clocks" />
-            </Button> 
-          </>
-        )}
-        </CardActions>
-      </div>
+      <>
+      <CardContent sx={{ flexGrow: 1 }}>
+        <Typography gutterBottom variant="h5" component="h2">
+          {title}
+        </Typography>
+        <Typography>
+          {description}
+        </Typography>
+        <Typography>
+          Date: {formatDate(timer)}
+        </Typography>
+        {timerComponents.length ? timerComponents : <span> Times Up!</span>}
+      </CardContent>
+      <CardActions>
+        <Button size="small" onClick={() => destroy(_id)}>View</Button>
+        <Button size="small" onClick={() => startCountDown(_id)}>Edit</Button>
+      </CardActions>
+      </>
   );
 }
 

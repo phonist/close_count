@@ -5,14 +5,7 @@ import { store } from '../../actions/timer';
 //Material-UI
 import { Grid, Card, CardContent, Typography, Input, Button } from '@mui/material';
 
-// const useStyles = makeStyles((theme) => ({
-//   root: {
-//     flexGrow: 1,
-//   },
-// }));
-
 const Create = ({ store }) => {
-  // const classes = useStyles();
 
   const [formData, setFormData] = useState({
     title: '',
@@ -80,7 +73,8 @@ const Create = ({ store }) => {
                     </Grid>
                     <Grid container item xs={3} justifyContent="flex-end" spacing={1}>
                       <Button 
-                        variant='outlined'>
+                        variant='outlined'
+                        type='submit'>
                         Add Timer
                       </Button>
                     </Grid>

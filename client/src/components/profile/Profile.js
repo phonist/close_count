@@ -9,33 +9,13 @@ import ProfileGithub from './ProfileGithub';
 import { getProfileById } from '../../actions/profile';
 //Material-UI 
 import ProfileHeader from './ProfileHeader';
-// import Button from '@material-tailwind/react/Button';
-// import Image from '@material-tailwind/react/Image';
-// import Grid from '@material-ui/core/Grid';
-// import { makeStyles } from '@material-ui/core/styles';
 
-import { Button, Avatar, Grid } from '@mui/material';
-
-
-// const useStyles = makeStyles((theme) => ({
-//   root: {
-//     flexGrow: 1,
-//   },
-//   control: {
-//     padding: theme.spacing(2),
-//   },
-// }));
+import { Button, Avatar, Grid, Card, CardContent } from '@mui/material';
 
 const Profile = ({ getProfileById, profile: { profile }, auth, match }) => {
-  // const classes = useStyles();
-  
   useEffect(() => {
     getProfileById(match.params.id);
   }, [getProfileById, match.params.id]);
-  
-  const profileStyle = {
-    transform: `translateY(30%)`
-  }
 
   return (
     <>
@@ -47,49 +27,50 @@ const Profile = ({ getProfileById, profile: { profile }, auth, match }) => {
       <>
       
       <ProfileHeader/>
-      <section className="relative py-16 bg-gray-100">
-        <Grid container justifyContent="center" spacing={2}>
-          <Grid item xs={8}>
-            <div className="container max-w-7xl px-4 mx-auto" style={profileStyle}>
-                <div className="relative flex flex-col min-w-0 break-words bg-white w-full mb-6 shadow-xl rounded-2xl -mt-64">
-                    <div className="px-6">
-                        <div className="flex flex-wrap justify-center">
-                            <div className="w-full lg:w-3/12 px-4 lg:order-2 flex justify-center">
-                                <div className="relative">
-                                    <div className="w-40 -mt-20">
-                                        <Avatar
-                                            src={profile.user.avatar}
-                                            alt="Profile picture"
-                                        />
-                                    </div>
-                                </div>
-                            </div>
-                            <div className="w-full lg:w-4/12 px-4 lg:order-3 lg:self-center flex justify-center mt-10 lg:justify-end lg:mt-0">
-                                
-                                {auth.isAuthenticated &&
-                                  auth.loading === false &&
-                                  auth.user._id === profile.user._id && (
-                                    <Button variant='outlined'>
-                                      <Link to="/edit-profile" className="btn btn-dark">
-                                        Edit Profile
-                                      </Link>
-                                    </Button>
-                                  )}
+      <Grid container justifyContent="center" spacing={2}>
+        <Grid item xs={11}>
+          <Card>
+            <CardContent>
+              <Avatar
+                  src={profile.user.avatar}
+                  alt="Profile picture"
+              />
+              
+              <Grid container>
+                <Grid container item xs={12} spacing={1}>
+                  {auth.isAuthenticated &&
+                  auth.loading === false &&
+                  auth.user._id === profile.user._id && (
+                    <Button variant='outlined'>
+                      <Link to="/edit-profile" className="btn btn-dark">
+                        Edit Profile
+                      </Link>
+                    </Button>
+                  )}
+                </Grid>
+              </Grid>
+              <Grid contaienr>
+                <Grid container item xs={12} spacing={1}>
+                  <ProfileTop profile={profile} />
+                </Grid>
+              </Grid>
+              <Grid contaienr>
+                <Grid container item xs={12} spacing={1}>
+                  <ProfileAbout profile={profile} />
 
-                            </div>
-                        </div>
-
-                        <ProfileTop profile={profile} />
-                        <ProfileAbout profile={profile} />
-                        {profile.githubusername && (
-                          <ProfileGithub username={profile.githubusername} />
-                        )}
-                    </div>
-                </div>
-            </div>
-          </Grid>
+                </Grid>
+              </Grid>
+              <Grid contaienr>
+                  <Grid container item xs={12} justifyContent="flex-end" spacing={1}>
+                    {profile.githubusername && (
+                      <ProfileGithub username={profile.githubusername} />
+                    )}
+                  </Grid>
+              </Grid>
+            </CardContent>
+          </Card>
         </Grid>
-      </section>
+      </Grid>
       </>
     )}
     </>

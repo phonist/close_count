@@ -1,11 +1,11 @@
 const express = require('express');
-const connectDB = require('./config/db');
+// const connectDB = require('./config/db');//uncomment this line in your local working directory
 const path = require('path');
 
 const app = express();
 
 // Connect Database
-connectDB();
+// connectDB();//uncomment this line in your local working directory
 
 // Init Middleware
 app.use(express.json());

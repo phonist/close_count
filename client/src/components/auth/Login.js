@@ -1,29 +1,40 @@
 import React, { useState } from 'react';
-import { Link, Redirect } from 'react-router-dom';
+import { Redirect } from 'react-router-dom';
+import { Avatar, Button, TextField, FormControlLabel, Checkbox, Link, Grid, Box, Typography } from '@mui/material';
+import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { login } from '../../actions/auth';
-//material ui
-import Card from '@material-tailwind/react/Card';
-import CardHeader from '@material-tailwind/react/CardHeader';
-import CardBody from '@material-tailwind/react/CardBody';
-import CardFooter from '@material-tailwind/react/CardFooter';
-import H5 from '@material-tailwind/react/Heading5';
-import Button from '@material-tailwind/react/Button';
-import Container from '../layout/Container';
+import { CssBaseline, Container } from '@mui/material';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
+
+function Copyright(props) {
+  return (
+    <Typography variant="body2" color="text.secondary" align="center" {...props}>
+      {'Copyright © '}
+      <Link color="inherit" href="#">
+        Close Count
+      </Link>{' '}
+      {new Date().getFullYear()}
+      {'.'}
+    </Typography>
+  );
+}
+
+const theme = createTheme();
+
 
 const Login = ({ login, isAuthenticated }) => {
-  const [formData, setFormData] = useState({
-    email: '',
-    password: ''
-  });
+    const [formData, setFormData] = useState({
+        email: '',
+        password: ''
+    });
 
   const { email, password } = formData;
 
-  const onChange = e =>
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+  const onChange = e => setFormData({ ...formData, [e.target.name]: e.target.value });
 
-  const onSubmit = e => {
+  const handleSubmit = e => {
     e.preventDefault();
     login(email, password);
   };
@@ -33,55 +44,70 @@ const Login = ({ login, isAuthenticated }) => {
   }
 
   return (
-      <Container>
-        <Card>
-          <CardHeader color="lightBlue">
-              <H5 color="white" style={{ marginBottom: 0 }}>
-                  Login
-              </H5>
-          </CardHeader>
-          <CardBody>
-          <form className="form" onSubmit={onSubmit}>
-              <div className="mb-12 px-4 bg-bb">
-                  <input
-                    type="email"
-                    placeholder="Email Address"
-                    name="email"
-                    value={email}
-                    onChange={onChange}
-                    required
-                  />
-              </div>
-              <div className="mb-8 px-4">
-                  <input
-                    type="password"
-                    placeholder="Password"
-                    name="password"
-                    value={password}
-                    onChange={onChange}
-                    minLength="6"
-                  />
-              </div>
-              <div className="mb-4 px-4">
-                  <input type="submit" className="btn btn-primary" value="Login" />
-              </div>
-          </form>
-          </CardBody>
-          <CardFooter>
-              <div className="flex justify-center bg-bb">
-                  <Button
-                      color="lightBlue"
-                      buttonType="link"
-                      size="lg"
-                      ripple="dark"
-                  >
-                    <Link to="/register">Get Started</Link>
-                  </Button>
-              </div>
-          </CardFooter>
-        </Card>
+    <ThemeProvider theme={theme}>
+      <Container component="main" maxWidth="xs">
+        <CssBaseline />
+          <Box
+            sx={{
+              marginTop: 8,
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+            }}
+          >
+            <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
+              <LockOutlinedIcon />
+            </Avatar>
+            <Typography component="h1" variant="h5">
+              Sign in
+            </Typography>
+            <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
+              <TextField
+                margin="normal"
+                required
+                fullWidth
+                id="email"
+                label="Email Address"
+                name="email"
+                autoComplete="email"
+                autoFocus
+                onChange={onChange}
+              />
+              <TextField
+                margin="normal"
+                required
+                fullWidth
+                name="password"
+                label="Password"
+                type="password"
+                id="password"
+                autoComplete="current-password"
+                onChange={onChange}
+              />
+              <FormControlLabel
+                control={<Checkbox value="remember" color="primary" />}
+                label="Remember me"
+              />
+              <Button
+                type="submit"
+                fullWidth
+                variant="contained"
+                sx={{ mt: 3, mb: 2 }}
+              >
+                Sign In
+              </Button>
+              <Grid container>
+                <Grid item>
+                  <Link href="/register" variant="body2">
+                    {"Don't have an account? Sign Up"}
+                  </Link>
+                </Grid>
+              </Grid>
+            </Box>
+          </Box>
+          <Copyright sx={{ mt: 8, mb: 4 }} />
       </Container>
-    
+    </ThemeProvider>
   );
 };
 

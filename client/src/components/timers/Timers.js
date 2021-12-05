@@ -4,35 +4,45 @@ import { connect } from 'react-redux';
 import ShowTimer from './ShowTimer';
 import Create from './CreateTimer';
 import { getTimers } from '../../actions/timer';
-//Material-UI
-import H1 from '@material-tailwind/react/Heading1';
-import Paragraph from "@material-tailwind/react/Paragraph";
-import Card from '@material-tailwind/react/Card';
-import CardBody from '@material-tailwind/react/CardBody';
+import { Grid, Box, Container, Card } from '@mui/material';
 
 const Timers = ({ 
   getTimers, 
   timer: { timers }
 }) => {
+  // const classes = useStyles();
+  
   useEffect(() => {
     getTimers();
   }, [getTimers]);
 
   return (
-    <section className="relative py-16 bg-gray-100">
-      <H1 color="lightBlue">Timers</H1>
-      <Paragraph color="lightBlue">
-        <i className="fas fa-clock" /> Timer List
-      </Paragraph>
-      <Create />
-      <Card>
-        {timers.map((timer) => (
-            <CardBody key={timer._id}>
-              <ShowTimer timer={timer} />
-            </CardBody>
-        ))}
-      </Card>
-    </section>
+    <main>
+      <Box
+        sx={{
+          bgcolor: 'background.paper',
+          pt: 8,
+          pb: 6,
+        }}
+      >
+        <Container maxWidth="lg">
+          <Create />
+        </Container>
+      </Box>
+      {/* Hero unit */}
+      <Container sx={{ py: 8 }} maxWidth="md">
+        {/* End hero unit */}
+        <Grid container spacing={4}>
+          {timers.map((timer) => (
+              <Grid item key={timer._id} xs={4}>
+                <Card sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
+                  <ShowTimer timer={timer} />
+                </Card>
+              </Grid>
+          ))}
+        </Grid>
+      </Container>
+    </main>
   );
 };
 

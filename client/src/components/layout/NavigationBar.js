@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 // import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
@@ -16,12 +16,12 @@ const NavigationBar = ({
   auth: { isAuthenticated, user },
   logout
 }) => {
-  const [link, setLink] = useState('');
+  // const [link, setLink] = useState('');
   // const [openNavbar, setOpenNavbar] = useState(false);
 
   useEffect(() => {
-    if (isAuthenticated && user !== null) setLink(`profile/${user._id}`);
-    else setLink('');
+    // if (isAuthenticated && user !== null) setLink(`profile/${user._id}`);
+    // else setLink('');
   }, [isAuthenticated, logout, user]);
 
   const authLinks = (

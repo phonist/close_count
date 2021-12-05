@@ -1,0 +1,30 @@
+name: MERN script
+
+on:
+  push:
+    branches: [ master ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-20.04
+
+    steps:
+      - name: Checkout files
+      - uses: actions/checkout@v2
+      - name: Deploying Close Count
+        uses: appleboy/ssh-action@v0.1.2
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          key: ${{ secrets.SSH_KEY }}
+          username: ${{ secrets.SSH_USERNAME }}
+
+          script: |
+            git clone git@github.com:phonist/close_count.git
+            echo 'Close Count project cloned to host server'
+            cd close_count
+            cd server
+            yarn install && yarn start
+            cd ../client
+            yarn install && yarn build && yarn add serve && serve -s build 
+

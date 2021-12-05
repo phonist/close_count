@@ -13,7 +13,7 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
-    - name: Install Node.js ${{ matrix.node-version }} 
+    - name: Install Node.js, Mongoose, Express
       working-directory: ./server
       run: yarn install
     - name: Install Reactjs

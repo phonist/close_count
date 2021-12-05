@@ -1,4 +1,4 @@
-name: MERN script
+name: Production script
 
 on:
   push:

@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import NavigationBar from './components/layout/NavigationBar';
-import Landing from './components/layout/Landing';
+import Login from './components/auth/Login';
 import Routes from './components/routing/Routes';
 import { LOGOUT } from './actions/types';
 
@@ -33,7 +33,7 @@ const App = () => {
         <NavigationBar />
         
         <Switch>
-          <Route exact path="/" component={Landing} />
+          <Route exact path="/" component={Login} />
           <Route component={Routes} />
         </Switch>
       </Router>

@@ -31,6 +31,7 @@ const Create = ({ store }) => {
               onSubmit={e => {
                 e.preventDefault();
                 store( formData );
+                setFormData({ ...formData, [e.target.name]: ' ' });
               }}
             >
               <Grid container spacing={1}>

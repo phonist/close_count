@@ -27,17 +27,19 @@ const NavigationBar = ({
   const authLinks = (
     <Toolbar sx={{ flexWrap: 'wrap' }}>
       <Typography variant="h6" color="inherit" noWrap sx={{ flexGrow: 1 }}>
-        Close count
+        <Link href="/timers" color="inherit" underline='none'>
+          Close count
+        </Link>
       </Typography>
       <nav>
-        <Link
+        {/* <Link
           variant="button"
           color="text.primary" 
           href={link}
           sx={{ my: 1, mx: 1.5 }}
         >
           Your Profile
-        </Link>
+        </Link> */}
         <Button href="#" variant="outlined" onClick={logout} sx={{ my: 1, mx: 1.5 }}>
           Logout
         </Button>
@@ -56,6 +58,7 @@ const NavigationBar = ({
           color="text.primary"
           href="/register"
           sx={{ my: 1, mx: 1.5 }}
+          underline='none'
         >
           Register
         </Link>
@@ -64,6 +67,7 @@ const NavigationBar = ({
           color="text.primary"
           href="/login"
           sx={{ my: 1, mx: 1.5 }}
+          underline='none'
         >
           Login
         </Link>

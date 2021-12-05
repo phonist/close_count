@@ -34,7 +34,7 @@ const Timers = ({
         {/* End hero unit */}
         <Grid container spacing={4}>
           {timers.map((timer) => (
-              <Grid item key={timer._id} xs={4} spacing={2}>
+              <Grid item key={timer._id} xs={4}>
                 <Card sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
                   <ShowTimer timer={timer} />
                 </Card>

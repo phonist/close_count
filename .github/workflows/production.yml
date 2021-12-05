@@ -24,8 +24,8 @@ jobs:
             cd projects
             git clone git@github.com:phonist/close_count.git
             echo 'Close Count project cloned to host server'
-            cd close_count
-            cd server
+            cd close_count/server
+            pwd
             yarn install && yarn start
             cd ../client
             yarn install && yarn build && yarn add serve && serve -s build 

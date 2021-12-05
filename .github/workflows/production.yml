@@ -20,6 +20,8 @@ jobs:
           username: ${{ secrets.SSH_USERNAME }}
 
           script: |
+            mkdir projects
+            cd projects
             git clone git@github.com:phonist/close_count.git
             echo 'Close Count project cloned to host server'
             cd close_count

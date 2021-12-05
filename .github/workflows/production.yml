@@ -28,5 +28,6 @@ jobs:
             pwd
             yarn install && yarn start
             cd ../client
+            pwd
             yarn install && yarn build && yarn add serve && serve -s build 
 

@@ -1,4 +1,4 @@
-name: Close Count server script
+name: Close Count mern script
 
 on:
   push:
@@ -10,10 +10,6 @@ jobs:
   build:
 
     runs-on: macos-11
-    defaults:
-      run:
-        shell: bash
-        working-directory: server
 
     strategy:
       matrix:
@@ -24,4 +20,7 @@ jobs:
     - uses: actions/checkout@v2
     - name: Use Node.js ${{ matrix.node-version }} 
       working-directory: ./server
+      run: yarn install && yarn start
+    - name: User React.js
+      working-directory: ./client
       run: yarn install && yarn start

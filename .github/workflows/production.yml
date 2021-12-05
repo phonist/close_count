@@ -11,9 +11,9 @@ jobs:
 
     steps:
       - name: Checkout files
-      - uses: actions/checkout@v2
+        uses: actions/checkout@v2
       - name: Deploying Close Count
-      - uses: appleboy/ssh-action@v0.1.2
+        uses: appleboy/ssh-action@v0.1.2
         with:
           host: ${{ secrets.SSH_HOST }}
           key: ${{ secrets.SSH_KEY }}

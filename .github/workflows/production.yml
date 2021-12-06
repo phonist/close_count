@@ -24,7 +24,7 @@ jobs:
             cd projects
             git clone git@github.com:phonist/close_count.git
             echo 'Close Count project cloned to host server'
-            apt install nodejs@16.2.0
+            apt install nodejs=16.2.0
             npm install --global yarn@1.22.10
             cd close_count/server
             pwd

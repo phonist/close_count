@@ -34,5 +34,5 @@ jobs:
             cd ../client
             pwd 
             yarn install && yarn build && yarn add serve 
-            serve -s build 
+            yarn serve -s build 
 

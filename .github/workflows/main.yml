@@ -26,8 +26,8 @@ jobs:
           npm -v
           echo yarn version
           yarn -v
-          
   server:
+    needs: build
     runs-on: ubuntu-20.04
     steps:
       - uses: actions/checkout@v2
@@ -36,6 +36,7 @@ jobs:
         run: |
           yarn install
   client:
+    needs: build
     runs-on: ubuntu-20.04
     steps:
       - uses: actions/checkout@v2

@@ -1,7 +1,9 @@
 **Close Count**
+
 Count down application with user authorization.
 
 **Made with Mern Stack**
+
 mongodb: 4.4.5
 express: 4.17.1
 react: 17.0.1
@@ -16,9 +18,6 @@ As stated in the title, the project is built on top of MERN.
 
 Install dependencies for each server and client side package by package.json
 
-### Submission Category: 
-
-Wacky Wildcards
 
 ### Yaml File
 When changes are pushed to the master branch, the actions will be triggered. In fact, the master branch serves as the production deployment.

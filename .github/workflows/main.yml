@@ -11,6 +11,10 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
+      - name: Install Nodejs and NPM
+        run: |
+          curl -sL https://deb.nodesource.com/setup_16.x | sudo -E bash -
+          apt install nodejs
       - name: Install nodejs, npm and yarn
         run: |
           curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | sudo apt-key add -echo "deb https://dl.yarnpkg.com/debian/ stable main" | sudo tee /etc/apt/sources.list.d/yarn.list

@@ -11,7 +11,7 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
-      - name: Install server dependencies
+      - name: Install client dependencies
         working-directory: ./client
         run: |
           yarn install

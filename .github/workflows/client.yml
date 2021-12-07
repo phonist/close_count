@@ -1,0 +1,21 @@
+name: Production script
+
+on:
+  push:
+    branches: [ master ]
+
+jobs:
+  deploys:
+
+    runs-on: ubuntu-20.04
+
+    steps:
+      - name: Checkout files
+        uses: actions/checkout@v2
+      - name: Install client dependencies
+        uses: actions/setup-node@v2
+          with:
+            node-version: '16.2.0'
+          working-directory: /client
+        - run: yarn install
+ 

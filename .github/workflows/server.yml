@@ -14,6 +14,5 @@ jobs:
       - name: Install server dependencies
         working-directory: ./server
         run: |
-          sudo apt install nodejs=16.2.0
           yarn install
  

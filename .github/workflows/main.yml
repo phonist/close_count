@@ -1,0 +1,29 @@
+name: Production script
+
+on:
+  push:
+    branches: [ master ]
+
+jobs:
+  deploys:
+
+    runs-on: ubuntu-20.04
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Install Nodejs and NPM
+        run: |
+          curl -sL https://deb.nodesource.com/setup_16.2 | sudo -E bash -
+          apt install nodejs
+      - name: Install yarn
+        run: |
+          curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | sudo apt-key add -echo "deb https://dl.yarnpkg.com/debian/ stable main" | sudo tee /etc/apt/sources.list.d/yarn.list
+          apt update
+          apt install yarn
+          echo nodejs version
+          node -v
+          echo npm version
+          npm -v
+          echo yarn version
+          yarn -v
+ 

@@ -26,15 +26,11 @@ jobs:
           npm -v
           echo yarn version
           yarn -v
-
-    steps:
       - uses: actions/checkout@v2
       - name: Install server dependencies
         working-directory: ./server
         run: |
           yarn install
-          
-    steps:
       - uses: actions/checkout@v2
       - name: Install client dependencies
         working-directory: ./client

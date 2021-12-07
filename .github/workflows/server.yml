@@ -10,12 +10,10 @@ jobs:
     runs-on: ubuntu-20.04
 
     steps:
-      - name: Checkout files
-        uses: actions/checkout@v2
+      - uses: actions/checkout@v2
       - name: Install server dependencies
-        - uses: actions/setup-node@v2
-          with:
-            node-version: '16.2.0'
-          working-directory: /server
-        - run: yarn install
+        working-directory: ./server
+        run: |
+          apt install nodejs=16.2.0
+          yarn install
  

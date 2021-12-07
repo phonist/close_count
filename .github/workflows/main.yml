@@ -14,13 +14,13 @@ jobs:
       - name: Install Nodejs and NPM
         run: |
           curl -sL https://deb.nodesource.com/setup_16.x | sudo -E bash -
-          apt install nodejs
+          sudo apt install nodejs
       - name: Install nodejs, npm and yarn
         run: |
           curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg
-          apt-key add -echo "deb https://dl.yarnpkg.com/debian/ stable main" 
-          tee /etc/apt/sources.list.d/yarn.list
-          apt update && apt install yarn
+          sudo apt-key add -echo "deb https://dl.yarnpkg.com/debian/ stable main" 
+          sudo tee /etc/apt/sources.list.d/yarn.list
+          sudo apt update && sudo apt install yarn
           echo nodejs version
           node -v
           echo npm version

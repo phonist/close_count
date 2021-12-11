@@ -11,6 +11,8 @@ const connectDB = async () => {
 			useUnifiedTopology: true
 		});
 
+		// Since mongoose's Promise is deprecated, we override it with Node's Promise
+		mongoose.Promise = global.Promise;
 		console.log('MongoDB Connected...');
 	} catch (err) {
 		console.error(err.message);

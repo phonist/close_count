@@ -5,9 +5,10 @@ const path = require('path');
 
 const app = express();
 
+const PORT = process.env.PORT || 8001;
+
 // Connect Database
 connectDB();
-
 
 app.use((req, res, next) => {
   res.header('Access-Control-Allow-Origin', '*');
@@ -16,14 +17,13 @@ app.use((req, res, next) => {
 });
 
 // Init Middleware
-app.use(express.json());
+app.use(express.json()); // for parsing application/json app.use(bodyParser.json());
 
 // Define Routes
 app.use('/api/users', require('./routes/api/users'));
 app.use('/api/auth', require('./routes/api/auth'));
 app.use('/api/profile', require('./routes/api/profile'));
 app.use('/api/timers',require('./routes/api/timers'));
-
 
 app.use((err, req, res, next) => {
   console.log(err);
@@ -40,6 +40,5 @@ if (process.env.NODE_ENV === 'production') {
   });
 }
 
-const PORT = process.env.PORT || 8000;
 
 app.listen(PORT, () => console.log(`Server started on port ${PORT}`));

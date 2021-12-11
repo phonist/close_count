@@ -1,8 +1,9 @@
 const mongoose = require('mongoose');
+const Schema = mongoose.Schema;
 
-const TimerSchema = new mongoose.Schema({
+const TimerSchema = new Schema({
   user: {
-    type: mongoose.Schema.Types.ObjectId,
+    type: Schema.Types.ObjectId,
     ref: 'user'
   },
   title: {
@@ -23,4 +24,6 @@ const TimerSchema = new mongoose.Schema({
   },
 });
 
-module.exports = mongoose.model('timer', TimerSchema);
+const Timer = mongoose.model('timer', TimerSchema);
+
+module.exports = Timer;

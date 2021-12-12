@@ -1,7 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-// import { Link } from 'react-router-dom';
-import formatDate from '../../utils/formatDate';
 import { connect } from 'react-redux';
 import { destroy, startCountDown } from '../../actions/timer';
 //Material UI tailwind css
@@ -64,7 +62,9 @@ const Show = ({
           {description}
         </Typography>
         <Typography>
-          Date: {formatDate(timer)}
+          
+          {/* Date: {formatDate(timer)} */}
+          Date: {timer}
         </Typography>
         {timerComponents.length ? timerComponents : <span> Times Up!</span>}
       </CardContent>

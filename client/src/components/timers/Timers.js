@@ -7,11 +7,10 @@ import { getTimers } from '../../actions/timer';
 import { Grid, Box, Container, Card } from '@mui/material';
 
 const Timers = ({ 
-  getTimers, 
+  getTimers,
   timer: { timers }
 }) => {
-  // const classes = useStyles();
-  
+
   useEffect(() => {
     getTimers();
   }, [getTimers]);
@@ -33,13 +32,13 @@ const Timers = ({
       <Container sx={{ py: 8 }} maxWidth="md">
         {/* End hero unit */}
         <Grid container spacing={4}>
-          {timers.map((timer) => (
+          {/* {Object.entries(timers).map(([key, timer]) => (
               <Grid item key={timer._id} xs={4}>
                 <Card sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
                   <ShowTimer timer={timer} />
                 </Card>
               </Grid>
-          ))}
+          ))} */}
         </Grid>
       </Container>
     </main>

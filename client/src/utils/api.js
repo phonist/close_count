@@ -3,7 +3,7 @@ import store from '../store';
 import { LOGOUT } from '../actions/types';
 
 const api = axios.create({
-  baseURL: '/api',
+  baseURL: 'http://localhost:8005/api',
   headers: {
     'Content-Type': 'application/json'
   }

@@ -14,10 +14,8 @@ import {
 
 // Get timers
 export const getTimers = () => async dispatch => {
-    console.log('getTimers');
     try {
         const res = await api.get('/timers');
-        console.log('res', res.data);
         dispatch({
             type: GET_TIMERS,
             payload: res.data

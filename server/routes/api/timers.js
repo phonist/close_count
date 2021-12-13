@@ -43,12 +43,10 @@ router.post(
 // @desc     Get all timers
 // @access   Private
 router.get('/', auth, async (req, res) => {
-  console.log('getting timers');
   try {
     const timers = await Timer.find().sort({ date: -1 });
     res.json(timers);
   } catch (err) {
-    console.error(err.message);
     res.status(500).send('Server Error');
   }
 });

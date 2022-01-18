@@ -11,14 +11,13 @@ import {
   
   const initialState = {
     timers: [],
-    timer: null,
     loading: true,
     error: {}
   };
   
   function timerReducer(state = initialState, action) {
     const { type, payload } = action;
-  
+    
     switch (type) {
       case GET_TIMERS:
         return {
@@ -29,7 +28,7 @@ import {
       case CREATE_TIMER:
         return {
             ...state,
-            timer: payload,
+            timers: payload,
             loading: false
         };
       case STORE_TIMER:
@@ -41,27 +40,27 @@ import {
       case SHOW_TIMER:
         return {
             ...state,
-            timer: payload,
+            timers: payload,
             loading: false
         };
       case EDIT_TIMER:
         return {
             ...state,
-            timer: payload,
+            timers: payload,
             loading: false
         };
       case UPDATE_TIMER:
         return {
             ...state,
-            timers: state.timers.map((timer) =>
-                timer._id === payload.id ? { ...timer } : timer
+            timers: state.timers.map((timers) =>
+                timers._id === payload.id ? { ...timers } : timers
             ),
             loading: false
         };
       case DESTROY_TIMER:
         return {
             ...state,
-            timers: state.timers.filter((timer) => timer._id !== payload),
+            timers: state.timers.filter((timers) => timers._id !== payload),
             loading: false
         };
       case ERROR_TIMER:

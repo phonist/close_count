@@ -47,7 +47,6 @@ router.get('/', auth, async (req, res) => {
     const timers = await Timer.find().sort({ date: -1 });
     res.json(timers);
   } catch (err) {
-    console.error(err.message);
     res.status(500).send('Server Error');
   }
 });

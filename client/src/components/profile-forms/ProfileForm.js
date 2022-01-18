@@ -4,30 +4,22 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { createProfile, getCurrentProfile } from '../../actions/profile';
 
-//Material-UI 
-import { makeStyles } from '@material-ui/core/styles';
-import H3 from '@material-tailwind/react/Heading3';
-import InputLabel from '@material-ui/core/InputLabel';
-import FormControl from '@material-ui/core/FormControl';
-import Select from '@material-ui/core/Select';
-import Input from "@material-tailwind/react/Input";
-import Button from "@material-tailwind/react/Button";
-import Grid from '@material-ui/core/Grid';
-import Small from "@material-tailwind/react/Small";
-import LeadText from "@material-tailwind/react/LeadText";
+//MUI
+import { InputLabel, FormControl, Select, Input, Button, Grid, Typography } from '@mui/material';
 
-const useStyles = makeStyles((theme) => ({
-  root: {
-    flexGrow: 1,
-  },
-  control: {
-    padding: theme.spacing(2),
-  },
-  formControl: {
-    margin: theme.spacing(1),
-    minWidth: 120,
-  },
-}));
+
+// const useStyles = makeStyles((theme) => ({
+//   root: {
+//     flexGrow: 1,
+//   },
+//   control: {
+//     padding: theme.spacing(2),
+//   },
+//   formControl: {
+//     margin: theme.spacing(1),
+//     minWidth: 120,
+//   },
+// }));
 
 const initialState = {
   company: '',
@@ -51,7 +43,7 @@ const ProfileForm = ({
   getCurrentProfile,
   history
 }) => {
-  const classes = useStyles();
+  // const classes = useStyles();
 
   const [formData, setFormData] = useState(initialState);
 
@@ -105,28 +97,30 @@ const ProfileForm = ({
 
   return (
     <section className="relative py-16 bg-gray-100">
-      <Grid container justifyContent="center" className={classes.root} spacing={2}>
+      <Grid container justifyContent="center" spacing={2}>
         <Grid item xs={8}>
           <div className="container max-w-7xl px-4 mx-auto" style={profileFormStyle}>
             <div className="relative flex flex-col min-w-0 break-words bg-white w-full mb-6 shadow-xl rounded-2xl -mt-64">
               <div className="px-6">
                 {/* <div className="text-center my-8"> */}
                   <Grid container direction="column" justifyContent="space-between" alignItems="center" spacing={2}>
-                    <H3 color="gray">
+                    <Typography variant="h3" gutterBottom component="div">
                       {creatingProfile ? 'Create Your Profile' : 'Edit Your Profile'}
-                    </H3>
-                    <LeadText className="mt-0 mb-2 text-gray-700 font-medium flex items-center justify-center gap-2">
+                    </Typography>
+                    <Typography className="mt-0 mb-2 text-gray-700 font-medium flex items-center justify-center gap-2">
                         {/* <Icon name="place" size="xl" /> */}
                         {creatingProfile
                         ? ` Let's get some information to make your`
                         : ' Add some changes to your profile'}
-                    </LeadText>
-                    <Small>* = required field</Small>
+                    </Typography>
+                    <Typography variant="caption" display="block" gutterBottom>
+                    * = required field
+                    </Typography>
                   </Grid>
                   <Grid container direction="column" justifyContent="space-between" alignItems="flex-start" spacing={2}>
                     <form className="form" onSubmit={onSubmit}>
                       <Grid item xs={12}>
-                        <FormControl className={classes.formControl}>
+                        <FormControl>
                           <InputLabel id="demo-simple-select-label" >Status</InputLabel>  
                           <Select
                             labelId="demo-simple-select-label"
@@ -149,7 +143,7 @@ const ProfileForm = ({
                         </FormControl>
                       </Grid>
                       <Grid item xs={12}>
-                        <FormControl className={classes.formControl}>
+                        <FormControl>
                           <Input
                               color="lightBlue"
                               size="regular"
@@ -160,13 +154,14 @@ const ProfileForm = ({
                               value={company}
                               onChange={onChange}
                           />
-                          <small className="form-text">
+                          <Typography variant="caption" display="block" gutterBottom>
                             Could be your own company or one you work for
-                          </small>
+                          </Typography>
+
                         </FormControl>
                       </Grid>
                       <Grid item xs={12}>
-                        <FormControl className={classes.formControl}>
+                        <FormControl>
                             <Input
                               color="lightBlue"
                               size="regular"
@@ -177,13 +172,14 @@ const ProfileForm = ({
                               value={website}
                               onChange={onChange}
                             />
-                            <small className="form-text">
+                            <Typography variant="caption" display="block" gutterBottom>
                               Could be your own or a company website
-                            </small>
+                            </Typography>
+
                         </FormControl>
                       </Grid>
                       <Grid item xs={12}>
-                        <FormControl className={classes.formControl}>
+                        <FormControl>
                           <Input
                               color="lightBlue"
                               size="regular"
@@ -194,13 +190,14 @@ const ProfileForm = ({
                               value={location}
                               onChange={onChange}
                           />
-                          <small className="form-text">
+                          <Typography variant="caption" display="block" gutterBottom>
                             City & state suggested (eg. Boston, MA)
-                          </small>
+                          </Typography>
+
                         </FormControl>
                       </Grid>
                       <Grid item xs={12}>
-                        <FormControl className={classes.formControl}>
+                        <FormControl>
                           <Input
                               color="lightBlue"
                               size="regular"
@@ -211,13 +208,14 @@ const ProfileForm = ({
                               value={skills}
                               onChange={onChange}
                           />
-                          <small className="form-text">
+                          <Typography variant="caption" display="block" gutterBottom>
                             Please use comma separated values (eg. HTML,CSS,JavaScript,PHP)
-                          </small>
+                          </Typography>
+
                         </FormControl>
                       </Grid>
                       <Grid item xs={12}>
-                        <FormControl className={classes.formControl}>
+                        <FormControl>
                           <Input
                               color="lightBlue"
                               size="regular"
@@ -228,14 +226,14 @@ const ProfileForm = ({
                               value={githubusername}
                               onChange={onChange}
                           />
-                          <small className="form-text">
-                            If you want your latest repos and a Github link, include your
-                            username
-                          </small>
+                          <Typography variant="caption" display="block" gutterBottom>
+                            If you want your latest repos and a Github link, include your username
+                          </Typography>
+
                         </FormControl>
                       </Grid>
                       <Grid item xs={12}>
-                        <FormControl className={classes.formControl}>
+                        <FormControl>
                           <Input
                               color="lightBlue"
                               size="regular"
@@ -246,13 +244,14 @@ const ProfileForm = ({
                               value={bio}
                               onChange={onChange}
                           />
-                          <small className="form-text">
+                          <Typography variant="caption" display="block" gutterBottom>
                             Tell us a little about yourself
-                          </small>
+                          </Typography>
+
                         </FormControl>
                       </Grid>
                       <Grid item xs={12}>
-                        <FormControl className={classes.formControl}>
+                        <FormControl>
                           <Input
                               color="lightBlue"
                               size="regular"
@@ -263,21 +262,16 @@ const ProfileForm = ({
                               value={bio}
                               onChange={onChange}
                           />
-                          <small className="form-text">
-                            Tell us a little about yourself
-                          </small>
+                          <Typography variant="caption" display="block" gutterBottom>
+                            Tell us a litte about yourself
+                          </Typography>
+
                         </FormControl>
                       </Grid>
                       <Grid item xs={12}>
-                        <FormControl className={classes.formControl}>
+                        <FormControl>
                           <Button
-                              color="lightBlue"
-                              buttonType="filled"
-                              size="regular"
-                              rounded={false}
-                              block={false}
-                              iconOnly={false}
-                              ripple="light"
+                              variant='outlined'
                               onClick={() => toggleSocialInputs(!displaySocialInputs)}
                           >
                               Add Social Networks Links
@@ -290,7 +284,7 @@ const ProfileForm = ({
                         <>
                           <Grid item xs={12}>
                             <i className="fab fa-twitter fa-2x" />
-                            <FormControl className={classes.formControl}>
+                            <FormControl>
                               <Input
                                 color="lightBlue"
                                 size="regular"
@@ -305,7 +299,7 @@ const ProfileForm = ({
                           </Grid>
                           <Grid item xs={12}>
                             <i className="fab fa-facebook fa-2x" />
-                            <FormControl className={classes.formControl}>
+                            <FormControl>
                               <Input
                                 color="lightBlue"
                                 size="regular"
@@ -320,7 +314,7 @@ const ProfileForm = ({
                           </Grid>
                           <Grid item xs={12}>
                             <i className="fab fa-youtube fa-2x" />
-                            <FormControl className={classes.formControl}>
+                            <FormControl>
                               <Input
                                 color="lightBlue"
                                 size="regular"
@@ -335,7 +329,7 @@ const ProfileForm = ({
                           </Grid>
                           <Grid item xs={12}>
                             <i className="fab fa-linkedin fa-2x" />
-                            <FormControl className={classes.formControl}>
+                            <FormControl>
                                 <Input
                                   color="lightBlue"
                                   size="regular"
@@ -350,7 +344,7 @@ const ProfileForm = ({
                           </Grid>
                           <Grid item xs={12}>
                             <i className="fab fa-instagram fa-2x" />
-                            <FormControl className={classes.formControl}>
+                            <FormControl>
                               <Input
                                 color="lightBlue"
                                 size="regular"

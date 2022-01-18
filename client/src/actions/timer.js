@@ -16,7 +16,6 @@ import {
 export const getTimers = () => async dispatch => {
     try {
         const res = await api.get('/timers');
-
         dispatch({
             type: GET_TIMERS,
             payload: res.data
@@ -24,7 +23,7 @@ export const getTimers = () => async dispatch => {
     } catch (err) {
         dispatch({
             type: ERROR_TIMER,
-            payload: { msg: err.response.statusText, status: err.response.status }
+            payload: err
         });
     }
 };
@@ -33,7 +32,6 @@ export const getTimers = () => async dispatch => {
 export const create = () => async dispatch => {
     try{
         const res = await api.get('/timers/create');
-
         dispatch({
             type: CREATE_TIMER,
             payload: res.data
@@ -41,7 +39,7 @@ export const create = () => async dispatch => {
     }catch (err) {
         dispatch({
             type: ERROR_TIMER,
-            payload: { msg: err.response.statusText, status: err.response.status }
+            payload: err
         });
     }
 }
@@ -59,7 +57,7 @@ export const store = formData => async dispatch => {
     }catch (err) {
         dispatch({
             type: ERROR_TIMER,
-            payload: { msg: err.response.statusText, status: err.response.status }
+            payload: err
         });
     }
 }
@@ -68,7 +66,6 @@ export const store = formData => async dispatch => {
 export const show = id => async dispatch => {
     try {
         const res = await api.get(`/timers/${id}`);
-
         dispatch({
         type: SHOW_TIMER,
         payload: res.data
@@ -76,7 +73,7 @@ export const show = id => async dispatch => {
     } catch (err) {
         dispatch({
         type: ERROR_TIMER,
-        payload: { msg: err.response.statusText, status: err.response.status }
+        payload: err
         });
     }
 };
@@ -85,7 +82,6 @@ export const show = id => async dispatch => {
 export const edit = id => async dispatch => {
     try{
         const res = await api.post(`/timers/${id}/edit`);
-
         dispatch({
             type: EDIT_TIMER,
             payload: res.data
@@ -93,7 +89,7 @@ export const edit = id => async dispatch => {
     }catch (err) {
         dispatch({
             type: ERROR_TIMER,
-            payload: { msg: err.response.statusText, status: err.response.status }
+            payload: err
         });
     }
 }
@@ -111,7 +107,7 @@ export const update = id => async dispatch => {
     } catch (err) {
         dispatch({
             type: ERROR_TIMER,
-            payload: { msg: err.response.statusText, status: err.response.status }
+            payload: err
         });
     }
 };
@@ -120,7 +116,6 @@ export const update = id => async dispatch => {
 export const destroy = id => async dispatch => {
     try {
         await api.delete(`/timers/${id}`);
-
         dispatch({
             type: DESTROY_TIMER,
             payload: id
@@ -128,7 +123,7 @@ export const destroy = id => async dispatch => {
     } catch (err) {
         dispatch({
             type: ERROR_TIMER,
-            payload: { msg: err.response.statusText, status: err.response.status }
+            payload: err
         });
     }
 };
@@ -138,7 +133,6 @@ export const startCountDown = id => async dispatch => {
     
     try {
         await api.put(`/timers/${id}`);
-
         dispatch({
             type: UPDATE_TIMER,
             payload: id
@@ -147,7 +141,7 @@ export const startCountDown = id => async dispatch => {
     } catch (err) {
         dispatch({
             type: ERROR_TIMER,
-            payload: { msg: err.response.statusText, status: err.response.status }
+            payload: err
         });
     }
 }

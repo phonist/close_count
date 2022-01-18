@@ -1,10 +1,9 @@
 import React, { useEffect } from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import NavigationBar from './components/layout/NavigationBar';
-import Landing from './components/layout/Landing';
+import Login from './components/auth/Login';
 import Routes from './components/routing/Routes';
 import { LOGOUT } from './actions/types';
-import "@material-tailwind/react/tailwind.css";
 
 // Redux
 import { Provider } from 'react-redux';
@@ -20,7 +19,7 @@ const App = () => {
     if (localStorage.token) {
       setAuthToken(localStorage.token);
     }
-    store.dispatch(loadUser());
+    store.dispatch(loadUser()); 
     
     // log user out from all tabs if they log out in one tab
     window.addEventListener('storage', () => {
@@ -31,11 +30,12 @@ const App = () => {
   return (
     <Provider store={store}>
       <Router>
-          <NavigationBar />
-          <Switch>
-            <Route exact path="/" component={Landing} />
-            <Route component={Routes} />
-          </Switch>
+        <NavigationBar />
+        
+        <Switch>
+          <Route exact path="/" component={Login} />
+          <Route component={Routes} />
+        </Switch>
       </Router>
     </Provider>
   );

@@ -1,14 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-// import { Link } from 'react-router-dom';
-import formatDate from '../../utils/formatDate';
 import { connect } from 'react-redux';
 import { destroy, startCountDown } from '../../actions/timer';
 //Material UI tailwind css
-import CardFooter from '@material-tailwind/react/CardFooter';
-import CardBody from '@material-tailwind/react/CardBody';
-import Paragraph from '@material-tailwind/react/Paragraph';
-import Button from '@material-tailwind/react/Button';
+import { CardContent, CardActions, Typography, Button } from '@mui/material';
 
 const Show = ({
   destroy,
@@ -58,37 +53,26 @@ const Show = ({
   });
 
   return (
-      <div>
-        <CardBody>
-          <Paragraph>
-            {title}
-          </Paragraph>
-          <Paragraph>
-            {description}
-          </Paragraph>
-          <Paragraph>
-            Date: {formatDate(timer)}
-          </Paragraph>
-          {timerComponents.length ? timerComponents : <span> Times Up!</span>}
-        </CardBody>
-        <CardFooter>
-        {showActions && (
-          <>
-            <Button
-                onClick={() => destroy(_id)}
-              >
-                <i className="fas fa-times" />
-            </Button>
-
-            <Button
-              onClick={() => startCountDown(_id)}
-            >
-              <i className="fas fa-clocks" />
-            </Button> 
-          </>
-        )}
-        </CardFooter>
-      </div>
+      <>
+      <CardContent sx={{ flexGrow: 1 }}>
+        <Typography gutterBottom variant="h5" component="h2">
+          {title}
+        </Typography>
+        <Typography>
+          {description}
+        </Typography>
+        <Typography>
+          
+          {/* Date: {formatDate(timer)} */}
+          Date: {timer}
+        </Typography>
+        {timerComponents.length ? timerComponents : <span> Times Up!</span>}
+      </CardContent>
+      <CardActions>
+        <Button size="small" onClick={() => destroy(_id)}>Delete</Button>
+        {/* <Button size="small" onClick={() => startCountDown(_id)}>Edit</Button> */}
+      </CardActions>
+      </>
   );
 }
 

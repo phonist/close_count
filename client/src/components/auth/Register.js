@@ -1,126 +1,153 @@
 import React, { useState } from 'react';
+import { Redirect } from 'react-router-dom';
+import { Avatar, Button, TextField, Link, Grid, Box, Typography } from '@mui/material';
+import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import { connect } from 'react-redux';
-import { Link, Redirect } from 'react-router-dom';
-import { setAlert } from '../../actions/alert';
-import { register } from '../../actions/auth';
 import PropTypes from 'prop-types';
-//material ui
-//material ui
-import Card from '@material-tailwind/react/Card';
-import CardHeader from '@material-tailwind/react/CardHeader';
-import CardBody from '@material-tailwind/react/CardBody';
-import CardFooter from '@material-tailwind/react/CardFooter';
-import H5 from '@material-tailwind/react/Heading5';
-import Button from '@material-tailwind/react/Button';
-import Container from '../layout/Container';
+import { register } from '../../actions/auth';
+import { CssBaseline, Container } from '@mui/material';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { setAlert } from '../../actions/alert';
+
+function Copyright(props) {
+  return (
+    <Typography variant="body2" color="text.secondary" align="center" {...props}>
+      {'Copyright © '}
+      <Link color="inherit" href="#">
+        Close Count
+      </Link>{' '}
+      {new Date().getFullYear()}
+      {'.'}
+    </Typography>
+  );
+}
+
+const theme = createTheme();
 
 const Register = ({ setAlert, register, isAuthenticated }) => {
-  const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    password: '',
-    password2: ''
-  });
-
-  const { name, email, password, password2 } = formData;
-
-  const onChange = (e) =>
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-
-  const onSubmit = async (e) => {
-    e.preventDefault();
-    if (password !== password2) {
-      setAlert('Passwords do not match', 'danger');
-    } else {
-      register({ name, email, password });
+    const [formData, setFormData] = useState({
+      name: '',
+      email: '',
+      password: '',
+      password2: ''
+    });
+  
+    const { name, email, password, password2 } = formData;
+  
+    const onChange = (e) =>
+      setFormData({ ...formData, [e.target.name]: e.target.value });
+  
+    const handleSubmit = async (e) => {
+      e.preventDefault();
+      if (password !== password2) {
+        setAlert('Passwords do not match', 'danger');
+      } else {
+        register({ name, email, password });
+      }
+    };
+  
+    if (isAuthenticated) {
+      return <Redirect to="/timers" />;
     }
-  };
 
-  if (isAuthenticated) {
-    return <Redirect to="/timers" />;
-  }
-
-  return (
-    <Container>
-      <Card>
-        <CardHeader color="lightBlue">
-            <H5 color="white" style={{ marginBottom: 0 }}>
-                Register
-            </H5>
-        </CardHeader>
-        <CardBody>
-          <form className="form" onSubmit={onSubmit}>
-            <div className="mb-10 px-4">
-              <input
-                type="text"
-                placeholder="Name"
-                name="name"
-                value={name}
-                onChange={onChange}
-              />
-            </div>
-            <div className="mb-10 px-4">
-              <input
-                type="email"
-                placeholder="Email Address"
-                name="email"
-                value={email}
-                onChange={onChange}
-              />
-              <small className="form-text">
-                This site uses Gravatar so if you want a profile image, use a
-                Gravatar email
-              </small>
-            </div>
-            <div className="mb-4 px-4">
-              <input
-                type="password"
-                placeholder="Password"
-                name="password"
-                value={password}
-                onChange={onChange}
-              />
-            </div>
-            <div className="mb-4 px-4">
-              <input
-                type="password"
-                placeholder="Confirm Password"
-                name="password2"
-                value={password2}
-                onChange={onChange}
-              />
-            </div>
-            <input type="submit" className="btn btn-primary" value="Register" />
-          </form>
-          
-        </CardBody>
-        <CardFooter>
-            <div className="flex justify-center">
+    return (
+        <ThemeProvider theme={theme}>
+        <Container component="main" maxWidth="xs">
+            <CssBaseline />
+            <Box
+                sx={{
+                marginTop: 8,
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+                }}
+            >
+                <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
+                    <LockOutlinedIcon />
+                </Avatar>
+                <Typography component="h1" variant="h5">
+                Sign Up
+                </Typography>
+                <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
+                <TextField
+                    margin="normal"
+                    required
+                    fullWidth
+                    id="name"
+                    label="Name"
+                    name="name"
+                    autoComplete="email"
+                    autoFocus
+                    onChange={onChange}
+                    value={name}
+                />
+                <TextField
+                    margin="normal"
+                    required
+                    fullWidth
+                    id="email"
+                    label="Email Address"
+                    name="email"
+                    autoComplete="email"
+                    autoFocus
+                    onChange={onChange}
+                    value={email}
+                />
+                <TextField
+                    margin="normal"
+                    required
+                    fullWidth
+                    name="password"
+                    label="Password"
+                    type="password"
+                    id="password"
+                    autoComplete="current-password"
+                    onChange={onChange}
+                    value={password}
+                />
+                <TextField
+                    margin="normal"
+                    required
+                    fullWidth
+                    name="password2"
+                    label="Confirm Password"
+                    type="password"
+                    id="password2"
+                    autoComplete="current-password"
+                    onChange={onChange}
+                    value={password2}
+                />
                 <Button
-                    color="lightBlue"
-                    buttonType="link"
-                    size="lg"
-                    ripple="dark"
+                    type="submit"
+                    fullWidth
+                    variant="contained"
+                    sx={{ mt: 3, mb: 2 }}
                 >
-                    <p className="my-1">
-            Already have an account? <Link to="/login">Sign In</Link>
-          </p>
+                Sign Up
                 </Button>
-            </div>
-        </CardFooter>
-      </Card>
-    </Container>
-  );
+                <Grid container justifyContent="flex-end">
+                    <Grid item>
+                        <Link href="/login" variant="body2">
+                        Already have an account? Sign in
+                        </Link>
+                    </Grid>
+                </Grid>
+                </Box>
+            </Box>
+            <Copyright sx={{ mt: 8, mb: 4 }} />
+        </Container>
+        </ThemeProvider>
+    );
 };
 
 Register.propTypes = {
-  setAlert: PropTypes.func.isRequired,
-  register: PropTypes.func.isRequired,
-  isAuthenticated: PropTypes.bool
+    setAlert: PropTypes.func.isRequired,
+    register: PropTypes.func.isRequired,
+    isAuthenticated: PropTypes.bool
 };
 
 const mapStateToProps = (state) => ({
-  isAuthenticated: state.auth.isAuthenticated
+    isAuthenticated: state.auth.isAuthenticated
 });
 
 export default connect(mapStateToProps, { setAlert, register })(Register);

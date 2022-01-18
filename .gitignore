@@ -4,3 +4,5 @@ server/config/default.json
 client/build
 client/.eslintcache
 client/node_modules/
+server/.env
+.DS_Store

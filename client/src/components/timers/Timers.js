@@ -1,19 +1,23 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
+import { connect, useSelector } from 'react-redux';
 import ShowTimer from './ShowTimer';
 import Create from './CreateTimer';
 import { getTimers } from '../../actions/timer';
 import { Grid, Box, Container, Card } from '@mui/material';
+import Error from '../common/Error';
+import Loading from '../common/Loading';
 
 const Timers = ({ 
   getTimers,
   timer: { timers }
 }) => {
+  const data = useSelector((state) => state.timer);
+  const user = useSelector((state) => state.auth.user);
 
   useEffect(() => {
-    getTimers();
-  }, [getTimers]);
+      getTimers(user);
+  }, [getTimers, user]);
 
   return (
     <main>
@@ -32,13 +36,15 @@ const Timers = ({
       <Container sx={{ py: 8 }} maxWidth="md">
         {/* End hero unit */}
         <Grid container spacing={4}>
-          {Object.entries(timers).map(([key, timer]) => (
+          {!data.loading && Object.entries(timers).map(([key, timer]) => (
               <Grid item key={timer._id} xs={4}>
                 <Card sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
                   <ShowTimer timer={timer} />
                 </Card>
               </Grid>
           ))}
+          {data.loading && <Loading />}
+          {!data.error && <Error />}
         </Grid>
       </Container>
     </main>

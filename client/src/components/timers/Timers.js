@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { connect, useSelector } from 'react-redux';
 import ShowTimer from './ShowTimer';
@@ -7,36 +7,17 @@ import { getTimers } from '../../actions/timer';
 import { Grid, Box, Container, Card } from '@mui/material';
 import Error from '../common/Error';
 import Loading from '../common/Loading';
-import Empty from '../common/Empty';
 
 const Timers = ({ 
   getTimers,
   timer: { timers }
 }) => {
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(false);
-  const [empty, setEmpty] = useState(false);
-
   const data = useSelector((state) => state.timer);
+  const user = useSelector((state) => state.auth.user);
 
   useEffect(() => {
-    if(data.error.length > 1) {
-      setError(true);
-    }else{
-      setError(false);
-    }
-    if(data.loading && !data.timers) {
-      setLoading(true);
-    }else{
-      setLoading(false);
-    }
-    if(data.timers.length === 0) {
-      getTimers();
-      setEmpty(true);
-    }else{
-      setEmpty(false);
-    }
-  }, [data, getTimers]);
+      getTimers(user);
+  }, [getTimers, user]);
 
   return (
     <main>
@@ -55,16 +36,15 @@ const Timers = ({
       <Container sx={{ py: 8 }} maxWidth="md">
         {/* End hero unit */}
         <Grid container spacing={4}>
-          {!loading && Object.entries(timers).map(([key, timer]) => (
+          {!data.loading && Object.entries(timers).map(([key, timer]) => (
               <Grid item key={timer._id} xs={4}>
                 <Card sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
                   <ShowTimer timer={timer} />
                 </Card>
               </Grid>
           ))}
-          {loading && <Loading />}
-          {error && <Error />}
-          {empty && <Empty />}
+          {data.loading && <Loading />}
+          {!data.error && <Error />}
         </Grid>
       </Container>
     </main>

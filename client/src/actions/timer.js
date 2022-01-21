@@ -13,9 +13,9 @@ import {
 } from './types';
 
 // Get timers
-export const getTimers = () => async dispatch => {
+export const getTimers = (user) => async dispatch => {
     try {
-        const res = await api.get('/timers');
+        const res = await api.get('/timers/'+user._id);
         dispatch({
             type: GET_TIMERS,
             payload: res.data

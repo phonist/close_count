@@ -1,12 +1,20 @@
 import { combineReducers } from 'redux';
 import alert from './alert';
 import auth from './auth';
-import profile from './profile';
 import timer from './timer';
 
-export default combineReducers({
+const appReducer = combineReducers({
   alert,
   auth,
-  profile,
   timer
 });
+
+const rootReducer = (state, action) => {
+  if (action.type === 'LOGOUT') {
+    state = undefined;
+  }
+
+  return appReducer(state, action);
+}
+
+export default rootReducer;

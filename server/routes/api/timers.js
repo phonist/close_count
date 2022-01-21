@@ -42,9 +42,9 @@ router.post(
 // @route    GET api/timers
 // @desc     Get all timers
 // @access   Private
-router.get('/', auth, async (req, res) => {
+router.get('/:id', auth, async (req, res) => {
   try {
-    const timers = await Timer.find().sort({ date: -1 });
+    const timers = await Timer.find({user: req.params.id}).sort({ date: -1 });
     res.json(timers);
   } catch (err) {
     res.status(500).send('Server Error');

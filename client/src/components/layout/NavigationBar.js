@@ -16,14 +16,6 @@ const NavigationBar = ({
   auth: { isAuthenticated, user },
   logout
 }) => {
-  // const [link, setLink] = useState('');
-  // const [openNavbar, setOpenNavbar] = useState(false);
-
-  useEffect(() => {
-    // if (isAuthenticated && user !== null) setLink(`profile/${user._id}`);
-    // else setLink('');
-  }, [isAuthenticated, logout, user]);
-
   const authLinks = (
     <Toolbar sx={{ flexWrap: 'wrap' }}>
       <Typography variant="h6" color="inherit" noWrap sx={{ flexGrow: 1 }}>
@@ -32,14 +24,6 @@ const NavigationBar = ({
         </Link>
       </Typography>
       <nav>
-        {/* <Link
-          variant="button"
-          color="text.primary" 
-          href={link}
-          sx={{ my: 1, mx: 1.5 }}
-        >
-          Your Profile
-        </Link> */}
         <Button href="#" variant="outlined" onClick={logout} sx={{ my: 1, mx: 1.5 }}>
           Logout
         </Button>

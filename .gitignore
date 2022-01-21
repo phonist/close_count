@@ -6,3 +6,4 @@ client/.eslintcache
 client/node_modules/
 server/.env
 .DS_Store
+client/.env

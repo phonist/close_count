@@ -13,7 +13,7 @@ const app = express();
 const PORT = process.env.PORT || 8001;
 
 // Connect Database
-connectDB();
+connectDB(process.env.MONGO_URI);
 
 // set security HTTP headers
 app.use(helmet());

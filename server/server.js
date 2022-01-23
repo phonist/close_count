@@ -45,7 +45,7 @@ app.use((err, req, res, next) => {
 });
 
 // Serve static assets in production
-if (process.env.NODE_ENV === 'production') {
+if (process.env.ENVIRONMENT == 'production') {
   // Set static folder 
   console.log('PRODUCTION MODE');
   const root = path.join(__dirname, '..', 'client','build');

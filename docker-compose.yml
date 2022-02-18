@@ -1,0 +1,59 @@
+version: "3"
+services:
+
+  client:
+    container_name: close-count-client
+    build: 
+      context: ./client
+      dockerfile: Dockerfile
+    ports:
+      - 3000:3000
+    networks:
+      - mern-network
+    volumes:
+      - ./client/src:/usr/app/src
+      - ./client/public:/usr/app/public
+    depends_on:
+      - server
+    environment:
+      - REACT_APP_SERVER=http://localhost:8005
+      - CHOKIDAR_USEPOLLING=true
+    # command: npm start
+    stdin_open: true
+    tty: true
+  
+  server:
+    container_name: close-count-server
+    build:
+      context: ./server
+      dockerfile: Dockerfile
+    ports:
+      - 8005:8005
+    networks:
+      - mern-network
+    volumes:
+      - ./server:/usr/app/src
+    depends_on:
+      - db
+    environment:
+      - MONGO_URL=mongodb://db:27017/closecount
+      - CLIENT=http://localhost:3000
+    # command: /usr/app/node_modules/.bin/nodemon -L src/index.js
+
+  db:
+    container_name: mongodb
+    image: mongo
+    ports:
+      - 27017:27017
+    networks:
+      - mern-network
+    volumes:
+      - mongo-data:/data/db
+
+networks:
+  mern-network:
+    driver: bridge
+
+volumes:
+  mongo-data:
+    driver: local

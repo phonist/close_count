@@ -12,7 +12,7 @@ import { loadUser } from './actions/auth';
 import setAuthToken from './utils/setAuthToken';
 
 const App = () => {
-  useEffect(() => {
+  useEffect(() => { 
     // check for token in LS
     if (localStorage.token) {
       setAuthToken(localStorage.token);
@@ -29,7 +29,6 @@ const App = () => {
     <Provider store={store}>
       <Router>
         <NavigationBar />
-        
         <Switch>
           <Route exact path="/" component={Login} />
           <Route component={Routes} />

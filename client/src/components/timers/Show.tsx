@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { destroy, startCountDown } from '../../actions/timer';
+import { attemptDestroyTimer } from '../../thunks/timer';
 //Material UI tailwind css
 import { CardContent, CardActions, Typography, Button } from '@mui/material';
 
@@ -81,7 +81,7 @@ const Show = (timer: any) => {
         {timerComponents.length ? timerComponents : <span> Times Up!</span>}
       </CardContent>
       <CardActions>
-        <Button size="small" onClick={() => destroy(timer._id)}>Delete</Button>
+        <Button size="small" onClick={() => attemptDestroyTimer(timer._id)}>Delete</Button>
         {/* <Button size="small" onClick={() => startCountDown(_id)}>Edit</Button> */}
       </CardActions>
       </>

@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import Show from './Show';
 import Create from './Create';
-import { getTimers } from '../../actions/timer';
+import { attemptGetTimers } from '../../thunks/timer';
 import { Grid, Box, Container, Card } from '@mui/material';
 import Error from '../common/Error';
 import Loading from '../common/Loading';
@@ -17,7 +17,7 @@ const Timers = () => {
   const user = useSelector((state:AppState) => state.auth.user);
 
   useEffect(() => {
-      getTimers(user);
+    attemptGetTimers(user);
   }, [user]);
 
   return (

@@ -1,8 +1,5 @@
 import React from 'react';
-// import { Link } from 'react-router-dom';
-import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
-import { logout } from '../../actions/auth'; 
+import { attemptLogout } from '../../thunks/auth'; 
 
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
@@ -10,12 +7,15 @@ import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import Link from '@mui/material/Link';
+import { AppState } from '../../store';
 
 
-const NavigationBar = ({ 
-  auth: { isAuthenticated, user },
-  logout
-}) => {
+// const NavigationBar = ({ 
+//   auth: { isAuthenticated, user },
+//   logout
+// }) => {
+const NavigationBar = (props: any) => {
+  const auth = useSelector((state:AppState) => state.auth);
   const authLinks = (
     <Toolbar sx={{ flexWrap: 'wrap' }}>
       <Typography variant="h6" color="inherit" noWrap sx={{ flexGrow: 1 }}>
@@ -24,7 +24,7 @@ const NavigationBar = ({
         </Link>
       </Typography>
       <nav>
-        <Button href="#" variant="outlined" onClick={logout} sx={{ my: 1, mx: 1.5 }}>
+        <Button href="#" variant="outlined" onClick={attemptLogout} sx={{ my: 1, mx: 1.5 }}>
           Logout
         </Button>
       </nav>
@@ -70,19 +70,21 @@ const NavigationBar = ({
         elevation={0}
         sx={{ borderBottom: (theme) => `1px solid ${theme.palette.divider}` }}
       >
-        {isAuthenticated ? authLinks : guestLinks}
+        {auth.isAuthenticated ? authLinks : guestLinks}
       </AppBar>
     </Box>
   );
 };
 
-NavigationBar.propTypes = {
-  logout: PropTypes.func.isRequired,
-  auth: PropTypes.object.isRequired
-};
+export default NavigationBar;
 
-const mapStateToProps = (state) => ({
-  auth: state.auth
-});
+// NavigationBar.propTypes = {
+//   logout: PropTypes.func.isRequired,
+//   auth: PropTypes.object.isRequired
+// };
 
-export default connect(mapStateToProps, { logout })(NavigationBar);
+// const mapStateToProps = (state) => ({
+//   auth: state.auth
+// });
+
+// export default connect(mapStateToProps, { logout })(NavigationBar);

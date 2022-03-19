@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { store } from '../../actions/timer';
+import { attemptStoreTimer } from '../../thunks/timer';
 //Material-UI
 import { Grid, Card, CardContent, Typography, Input, Button, Box } from '@mui/material';
 
@@ -18,7 +18,7 @@ const Create = () => {
   const handleSubmit = (e: any) => {
     e.preventDefault();
     let formData = { title, description, timer }
-    store(formData);
+    attemptStoreTimer(formData);
   };
 
   return (

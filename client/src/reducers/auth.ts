@@ -12,10 +12,11 @@ import {
   REGISTER,
   LOGIN,
   LOGOUT,
+  LOADED_USER,
   GetAuthsStateType,
   LogoutActionType,
   LoginActionType,
-  RegisterActionType
+  RegisterActionType,
 } from '../types/AuthTypes';
 
 const initialState: GetAuthsStateType = {
@@ -53,13 +54,13 @@ export const authReducer = (
         loading: false,
       };
         
-    // case USER_LOADED:
-    //   return {
-    //     ...state,
-    //     isAuthenticated: true,
-    //     loading: false,
-    //     user: payload
-    //   };
+    case LOADED_USER:
+      return {
+        ...state,
+        isAuthenticated: true,
+        loading: false,
+        user: payload
+      };
     // case REGISTER_SUCCESS:
     // case LOGIN_SUCCESS:
     //   return {

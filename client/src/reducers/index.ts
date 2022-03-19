@@ -1,12 +1,12 @@
 import { combineReducers } from 'redux';
 import alert from './alert';
-import auth from './auth';
-import timer from './timer';
+import { authReducer } from './auth';
+import { timerReducer } from './timer';
 
 const appReducer = combineReducers({
   alert,
-  auth,
-  timer
+  auth: authReducer,
+  timer: timerReducer
 });
 
 const rootReducer = (state, action) => {

@@ -3,7 +3,7 @@ import { Navigate } from 'react-router-dom';
 import { Avatar, Button, TextField, Link, Grid, Box, Typography } from '@mui/material';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import { useSelector } from 'react-redux';
-import { register } from '../../actions/auth';
+import { attemptRegister } from '../../thunks/auth';
 import { CssBaseline, Container } from '@mui/material';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { setAlert } from '../../actions/alert';
@@ -44,7 +44,7 @@ const Register = (props: any) => {
       if (password !== password2) {
         setAlert('Passwords do not match', 'danger');
       } else {
-        register({ name, email, password });
+        attemptRegister({ name, email, password });
       }
     };
   

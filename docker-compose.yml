@@ -41,7 +41,7 @@ services:
     # command: /usr/app/node_modules/.bin/nodemon -L src/index.js
 
   db:
-    container_name: mongodb
+    container_name: close-count-mongodb
     image: mongo
     ports:
       - 27017:27017

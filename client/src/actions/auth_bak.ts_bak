@@ -51,6 +51,7 @@ export const register = formData => async dispatch => {
 
 // Login User
 export const login = (email, password) => async dispatch => {
+  console.log(email);
   const body = { email, password };
 
   try {

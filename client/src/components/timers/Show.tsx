@@ -1,21 +1,33 @@
 import React, { useState, useEffect } from 'react';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
 import { destroy, startCountDown } from '../../actions/timer';
 //Material UI tailwind css
 import { CardContent, CardActions, Typography, Button } from '@mui/material';
 
-const Show = ({
-  destroy,
-  startCountDown,
-  auth,
-  timer: { _id, title, user, description, timer, status },
-  showActions
-}) => {
+// const Show = ({
+//   destroy,
+//   startCountDown,
+//   auth,
+//   timer: { _id, title, user, description, timer, status },
+//   showActions
+// }) => {
+
+interface TimeLeft {
+  days: Number,
+  hours: Number,
+  minutes: Number,
+  seconds: Number
+}
+
+const Show = (timer: any) => {
   const calculateTimeLeft = () => {
     const difference = +new Date(timer) - +new Date();
 
-    let timeLeft = {};
+    let timeLeft: TimeLeft = {
+      days: 0,
+      hours: 0,
+      minutes: 0,
+      seconds: 0
+    }
 
     if (difference > 0) {
       timeLeft = {
@@ -40,26 +52,26 @@ const Show = ({
   });
 
   // Clear timeout if the component is unmounted
-  const timerComponents = Object.keys(timeLeft).map((interval) => {
-      if (!timeLeft[interval]) {
-          return 0;
-      }
+  const timerComponents = Object.keys(timeLeft).map(( interval ) => {
+      // if (!timeLeft[interval]) {
+      //     return 0;
+      // }
 
-      return (
-          <span key={interval}>
-              {timeLeft[interval]} {interval}{" "}
-          </span>
-      );
+      // return (
+      //     <span key={interval}>
+      //         {timeLeft[interval]} {interval}{" "}
+      //     </span>
+      // );
   });
 
   return (
       <>
       <CardContent sx={{ flexGrow: 1 }}>
         <Typography gutterBottom variant="h5" component="h2">
-          {title}
+          {timer.title}
         </Typography>
         <Typography>
-          {description}
+          {timer.description}
         </Typography>
         <Typography>
           
@@ -69,27 +81,11 @@ const Show = ({
         {timerComponents.length ? timerComponents : <span> Times Up!</span>}
       </CardContent>
       <CardActions>
-        <Button size="small" onClick={() => destroy(_id)}>Delete</Button>
+        <Button size="small" onClick={() => destroy(timer._id)}>Delete</Button>
         {/* <Button size="small" onClick={() => startCountDown(_id)}>Edit</Button> */}
       </CardActions>
       </>
   );
 }
 
-Show.defaultProps = {
-  showActions: true
-};
-
-Show.propTypes = {
-  timer: PropTypes.object.isRequired,
-  auth: PropTypes.object.isRequired,
-  destroy: PropTypes.func.isRequired,
-  startCountDown: PropTypes.func.isRequired,
-  showActions: PropTypes.bool
-};
-
-const mapStateToProps = (state) => ({
-  auth: state.auth
-});
-
-export default connect(mapStateToProps, { destroy, startCountDown })(Show);
+export default Show;

@@ -1,15 +1,15 @@
 import React, { useState } from 'react';
-import { Redirect } from 'react-router-dom';
+import { Navigate } from 'react-router-dom';
 import { Avatar, Button, TextField, Link, Grid, Box, Typography } from '@mui/material';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
-import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
+import { useSelector } from 'react-redux';
 import { register } from '../../actions/auth';
 import { CssBaseline, Container } from '@mui/material';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { setAlert } from '../../actions/alert';
 
-function Copyright(props) {
+
+function Copyright(props:any) {
   return (
     <Typography variant="body2" color="text.secondary" align="center" {...props}>
       {'Copyright © '}
@@ -24,7 +24,9 @@ function Copyright(props) {
 
 const theme = createTheme();
 
-const Register = ({ setAlert, register, isAuthenticated }) => {
+// const Register = ({ setAlert, register, isAuthenticated }) => {
+const Register = (props: any) => {
+    const auth = useSelector((state:any) => state.auth);
     const [formData, setFormData] = useState({
       name: '',
       email: '',
@@ -34,10 +36,10 @@ const Register = ({ setAlert, register, isAuthenticated }) => {
   
     const { name, email, password, password2 } = formData;
   
-    const onChange = (e) =>
+    const onChange = (e:any) =>
       setFormData({ ...formData, [e.target.name]: e.target.value });
   
-    const handleSubmit = async (e) => {
+    const handleSubmit = async (e: any) => {
       e.preventDefault();
       if (password !== password2) {
         setAlert('Passwords do not match', 'danger');
@@ -46,8 +48,8 @@ const Register = ({ setAlert, register, isAuthenticated }) => {
       }
     };
   
-    if (isAuthenticated) {
-      return <Redirect to="/timers" />;
+    if (auth.isAuthenticated) {
+      return <Navigate to="/timers" />;
     }
 
     return (
@@ -140,14 +142,4 @@ const Register = ({ setAlert, register, isAuthenticated }) => {
     );
 };
 
-Register.propTypes = {
-    setAlert: PropTypes.func.isRequired,
-    register: PropTypes.func.isRequired,
-    isAuthenticated: PropTypes.bool
-};
-
-const mapStateToProps = (state) => ({
-    isAuthenticated: state.auth.isAuthenticated
-});
-
-export default connect(mapStateToProps, { setAlert, register })(Register);
+export default Register;

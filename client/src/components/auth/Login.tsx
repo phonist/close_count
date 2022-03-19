@@ -1,14 +1,13 @@
 import React, { useState } from 'react';
-import { Redirect } from 'react-router-dom';
+import { Navigate } from 'react-router-dom';
 import { Avatar, Button, TextField, FormControlLabel, Checkbox, Link, Grid, Box, Typography } from '@mui/material';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
-import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
-import { login } from '../../actions/auth';
+import { useSelector } from 'react-redux';
+import { attemptLogin } from '../../thunks/auth';
 import { CssBaseline, Container } from '@mui/material';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 
-function Copyright(props) {
+function Copyright(props: any) {
   return (
     <Typography variant="body2" color="text.secondary" align="center" {...props}>
       {'Copyright © '}
@@ -24,23 +23,26 @@ function Copyright(props) {
 const theme = createTheme();
 
 
-const Login = ({ login, isAuthenticated }) => {
-    const [formData, setFormData] = useState({
-        email: '',
-        password: ''
-    });
+// const Login = ({ login, isAuthenticated }) => {
+const Login = () => {
+  const auth = useSelector((state: any) => state.auth);
+
+  const [formData, setFormData] = useState({
+      email: '',
+      password: ''
+  });
 
   const { email, password } = formData;
 
-  const onChange = e => setFormData({ ...formData, [e.target.name]: e.target.value });
+  const onChange = (e: any) => setFormData({ ...formData, [e.target.name]: e.target.value });
 
-  const handleSubmit = e => {
+  const handleSubmit = (e: any) => {
     e.preventDefault();
-    login(email, password);
+    attemptLogin(email, password);
   };
 
-  if (isAuthenticated) {
-    return <Redirect to="/timers" />;
+  if (auth.isAuthenticated) {
+    return <Navigate to="/timers" />;
   }
 
   return (
@@ -111,13 +113,4 @@ const Login = ({ login, isAuthenticated }) => {
   );
 };
 
-Login.propTypes = {
-  login: PropTypes.func.isRequired,
-  isAuthenticated: PropTypes.bool
-};
-
-const mapStateToProps = state => ({
-  isAuthenticated: state.auth.isAuthenticated
-});
-
-export default connect(mapStateToProps, { login })(Login);
+export default Login;

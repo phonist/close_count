@@ -1,11 +1,13 @@
 import React from 'react';
-import { Link, Redirect } from 'react-router-dom';
-import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
+import { Link, Navigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import { AppState } from '../../store';
 
-const Landing = ({ isAuthenticated }) => {
-  if (isAuthenticated) {
-    return <Redirect to='/timers' />;
+const Landing = () => {
+  const auth = useSelector((state: AppState) => state.auth);
+
+  if (auth.isAuthenticated) {
+    return <Navigate to='/timers' />;
   }
 
   return (
@@ -30,12 +32,4 @@ const Landing = ({ isAuthenticated }) => {
   );
 };
 
-Landing.propTypes = {
-  isAuthenticated: PropTypes.bool
-};
-
-const mapStateToProps = state => ({
-  isAuthenticated: state.auth.isAuthenticated
-});
-
-export default connect(mapStateToProps)(Landing);
+export default Landing;

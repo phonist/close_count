@@ -7,11 +7,14 @@ export const LOADED_USER = 'LOADED_USER';
 
 export interface GetAuthsStateType {
     auth: Auth;
+    isAuthenticated: Boolean;
+    loading: Boolean;
+    error: String;
+    token: String;
 }
 
 interface AuthLogoutActionType {
     type: typeof LOGOUT;
-    payload: Auth;
 }
 export type LogoutActionType = AuthLogoutActionType;
 

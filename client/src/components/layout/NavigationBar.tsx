@@ -8,7 +8,7 @@ import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import Link from '@mui/material/Link';
 import { AppState } from '../../store';
-
+import { useSelector } from 'react-redux';
 
 // const NavigationBar = ({ 
 //   auth: { isAuthenticated, user },

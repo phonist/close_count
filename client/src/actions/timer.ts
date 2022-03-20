@@ -7,7 +7,7 @@ import {
     UPDATE_TIMER,
     DESTROY_TIMER,
     ERROR_TIMER,
-    GetTimersTypes, 
+    GetTimersType, 
     CreateTimerType,
     StoreTimerType,
     ShowTimerType,
@@ -19,7 +19,7 @@ import {
 
 import { Timer } from "../interfaces/Timer";
 
-export const timers = (timer: Timer) : GetTimersTypes => ({
+export const timers = (timer: Timer) : GetTimersType => ({
     type: GET_TIMERS,
     payload: timer,
 });

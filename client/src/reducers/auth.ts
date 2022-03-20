@@ -17,12 +17,10 @@ import {
   LogoutActionType,
   LoginActionType,
   RegisterActionType,
+  LoadUserActionType
 } from '../types/AuthTypes';
 
 const initialState: GetAuthsStateType = {
-  token: localStorage.getItem('token'),
-  isAuthenticated: null,
-  loading: true,
   auth: {
     _id: '',
     avatar: '',
@@ -30,12 +28,16 @@ const initialState: GetAuthsStateType = {
     email: '',
     name: '',
     password: ''
-  }
+  },
+  token: '',
+  isAuthenticated: false,
+  loading: true,
+  error: ""
 };
 
 export const authReducer = (
   state = initialState, 
-  action: LogoutActionType | LoginActionType | RegisterActionType,
+  action: LogoutActionType | LoginActionType | RegisterActionType | LoadUserActionType,
 ) : GetAuthsStateType => {
 
   switch (action.type) {
@@ -53,13 +55,12 @@ export const authReducer = (
         isAuthenticated: true,
         loading: false,
       };
-        
     case LOADED_USER:
       return {
         ...state,
         isAuthenticated: true,
         loading: false,
-        user: payload
+        auth: action.payload
       };
     // case REGISTER_SUCCESS:
     // case LOGIN_SUCCESS:
@@ -74,10 +75,10 @@ export const authReducer = (
     case LOGOUT:
       return {
         ...state,
-        token: null,
+        token: initialState.token,
         isAuthenticated: false,
         loading: false,
-        auth: null
+        auth: initialState.auth
       };
     default:
       return state;

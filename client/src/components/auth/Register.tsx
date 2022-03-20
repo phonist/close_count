@@ -6,7 +6,6 @@ import { useSelector } from 'react-redux';
 import { attemptRegister } from '../../thunks/auth';
 import { CssBaseline, Container } from '@mui/material';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import { setAlert } from '../../actions/alert';
 
 
 function Copyright(props:any) {
@@ -24,7 +23,6 @@ function Copyright(props:any) {
 
 const theme = createTheme();
 
-// const Register = ({ setAlert, register, isAuthenticated }) => {
 const Register = (props: any) => {
     const auth = useSelector((state:any) => state.auth);
     const [formData, setFormData] = useState({
@@ -42,7 +40,7 @@ const Register = (props: any) => {
     const handleSubmit = async (e: any) => {
       e.preventDefault();
       if (password !== password2) {
-        setAlert('Passwords do not match', 'danger');
+        // alert user here
       } else {
         attemptRegister({ name, email, password });
       }

@@ -1,4 +1,4 @@
-const Container = ({children}) => {
+const Container = ({children}:{children:any}) => {
 
     const container = {
         transform: `translate(135%,-50%)`

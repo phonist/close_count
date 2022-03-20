@@ -25,9 +25,8 @@ export const loginAction = (auth: Auth) : LoginActionType => ({
     payload: auth,
 });
 
-export const logoutAction = (auth: Auth) : LogoutActionType => ({
+export const logoutAction = () : LogoutActionType => ({
     type: LOGOUT,
-    payload: auth,
 });
 
 export const loadUserAction = (auth: Auth) : LoadUserActionType => ({

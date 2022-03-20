@@ -1,4 +1,4 @@
-import { loginAction, registerAction, loadUserAction } from "../actions/auth";
+import { loginAction, registerAction, loadUserAction, logoutAction } from "../actions/auth";
 import { Dispatch } from "redux";
 import { LoginActionType, LogoutActionType, RegisterActionType, LoadUserActionType } from "../types/AuthTypes";
 import { register, login, loadUser } from '../api/auth';
@@ -12,7 +12,7 @@ export const attemptLogin = (params:any) => async (dispatch: Dispatch<LoginActio
 }
 
 export const attemptLogout = () => async (dispatch: Dispatch<LogoutActionType>) => {
-    dispatch(logout());
+    dispatch(logoutAction());
 }
 
 export const attemptRegister = (params:any) => async (dispatch: Dispatch<RegisterActionType>) => {

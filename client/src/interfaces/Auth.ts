@@ -1,8 +1,8 @@
 export interface Auth {
-    _id: JSON;
-    avatar: string;
-    date: JSON;
-    email: string;
-    name: string;
-    password: string;
+    _id: String;
+    avatar: String;
+    date: String;
+    email: String;
+    name: String;
+    password: String;
 }

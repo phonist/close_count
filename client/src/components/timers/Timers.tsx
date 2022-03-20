@@ -14,7 +14,7 @@ import { AppState } from '../../store';
 // }) => {
 const Timers = () => {
   const data = useSelector((state:AppState) => state.timer);
-  const user = useSelector((state:AppState) => state.auth.user);
+  const user = useSelector((state:AppState) => state.auth.auth);
 
   useEffect(() => {
     attemptGetTimers(user);

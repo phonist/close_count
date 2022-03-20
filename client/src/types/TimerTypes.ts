@@ -11,13 +11,16 @@ export const ERROR_TIMER = 'ERROR_TIMER';
 
 export interface GetTimersStateType {
     timers: Timer;
+    isAuthenticated: Boolean;
+    loading: Boolean;
+    error: String;
 }
 
 interface GetTimersActionType {
     type: typeof GET_TIMERS;
     payload: Timer;
 }
-export type GetTimersTypes = GetTimersActionType;
+export type GetTimersType = GetTimersActionType;
 
 interface CreateTimerActionType {
     type: typeof CREATE_TIMER;

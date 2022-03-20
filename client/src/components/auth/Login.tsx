@@ -38,7 +38,7 @@ const Login = () => {
 
   const handleSubmit = (e: any) => {
     e.preventDefault();
-    attemptLogin(email, password);
+    attemptLogin(formData);
   };
 
   if (auth.isAuthenticated) {

@@ -46,7 +46,7 @@ const Register = (props: any) => {
       }
     };
   
-    if (auth.isAuthenticated) {
+    if (auth.authenticated) {
       return <Navigate to="/timers" />;
     }
 

@@ -27,7 +27,7 @@ const initialState: GetTimersStateType = {
     title: '',
     user: '',
   },
-  isAuthenticated: true,
+  authenticated: true,
   loading: true,
   error: '',
 };

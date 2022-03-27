@@ -6,7 +6,7 @@ import { AppState } from '../../store';
 const Landing = () => {
   const auth = useSelector((state: AppState) => state.auth);
 
-  if (auth.isAuthenticated) {
+  if (auth.authenticated) {
     return <Navigate to='/timers' />;
   }
 

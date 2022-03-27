@@ -8,14 +8,23 @@ import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import Link from '@mui/material/Link';
 import { AppState } from '../../store';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import { Navigate } from 'react-router-dom';
 
 // const NavigationBar = ({ 
-//   auth: { isAuthenticated, user },
+//   auth: { authenticated, user },
 //   logout
 // }) => {
 const NavigationBar = (props: any) => {
+  const dispatch = useDispatch();
   const auth = useSelector((state:AppState) => state.auth);
+
+  const handleLogout = (e: any) => {
+    e.preventDefault();
+    dispatch(attemptLogout(auth));
+    return <Navigate to="/login" />;
+  };
+
   const authLinks = (
     <Toolbar sx={{ flexWrap: 'wrap' }}>
       <Typography variant="h6" color="inherit" noWrap sx={{ flexGrow: 1 }}>
@@ -24,7 +33,7 @@ const NavigationBar = (props: any) => {
         </Link>
       </Typography>
       <nav>
-        <Button href="#" variant="outlined" onClick={attemptLogout} sx={{ my: 1, mx: 1.5 }}>
+        <Button href="#" variant="outlined" onClick={handleLogout} sx={{ my: 1, mx: 1.5 }}>
           Logout
         </Button>
       </nav>
@@ -70,7 +79,7 @@ const NavigationBar = (props: any) => {
         elevation={0}
         sx={{ borderBottom: (theme) => `1px solid ${theme.palette.divider}` }}
       >
-        {auth.isAuthenticated ? authLinks : guestLinks}
+        {auth.authenticated ? authLinks : guestLinks}
       </AppBar>
     </Box>
   );

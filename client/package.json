@@ -23,6 +23,7 @@
     "connected-react-router": "^6.9.2",
     "core-js": "^3.6.5",
     "history": "^4.7.2",
+    "jwt-decode": "^3.1.2",
     "react": "^17.0.2",
     "react-app-polyfill": "^1.0.6",
     "react-dom": "^17.0.2",

@@ -1,37 +1,64 @@
 import { Auth } from '../interfaces/Auth'
 
-export const LOGIN = 'LOGIN';
-export const REGISTER = 'REGISTER';
-export const LOGOUT = 'LOGOUT';
-export const LOADED_USER = 'LOADED_USER';
+//user reducer types
+export const SET_AUTHENTICATED='SET_AUTHENTICATED';
+export const SET_UNAUTHENTICATED='SET_UNAUTHENTICATED';
+export const SET_USER='SET_USER';
+export const LOADING_USER='LOADING_USER';
+//UI reducer types
+export const SET_ERRORS='SET_ERRORS';
+export const LOADING_UI='LOADING_UI';
+export const CLEAR_ERRORS='CLEAR_ERRORS';
 
 export interface GetAuthsStateType {
-    auth: Auth;
-    isAuthenticated: Boolean;
+    authenticated: Boolean,
+    loading: Boolean,
+    credentials: Auth,
+}
+
+export interface GetUIStateType {
     loading: Boolean;
-    error: String;
-    token: String;
+    errors: string;
 }
 
-interface AuthLogoutActionType {
-    type: typeof LOGOUT;
-}
-export type LogoutActionType = AuthLogoutActionType;
-
-interface AuthLoginActionType {
-    type: typeof LOGIN;
+interface AuthSetAuthenticatedActionType {
+    type: typeof SET_AUTHENTICATED;
     payload: Auth;
 }
-export type LoginActionType = AuthLoginActionType;
+export type SetAuthenticatedActionType = AuthSetAuthenticatedActionType;
 
-interface AuthRegisterActionType {
-    type: typeof REGISTER;
+interface AuthSetUnauthenticatedActionType {
+    type: typeof SET_UNAUTHENTICATED;
+}
+export type SetUnauthenticatedActionType = AuthSetUnauthenticatedActionType;
+
+interface AuthSetUserActionType {
+    type: typeof SET_USER;
     payload: Auth;
 }
-export type RegisterActionType = AuthRegisterActionType;
+export type SetUserActionType = AuthSetUserActionType;
 
-interface AuthLoadUserActionType {
-    type: typeof LOADED_USER;
-    payload: Auth;
+interface AuthLoadingUserActionType {
+    type: typeof LOADING_USER;
 }
-export type LoadUserActionType = AuthLoadUserActionType;
+export type LoadingUserActionType = AuthLoadingUserActionType;
+
+//UI reducer types
+interface AuthSetErrorsActionType {
+    type: typeof SET_ERRORS;
+    payload: string;
+}
+export type SetErrorsActionType = AuthSetErrorsActionType;
+
+interface AuthLoadingUIActionType {
+    type: typeof LOADING_UI;
+    payload: boolean;
+}
+export type LoadingUIActionType = AuthLoadingUIActionType;
+
+interface AuthClearErrorsActionType {
+    type: typeof CLEAR_ERRORS;
+}
+export type ClearErrorsActionType = AuthClearErrorsActionType;
+
+

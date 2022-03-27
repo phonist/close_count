@@ -11,7 +11,7 @@ export const ERROR_TIMER = 'ERROR_TIMER';
 
 export interface GetTimersStateType {
     timers: Timer;
-    isAuthenticated: Boolean;
+    authenticated: Boolean;
     loading: Boolean;
     error: String;
 }

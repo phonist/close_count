@@ -2,10 +2,11 @@ import React, { useState } from 'react';
 import { Navigate } from 'react-router-dom';
 import { Avatar, Button, TextField, FormControlLabel, Checkbox, Link, Grid, Box, Typography } from '@mui/material';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { attemptLogin } from '../../thunks/auth';
 import { CssBaseline, Container } from '@mui/material';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { AppState } from '../../store';
 
 function Copyright(props: any) {
   return (
@@ -23,25 +24,25 @@ function Copyright(props: any) {
 const theme = createTheme();
 
 
-// const Login = ({ login, isAuthenticated }) => {
+// const Login = ({ login, authenticated }) => {
 const Login = () => {
-  const auth = useSelector((state: any) => state.auth);
+  const dispatch = useDispatch();
+  const auth = useSelector((state: AppState) => state.auth);
 
   const [formData, setFormData] = useState({
       email: '',
       password: ''
   });
 
-  const { email, password } = formData;
-
   const onChange = (e: any) => setFormData({ ...formData, [e.target.name]: e.target.value });
 
   const handleSubmit = (e: any) => {
     e.preventDefault();
-    attemptLogin(formData);
+    dispatch(attemptLogin(formData));
   };
 
-  if (auth.isAuthenticated) {
+  if (auth.authenticated) {
+    console.log('authenticated');
     return <Navigate to="/timers" />;
   }
 

@@ -1,6 +1,5 @@
 import request from 'superagent';
 import { handleSuccess, handleError } from '../utils/api';
-console.log(process.env.REACT_APP_API_URL);
 const apiURL = process.env.REACT_APP_API_URL || 'http://localhost:8080';
 
 export const register = (params:any) =>

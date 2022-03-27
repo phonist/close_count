@@ -7,14 +7,12 @@ import { Grid, Box, Container, Card } from '@mui/material';
 import Error from '../common/Error';
 import Loading from '../common/Loading';
 import { AppState } from '../../store';
-import { CheckAuthentication } from '../../utils/CheckAuthentication';
 
 const Timers = () => {
   const data = useSelector((state:AppState) => state.timer);
   const user = useSelector((state:AppState) => state.auth.auth);
 
   useEffect(() => {
-    CheckAuthentication();
     attemptGetTimers(user);
   }, [user]);
 

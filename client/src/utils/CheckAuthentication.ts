@@ -14,15 +14,14 @@ export const CheckAuthentication = () => {
 
     if (authToken) {
         const decodedToken: any = jwtDecode(authToken);
-        console.log(decodedToken.iss);
+        // console.log(decodedToken);
         if (decodedToken.exp * 1000 < Date.now()) {
             store.dispatch(logoutAction());
         } else {
             store.dispatch({
                 type: SET_AUTHENTICATED
             });
-            let id: string = localStorage.id;
-            store.dispatch(attemptLoadUser(id) as any);
+            store.dispatch(attemptLoadUser(authToken) as any);
         }
     }
 }

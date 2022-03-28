@@ -16,6 +16,7 @@ export const login = (params:any) =>
 
 export const loadUser = (params:any) =>
     request.get(`${apiURL}/auth`)
+        .set({ Authorization : localStorage.getItem('token') })
         .send(params)
         .then(handleSuccess)
         .catch(handleError);

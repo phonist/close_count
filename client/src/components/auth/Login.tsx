@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { Navigate } from 'react-router-dom';
 import { Avatar, Button, TextField, FormControlLabel, Checkbox, Link, Grid, Box, Typography } from '@mui/material';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
@@ -23,17 +23,18 @@ function Copyright(props: any) {
 
 const theme = createTheme();
 
-
-// const Login = ({ login, authenticated }) => {
 const Login = () => {
   const dispatch = useDispatch();
   const auth = useSelector((state: AppState) => state.auth);
-
   const [formData, setFormData] = useState({
-      email: '',
-      password: ''
+    email: '',
+    password: ''
   });
-
+  
+  if (auth.authenticated) {
+    return <Navigate to="/timers" />;
+  };
+  
   const onChange = (e: any) => setFormData({ ...formData, [e.target.name]: e.target.value });
 
   const handleSubmit = (e: any) => {

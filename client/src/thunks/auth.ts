@@ -2,27 +2,17 @@ import { registerAction, logoutAction, setUserAction, loadingUserAction, setErro
 import { Dispatch } from "redux";
 import { SetAuthenticatedActionType, SetUnauthenticatedActionType, SetUserActionType, LoadingUserActionType, SetErrorsActionType, LoadingUIActionType, ClearErrorsActionType } from "../types/AuthTypes";
 import { register, login, loadUser } from '../api/auth';
+import store from "../store";
 
 export const attemptLogin = (params:any) => async (dispatch: Dispatch<LoadingUIActionType | SetAuthenticatedActionType | SetUserActionType | LoadingUserActionType>) => {
     dispatch(loadingUI(true));
-    let id: string = '';
     const auth = await login(params)
         .then(response => {
-            localStorage.setItem("token", `Bearer ${response.token}`);//setting token to local storage
-            id = response.payload.user.id;
-            localStorage.setItem("id", JSON.stringify(id));//setting user to local storage
-        }).then(response => {
+            localStorage.setItem("token", `${response.token}`);//setting token to local storage
             dispatch(loadingUserAction());
-            console.log('id',id);
-            attemptLoadUser(id);
+            dispatch(attemptLoadUser(response.token) as any);
         })
-        .catch(error => {
-            // error;
-            console.log(error);
-            return error;
-        });
-
-    // dispatch(loginAction(auth));
+        .catch(error => error);
 }
 
 export const attemptLogout = (params:any) => async (dispatch: Dispatch<SetUnauthenticatedActionType>) => {
@@ -49,13 +39,12 @@ export const attemptRegister = (params:any) => async (dispatch: Dispatch<SetAuth
 }
 
 export const attemptLoadUser = (params:any) => async (dispatch: Dispatch<SetUserActionType | LoadingUserActionType>) => {
-    console.log('attemptLoadUser',params);
     dispatch(loadingUserAction());
-    console.log('attemptLoadUser');
     const auth = await loadUser(params)
         .then(response => {
-            dispatch(setUserAction(response.data));
-            return response.data
+            console.log(response);
+            dispatch(setUserAction(response));
+            console.log('state', store.getState());
         })
         .catch(error => error);
  

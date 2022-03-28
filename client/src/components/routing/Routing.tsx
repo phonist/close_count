@@ -10,10 +10,9 @@ import PrivateRoute from '../../utils/PrivateRoute';
 import GuestRoute from '../../utils/GuestRoute';
 
 const Routing = () => {
-  useEffect(() => {
+  // useEffect(() => {
     CheckAuthentication();
-    console.log('authenticated');
-  },[]);
+  // },[]);
 
   return (
     <Router>

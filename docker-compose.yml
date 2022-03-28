@@ -42,6 +42,8 @@ services:
       - CLIENT=http://localhost:3000
       - PORT=8005
       - ENVIRONMENT=production
+      - jwtSecret=closecounttoken
+    command: yarn server
     # command: /usr/app/node_modules/.bin/nodemon -L src/index.js
 
   db:

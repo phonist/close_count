@@ -5,20 +5,22 @@ import { register, login, loadUser } from '../api/auth';
 
 export const attemptLogin = (params:any) => async (dispatch: Dispatch<LoadingUIActionType | SetAuthenticatedActionType | SetUserActionType | LoadingUserActionType>) => {
     dispatch(loadingUI(true));
+    let id: string = '';
     const auth = await login(params)
         .then(response => {
-            let token = `Bearer ${response.data.token}`;
-            localStorage.setItem("token", `Bearer ${response.data.token}`);//setting token to local storage
-            // dispatch(attemptLoadUser())
+            localStorage.setItem("token", `Bearer ${response.token}`);//setting token to local storage
+            id = response.payload.user.id;
+            localStorage.setItem("id", JSON.stringify(id));//setting user to local storage
         }).then(response => {
             dispatch(loadingUserAction());
-            loadUser().then(response => {
-                dispatch(setUserAction(response.data));
-            }).catch(error => {
-                console.log(error);
-            });
+            console.log('id',id);
+            attemptLoadUser(id);
         })
-        .catch(error => error);
+        .catch(error => {
+            // error;
+            console.log(error);
+            return error;
+        });
 
     // dispatch(loginAction(auth));
 }
@@ -46,9 +48,11 @@ export const attemptRegister = (params:any) => async (dispatch: Dispatch<SetAuth
     dispatch(registerAction(auth));
 }
 
-export const attemptLoadUser = () => async (dispatch: Dispatch<SetUserActionType | LoadingUserActionType>) => {
+export const attemptLoadUser = (params:any) => async (dispatch: Dispatch<SetUserActionType | LoadingUserActionType>) => {
+    console.log('attemptLoadUser',params);
     dispatch(loadingUserAction());
-    const auth = await loadUser()
+    console.log('attemptLoadUser');
+    const auth = await loadUser(params)
         .then(response => {
             dispatch(setUserAction(response.data));
             return response.data

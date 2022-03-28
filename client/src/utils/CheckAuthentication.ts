@@ -11,6 +11,7 @@ import {
 
 export const CheckAuthentication = () => {
     const authToken = localStorage.token;
+
     if (authToken) {
         const decodedToken: any = jwtDecode(authToken);
         console.log(decodedToken.iss);
@@ -20,7 +21,8 @@ export const CheckAuthentication = () => {
             store.dispatch({
                 type: SET_AUTHENTICATED
             });
-            store.dispatch(attemptLoadUser() as any);
+            let id: string = localStorage.id;
+            store.dispatch(attemptLoadUser(id) as any);
         }
     }
 }

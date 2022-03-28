@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Navigate } from 'react-router-dom';
 import { Avatar, Button, TextField, FormControlLabel, Checkbox, Link, Grid, Box, Typography } from '@mui/material';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
@@ -40,11 +40,6 @@ const Login = () => {
     e.preventDefault();
     dispatch(attemptLogin(formData));
   };
-
-  if (auth.authenticated) {
-    console.log('authenticated');
-    return <Navigate to="/timers" />;
-  }
 
   return (
     <ThemeProvider theme={theme}>

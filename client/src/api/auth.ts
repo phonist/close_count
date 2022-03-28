@@ -14,8 +14,9 @@ export const login = (params:any) =>
         .then(handleSuccess)
         .catch(handleError);
 
-export const loadUser = () =>
+export const loadUser = (params:any) =>
     request.get(`${apiURL}/auth`)
+        .send(params)
         .then(handleSuccess)
         .catch(handleError);
         

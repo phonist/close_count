@@ -31,7 +31,7 @@ export default api;
 
 // import { logout } from '_actions/user';
 
-export const handleSuccess = (resp:any) => resp.body;
+export const handleSuccess = (response:any) => response.body;
 
 export const handleError = (error:any) => {
   if (error.response) {

@@ -12,6 +12,7 @@ import GuestRoute from '../../utils/GuestRoute';
 const Routing = () => {
   useEffect(() => {
     CheckAuthentication();
+    console.log('authenticated');
   },[]);
 
   return (

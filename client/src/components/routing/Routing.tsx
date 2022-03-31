@@ -10,21 +10,23 @@ import PrivateRoute from '../../utils/PrivateRoute';
 import GuestRoute from '../../utils/GuestRoute';
 
 const Routing = () => {
-  // useEffect(() => {
+  useEffect(() => {
     CheckAuthentication();
-  // },[]);
+  },[]);
 
   return (
     <Router>
-      {/* <Alert /> */}
       <NavigationBar />
       <Routes>
-        <Route path="/" element={<GuestRoute> <Login /> </GuestRoute>} />
-
-        <Route path="/register" element={<GuestRoute> <Register /></GuestRoute>} />
-        <Route path="/login" element={<GuestRoute> <Login /> </GuestRoute>} />
-        <Route path="/timers" element={<PrivateRoute> <Timers /> </PrivateRoute>}/>
-        <Route path="*" element={<GuestRoute> <NotFound /> </GuestRoute>} />
+        <Route path="/" element={<PrivateRoute/>}>
+          <Route path="/timers" element={<Timers />}/>
+        </Route>
+        
+        <Route path="/" element={<GuestRoute/>}>
+          <Route path="/register" element={<Register />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="*" element={<NotFound />} />
+        </Route>
       </Routes>
     </Router> 
   );

@@ -31,10 +31,10 @@ import {
 
 export const attemptGetTimers = (params:any) => async (dispatch: Dispatch<GetTimersType>) => {
     const auth = await getTimers(params)
-        .then(response => response.data)
+        .then(response => {
+            dispatch(timers(response));
+        })
         .catch(error => error);
-
-    dispatch(timers(auth));
 }
 
 export const attemptCreateTimer = (params:any) => async (dispatch: Dispatch<CreateTimerType>) => {
@@ -47,10 +47,10 @@ export const attemptCreateTimer = (params:any) => async (dispatch: Dispatch<Crea
 
 export const attemptStoreTimer = (params:any) => async (dispatch: Dispatch<StoreTimerType>) => {
     const auth = await store(params)
-        .then(response => response.data)
+        .then(response => {
+            dispatch(storeTimer(response));
+        })
         .catch(error => error);
-
-    dispatch(storeTimer(auth));
 }
 
 export const attemptShowTimer = (params:any) => async (dispatch: Dispatch<ShowTimerType>) => {
@@ -79,10 +79,10 @@ export const attemptUpdateTimer = (params:any) => async (dispatch: Dispatch<Upda
 
 export const attemptDestroyTimer = (params:any) => async (dispatch: Dispatch<DestroyTimerType>) => {
     const auth = await destroy(params)
-        .then(response => response.data)
+        .then(response => {
+            dispatch(destroyTimer(params));
+        })
         .catch(error => error);
-
-    dispatch(destroyTimer(auth));
 }
 
 

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Navigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { Avatar, Button, TextField, FormControlLabel, Checkbox, Link, Grid, Box, Typography } from '@mui/material';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import { useSelector, useDispatch } from 'react-redux';
@@ -25,6 +25,7 @@ const theme = createTheme();
 
 const Login = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const auth = useSelector((state: AppState) => state.auth);
   const [formData, setFormData] = useState({
     email: '',
@@ -32,9 +33,9 @@ const Login = () => {
   });
   
   if (auth.authenticated) {
-    return <Navigate to="/timers" />;
+    navigate('/timers');
   };
-  
+
   const onChange = (e: any) => setFormData({ ...formData, [e.target.name]: e.target.value });
 
   const handleSubmit = (e: any) => {

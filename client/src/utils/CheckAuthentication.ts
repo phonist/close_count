@@ -1,7 +1,6 @@
 import jwtDecode from 'jwt-decode'; //you must install jwt-decode using npm
 import {
-    logoutAction,
-    setUserAction
+    logoutAction
 } from '../actions/auth';
 import store from '../store';
 import { attemptLoadUser } from '../thunks/auth';

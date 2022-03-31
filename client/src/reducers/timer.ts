@@ -53,7 +53,7 @@ export const timerReducer = (
     case STORE_TIMER:
       return {
           ...state,
-          timers: action.payload, ...state.timers,
+          timers: [action.payload, ...state.timers as any] as any,
           loading: false
       };
     case SHOW_TIMER:
@@ -71,13 +71,13 @@ export const timerReducer = (
     case UPDATE_TIMER:
       return {
           ...state,
-          timers: action.payload, ...state.timers,
+          timers: [action.payload, ...state.timers as any] as any,
           loading: false
       };
     case DESTROY_TIMER:
       return {
           ...state,
-          timers: action.payload, ...state.timers,
+          timers: (state.timers as any).filter((timers) => timers._id !== action.payload),
           loading: false
       };
     case ERROR_TIMER:

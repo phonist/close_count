@@ -49,9 +49,9 @@ export const updateTimer = (timer: Timer) : UpdateTimerType => ({
     payload: timer,
 });
 
-export const destroyTimer = (timer: Timer) : DestroyTimerType => ({
+export const destroyTimer = (id: string) : DestroyTimerType => ({
     type: DESTROY_TIMER,
-    payload: timer,
+    payload: id,
 });
 
 export const errorTimer = (timer: Timer) : ErrorTimerType => ({

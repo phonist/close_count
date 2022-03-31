@@ -54,7 +54,7 @@ export type UpdateTimerType = UpdateTimerActionType;
 
 interface DestroyTimerActionType {
     type: typeof DESTROY_TIMER;
-    payload: Timer;
+    payload: string;
 }
 export type DestroyTimerType = DestroyTimerActionType;
 

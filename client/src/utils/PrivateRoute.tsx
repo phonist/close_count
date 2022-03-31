@@ -1,36 +1,15 @@
 import React from 'react'
 
 import {
-    Route,
     Navigate,
-    RouteProps
+    Outlet
 } from 'react-router-dom'
+import { useSelector } from 'react-redux'
+import { AppState } from '../store';
 
-// import {
-//     connect
-// } from 'react-redux'
-
-// interface MyRouteProps extends RouteProps {
-//     element: any;
-//     authenticated: boolean;
-//     rest ? : any
-// }
-// const PrivateRoute: React.SFC<MyRouteProps> = ({
-//     element: Element,
-//     authenticated,
-//     ...rest
-// }: any) => ( <Route {...rest} render={ (props:any) => authenticated ? <Element {...props}/> : <Navigate to = '/login' />} /> );
-
-// const mapStateToProps = (state: any) => ({
-//     authenticated: state.user.authenticated
-// });
-
-// export default connect(mapStateToProps)(PrivateRoute)
-const PrivateRoute = ({ 
-    children,
-    authenticated,
-}: any) => {
-    return authenticated ? children : <Navigate to = '/login' />
+const PrivateRoute = ({ authenticated }:any) => {
+    const auth = useSelector((state: AppState) => state.auth);
+    return auth.authenticated ? <Outlet /> : <Navigate to="/login" />
 }
 
-export default PrivateRoute
+export default PrivateRoute;

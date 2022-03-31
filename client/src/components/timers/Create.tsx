@@ -2,8 +2,10 @@ import React, { useState } from 'react';
 import { attemptStoreTimer } from '../../thunks/timer';
 //Material-UI
 import { Grid, Card, CardContent, Typography, Input, Button, Box } from '@mui/material';
+import { useDispatch } from 'react-redux';
 
 const Create = () => {
+  const dispatch = useDispatch();
   const [formData, setFormData] = useState({
     title: '',
     description: '',
@@ -18,7 +20,7 @@ const Create = () => {
   const handleSubmit = (e: any) => {
     e.preventDefault();
     let formData = { title, description, timer }
-    attemptStoreTimer(formData);
+    dispatch(attemptStoreTimer(formData));
   };
 
   return (

@@ -2,7 +2,6 @@ import { registerAction, logoutAction, setUserAction, loadingUserAction, setErro
 import { Dispatch } from "redux";
 import { SetAuthenticatedActionType, SetUnauthenticatedActionType, SetUserActionType, LoadingUserActionType, SetErrorsActionType, LoadingUIActionType, ClearErrorsActionType } from "../types/AuthTypes";
 import { register, login, loadUser } from '../api/auth';
-import store from "../store";
 
 export const attemptLogin = (params:any) => async (dispatch: Dispatch<LoadingUIActionType | SetAuthenticatedActionType | SetUserActionType | LoadingUserActionType>) => {
     dispatch(loadingUI(true));
@@ -42,9 +41,7 @@ export const attemptLoadUser = (params:any) => async (dispatch: Dispatch<SetUser
     dispatch(loadingUserAction());
     const auth = await loadUser(params)
         .then(response => {
-            console.log(response);
             dispatch(setUserAction(response));
-            console.log('state', store.getState());
         })
         .catch(error => error);
  

@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import Show from './Show';
 import Create from './Create';
 import { attemptGetTimers } from '../../thunks/timer';
@@ -9,12 +9,15 @@ import Loading from '../common/Loading';
 import { AppState } from '../../store';
 
 const Timers = () => {
+  const dispatch = useDispatch();
   const data = useSelector((state:AppState) => state.timer);
-  const user = useSelector((state:AppState) => state.auth.auth);
+  const auth = useSelector((state:AppState) => state.auth);
 
   useEffect(() => {
-    attemptGetTimers(user);
-  }, [user]);
+    if(auth.credentials._id){
+      dispatch(attemptGetTimers(auth.credentials._id));
+    }
+  }, [auth.credentials._id, dispatch]);
 
   return (
     <main>
@@ -41,7 +44,7 @@ const Timers = () => {
               </Grid>
           ))}
           {data.loading && <Loading />}
-          {!data.error && <Error />}
+          {data.error !== '' && <Error />}
         </Grid>
       </Container>
     </main>

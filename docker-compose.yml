@@ -38,7 +38,7 @@ services:
     depends_on:
       - db
     environment:
-      - MONGO_URL=mongodb://close-count-mongodb:27017/closecount
+      - MONGO_URI=mongodb://close-count-mongodb:27017/closecount
       - CLIENT=http://localhost:3000
       - PORT=8005
       - ENVIRONMENT=production

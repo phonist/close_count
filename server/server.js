@@ -40,10 +40,6 @@ app.use('/api/users', require('./routes/api/users'));
 app.use('/api/auth', require('./routes/api/auth'));
 app.use('/api/timers',require('./routes/api/timers'));
 
-app.use((err, req, res, next) => {
-  next();
-});
-
 // Serve static assets in production
 if (process.env.ENVIRONMENT == 'production') {
   // Set static folder 

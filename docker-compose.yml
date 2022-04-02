@@ -17,8 +17,10 @@ services:
       - server
     environment:
       - REACT_APP_SERVER=http://localhost:8005
+      - REACT_APP_HOST=localhost
+      - REACT_APP_API_URL=http://localhost:8005/api
       - CHOKIDAR_USEPOLLING=true
-    # command: npm start
+    command: yarn start
     stdin_open: true
     tty: true
   
@@ -36,12 +38,16 @@ services:
     depends_on:
       - db
     environment:
-      - MONGO_URL=mongodb://db:27017/closecount
+      - MONGO_URI=mongodb://close-count-mongodb:27017/closecount
       - CLIENT=http://localhost:3000
+      - PORT=8005
+      - ENVIRONMENT=production
+      - jwtSecret=closecounttoken
+    command: yarn server
     # command: /usr/app/node_modules/.bin/nodemon -L src/index.js
 
   db:
-    container_name: mongodb
+    container_name: close-count-mongodb
     image: mongo
     ports:
       - 27017:27017

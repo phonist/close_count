@@ -11,10 +11,6 @@ import { AppState } from '../../store';
 import { useSelector, useDispatch } from 'react-redux';
 import { Navigate } from 'react-router-dom';
 
-// const NavigationBar = ({ 
-//   auth: { authenticated, user },
-//   logout
-// }) => {
 const NavigationBar = (props: any) => {
   const dispatch = useDispatch();
   const auth = useSelector((state:AppState) => state.auth);
@@ -86,14 +82,3 @@ const NavigationBar = (props: any) => {
 };
 
 export default NavigationBar;
-
-// NavigationBar.propTypes = {
-//   logout: PropTypes.func.isRequired,
-//   auth: PropTypes.object.isRequired
-// };
-
-// const mapStateToProps = (state) => ({
-//   auth: state.auth
-// });
-
-// export default connect(mapStateToProps, { logout })(NavigationBar);

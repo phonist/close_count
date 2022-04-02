@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { attemptDestroyTimer } from '../../thunks/timer';
 import { useDispatch } from 'react-redux';
-//Material UI tailwind css
 import { CardContent, CardActions, Typography, Button } from '@mui/material';
 interface TimeLeft {
   days: Number,
@@ -35,7 +34,6 @@ const Show = (timer: any) => {
   };
 
   const [timeLeft, setTimeLeft] = useState(calculateTimeLeft());
-  // const [year] = useState(new Date().getFullYear());
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -44,8 +42,6 @@ const Show = (timer: any) => {
     return () => clearTimeout(timer);
   });
 
-  // const timeLeft: {[index: string]:any} = {}
-  // Clear timeout if the component is unmounted
   const timerComponents = (Object.keys(timeLeft) as {[index: string]:any}).map( (interval:any)  => {  
       if (!timeLeft[interval] ) {
           return 0;

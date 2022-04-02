@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Navigate } from 'react-router-dom';
 import { Avatar, Button, TextField, Link, Grid, Box, Typography } from '@mui/material';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { attemptRegister } from '../../thunks/auth';
 import { CssBaseline, Container } from '@mui/material';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
@@ -24,6 +24,7 @@ function Copyright(props:any) {
 const theme = createTheme();
 
 const Register = (props: any) => {
+    const dispatch = useDispatch();
     const auth = useSelector((state:any) => state.auth);
     const [formData, setFormData] = useState({
       name: '',
@@ -42,7 +43,7 @@ const Register = (props: any) => {
       if (password !== password2) {
         // alert user here
       } else {
-        attemptRegister({ name, email, password });
+        dispatch(attemptRegister({ name, email, password }));
       }
     };
   

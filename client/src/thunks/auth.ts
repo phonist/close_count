@@ -23,13 +23,10 @@ export const attemptLogout = (params:any) => async (dispatch: Dispatch<SetUnauth
 export const attemptRegister = (params:any) => async (dispatch: Dispatch<SetAuthenticatedActionType | SetUnauthenticatedActionType>) => {
     const auth = await register(params)
         .then(response => {
-            let token = `Bearer ${response.data.token}`;
-            localStorage.setItem("token", `Bearer ${response.data.token}`);//setting token to local storage
-            dispatch(registerAction(auth));
-            return response.data
+            localStorage.setItem("token", `${response.token}`);//setting token to local storage
+            dispatch(attemptLoadUser(response.token) as any);
         })
         .catch(error => {
-            // deleteToken();
             dispatch(logoutAction())
             return error;
         });

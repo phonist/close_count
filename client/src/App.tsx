@@ -1,13 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import Routing from './components/routing';
-import { LOGOUT } from './actions/types';
 
 // Redux
-import { Provider, useSelector } from 'react-redux';
-import store, { AppState } from './store';
-import { attemptLoadUser } from './thunks/auth';
+import { Provider } from 'react-redux';
+import store from './store';
 import setAuthToken from './utils/setAuthToken';
-import { Login } from './components/auth';
 import { SET_UNAUTHENTICATED } from './types/AuthTypes';
 
 const App = () => {

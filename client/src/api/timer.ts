@@ -1,4 +1,3 @@
-import { userInfo } from 'os';
 import request from 'superagent';
 import { handleSuccess, handleError } from '../utils/api';
 

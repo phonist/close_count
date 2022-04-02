@@ -3,7 +3,7 @@
 <br />
 <div align="center">
   <a href="https://github.com/phonist/close_count">
-    <img src="https://github.com/phonist/Office-Management-System/blob/master/public/assets/admin/img/logo-large.png" alt="Logo" width="80" height="80">
+    <img src="https://github.com/phonist/close_count/blob/master/client/public/favicon.png?raw=true" alt="Logo" width="80" height="80">
   </a>
 
 <h3 align="center">Timer Application (Close Count)</h3>
@@ -16,7 +16,7 @@
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
-![Timer](https://github.com/phonist/close_count/master/client/public/assets/TimerPage.png?raw=true)
+![Timer](https://github.com/phonist/close_count/blob/master/client/public/assets/TimerPage.png?raw=true)
 
 The project acts as a startup template for timer application.
 
@@ -67,26 +67,6 @@ Don't forget to give the project a star! Thanks again!
 3. Commit your Changes (`git commit -m 'add <featurename>'`)
 4. Push to the Branch (`git push origin feature/<featureName>`)
 5. Open a Pull Request
-
-### Close Count
-
-Count down application with user authorization.
-
-### Made with Mern Stack
-
-mongodb: 4.4.5
-express: 4.17.1
-react: 17.0.1
-node : 16.2.0
-
-[Close Count GitHub](https://github.com/phonist/close_count)
-Close Count is an example project in which end users can create multiple timers for their events.
-
-There are two major folders: server and client.
-
-As stated in the title, the project is built on top of MERN.
-
-Install dependencies for each server and client side package by package.json
 
 
 ### Yaml File

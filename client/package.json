@@ -19,6 +19,7 @@
     "@types/react-router-dom": "^5.3.3",
     "@types/superagent": "^4.1.15",
     "@types/uuid": "^8.3.4",
+    "appwrite": "^7.0.0",
     "axios": "^0.21.1",
     "connected-react-router": "^6.9.2",
     "core-js": "^3.6.5",

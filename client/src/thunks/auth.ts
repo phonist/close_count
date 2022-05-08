@@ -1,17 +1,32 @@
-import { registerAction, logoutAction, setUserAction, loadingUserAction, setErrorsAction, loadingUI, clearErrorsAction } from "../actions/auth";
+import { registerAction, logoutAction, setUserAction, loadingUserAction, loadingUI } from "../actions/auth";
 import { Dispatch } from "redux";
-import { SetAuthenticatedActionType, SetUnauthenticatedActionType, SetUserActionType, LoadingUserActionType, SetErrorsActionType, LoadingUIActionType, ClearErrorsActionType } from "../types/AuthTypes";
+import { SetAuthenticatedActionType, SetUnauthenticatedActionType, SetUserActionType, LoadingUserActionType, LoadingUIActionType } from "../types/AuthTypes";
 import { register, login, loadUser } from '../api/auth';
+import authApi from '../api/appwrite/auth';
 
 export const attemptLogin = (params:any) => async (dispatch: Dispatch<LoadingUIActionType | SetAuthenticatedActionType | SetUserActionType | LoadingUserActionType>) => {
     dispatch(loadingUI(true));
-    const auth = await login(params)
-        .then(response => {
-            localStorage.setItem("token", `${response.token}`);//setting token to local storage
-            dispatch(loadingUserAction());
-            dispatch(attemptLoadUser(response.token) as any);
-        })
-        .catch(error => error);
+    // const auth = await login(params)
+        // .then(response => {
+        //     localStorage.setItem("token", `${response.token}`);//setting token to local storage
+        //     dispatch(attemptLoadUser(response.token) as any);
+        //     dispatch(loadingUserAction());
+        // })
+        // .catch(error => error);
+
+    /* when using appwrite as backend */
+    await authApi.createSession(params.email, params.password)
+                .then(response => {
+                    dispatch(attemptLoadUser(localStorage.getItem('token')) as any);
+                    dispatch(loadingUserAction());
+                })
+                .catch(error => error);
+
+    await authApi.createJWT().then(response => {
+        localStorage.setItem("token", `${response.jwt}`);//setting token to local storage
+        dispatch(attemptLoadUser(response.token) as any);
+    }).catch(error => error);
+    /* when using appwrite as backend */
 }
 
 export const attemptLogout = (params:any) => async (dispatch: Dispatch<SetUnauthenticatedActionType>) => {
@@ -21,22 +36,48 @@ export const attemptLogout = (params:any) => async (dispatch: Dispatch<SetUnauth
 }
 
 export const attemptRegister = (params:any) => async (dispatch: Dispatch<SetAuthenticatedActionType | SetUnauthenticatedActionType>) => {
-    const auth = await register(params)
-        .then(response => {
-            localStorage.setItem("token", `${response.token}`);//setting token to local storage
-            dispatch(attemptLoadUser(response.token) as any);
-        })
-        .catch(error => {
-            dispatch(logoutAction())
-            return error;
-        });
+    // const auth = await register(params)
+    //     .then(response => {
+    //         localStorage.setItem("token", `${response.token}`);//setting token to local storage
+    //         dispatch(attemptLoadUser(response.token) as any);
+    //     })
+    //     .catch(error => {
+    //         dispatch(logoutAction())
+    //         return error;
+    //     });
+
+    /* when using appwrite as backend */
+    const auth = await authApi.register(params)
+            .then(response => {
+                console.log('registration', response);
+                return response;
+            })
+            .catch(error => {
+                dispatch(logoutAction())
+                return error;
+            });
+    await authApi.createSession(params.email, params.password);
+
+    await authApi.createJWT().then(response => {
+        localStorage.setItem("token", `${response.jwt}`);//setting token to local storage
+        dispatch(attemptLoadUser(response.token) as any);
+    }).catch(error => error);
+    /* when using appwrite as backend */
 
     dispatch(registerAction(auth));
 }
 
 export const attemptLoadUser = (params:any) => async (dispatch: Dispatch<SetUserActionType | LoadingUserActionType>) => {
     dispatch(loadingUserAction());
-    const auth = await loadUser(params)
+
+    // const auth = await loadUser(params)
+    //     .then(response => {
+    //         dispatch(setUserAction(response));
+    //     })
+    //     .catch(error => error);
+ 
+    /* when using appwrite as backend */
+    const auth = await authApi.loadUser(params)
         .then(response => {
             dispatch(setUserAction(response));
         })

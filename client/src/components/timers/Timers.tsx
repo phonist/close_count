@@ -13,11 +13,20 @@ const Timers = () => {
   const data = useSelector((state:AppState) => state.timer);
   const auth = useSelector((state:AppState) => state.auth);
 
+  // useEffect(() => {
+  //   console.log(auth);
+  //   if(auth.credentials._id){
+  //     dispatch(attemptGetTimers(auth.credentials._id));
+  //   }
+  // }, [auth.credentials._id, dispatch]);
+
+  /* when using appwrite as backend */
   useEffect(() => {
-    if(auth.credentials._id){
+    if(auth.credentials["$id"]){
       dispatch(attemptGetTimers(auth.credentials._id));
     }
-  }, [auth.credentials._id, dispatch]);
+  }, [auth.credentials["$id"], dispatch]);
+  /* when using appwrite as backend */
 
   return (
     <main>

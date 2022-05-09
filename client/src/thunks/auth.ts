@@ -49,7 +49,6 @@ export const attemptRegister = (params:any) => async (dispatch: Dispatch<SetAuth
     /* when using appwrite as backend */
     const auth = await authApi.register(params)
             .then(response => {
-                console.log('registration', response);
                 return response;
             })
             .catch(error => {

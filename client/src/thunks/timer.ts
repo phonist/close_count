@@ -67,7 +67,6 @@ export const attemptStoreTimer = (params:any) => async (dispatch: Dispatch<Store
     params.user = user["$id"];
 
     const timer = await timerApi.createDocument('',params, [`user:${user["$id"]}`],[`user:${user["$id"]}`]).then(response => {
-        console.log('store', response);
         dispatch(storeTimer(response));
     }).catch(error => error);
     /* when using appwrite as backend */

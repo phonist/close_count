@@ -17,7 +17,6 @@ const App = () => {
     // log user out from all tabs if they log out in one tab
     // eslint-disable-next-line no-unreachable
     window.addEventListener('storage', () => {
-      console.log('storage event');
       if (!localStorage.token) store.dispatch({ type: SET_UNAUTHENTICATED });
     });
   // eslint-disable-next-line react-hooks/exhaustive-deps

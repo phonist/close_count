@@ -69,7 +69,8 @@ const Show = (timer: any) => {
           {timerComponents.length ? timerComponents : <span> Times Up!</span>}
         </CardContent>
         <CardActions>
-          <Button size="small" onClick={() => dispatch(attemptDestroyTimer(timer.timer._id))}>Delete</Button>
+          {/* <Button size="small" onClick={() => dispatch(attemptDestroyTimer(timer.timer._id))}>Delete</Button> */}
+          <Button size="small" onClick={() => dispatch(attemptDestroyTimer(timer.timer))}>Delete</Button>
           {/* <Button size="small" onClick={() => startCountDown(_id)}>Edit</Button> */}
         </CardActions>
       </>

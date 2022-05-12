@@ -98,11 +98,18 @@ export const attemptUpdateTimer = (params:any) => async (dispatch: Dispatch<Upda
 }
 
 export const attemptDestroyTimer = (params:any) => async (dispatch: Dispatch<DestroyTimerType>) => {
-    const auth = await destroy(params)
-        .then(response => {
-            dispatch(destroyTimer(params));
-        })
-        .catch(error => error);
+    // const auth = await destroy(params)
+    //     .then(response => {
+    //         dispatch(destroyTimer(params));
+    //     })
+    //     .catch(error => error);
+    /* when using appwrite as backend */
+    console.log(params);
+    await timerApi.deleteDocument(params["$collection"], params["$id"])
+                .then(response => {
+                    dispatch(destroyTimer(params["$id"]));
+                }).catch(error => error);
+    /* when using appwrite as backend */
 }
 
 

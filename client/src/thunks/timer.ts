@@ -26,20 +26,18 @@ import {
     update,
     destroy
 } from "../api/timer";
-import timerApi from '../api/appwrite/timer';
-import authApi from "../api/appwrite/auth";
 
 export const attemptGetTimers = (params:any) => async (dispatch: Dispatch<GetTimersType>) => {
-    // const auth = await getTimers(params)
-    //     .then(response => {
-    //         dispatch(timers(response));
-    //     })
-    //     .catch(error => error);
+    const auth = await getTimers(params)
+        .then(response => {
+            dispatch(timers(response));
+        })
+        .catch(error => error);
     
     /* when using appwrite as backend */
-    await timerApi.listDocuments('').then(response => {
-        dispatch(timers(response.documents));
-    }).catch(error => error);
+    // await timerApi.listDocuments('').then(response => {
+    //     dispatch(timers(response.documents));
+    // }).catch(error => error);
     /* when using appwrite as backend */
     
 }
@@ -53,22 +51,22 @@ export const attemptCreateTimer = (params:any) => async (dispatch: Dispatch<Crea
 }
 
 export const attemptStoreTimer = (params:any) => async (dispatch: Dispatch<StoreTimerType>) => {
-    // const auth = await store(params)
-    //     .then(response => {
-    //         dispatch(storeTimer(response));
-    //     })
-    //     .catch(error => error);
+    const auth = await store(params)
+        .then(response => {
+            dispatch(storeTimer(response));
+        })
+        .catch(error => error);
 
     /* when using appwrite as backend */
-    const user = await authApi.loadUser(params).then(response => {
-        return response;
-    }).catch(error => error);
+    // const user = await authApi.loadUser(params).then(response => {
+    //     return response;
+    // }).catch(error => error);
 
-    params.user = user["$id"];
+    // params.user = user["$id"];
 
-    const timer = await timerApi.createDocument('',params, [`user:${user["$id"]}`],[`user:${user["$id"]}`]).then(response => {
-        dispatch(storeTimer(response));
-    }).catch(error => error);
+    // const timer = await timerApi.createDocument('',params, [`user:${user["$id"]}`],[`user:${user["$id"]}`]).then(response => {
+    //     dispatch(storeTimer(response));
+    // }).catch(error => error);
     /* when using appwrite as backend */
 
 }
@@ -98,17 +96,17 @@ export const attemptUpdateTimer = (params:any) => async (dispatch: Dispatch<Upda
 }
 
 export const attemptDestroyTimer = (params:any) => async (dispatch: Dispatch<DestroyTimerType>) => {
-    // const auth = await destroy(params)
-    //     .then(response => {
-    //         dispatch(destroyTimer(params));
-    //     })
-    //     .catch(error => error);
+    const auth = await destroy(params)
+        .then(response => {
+            dispatch(destroyTimer(params));
+        })
+        .catch(error => error);
     /* when using appwrite as backend */
-    console.log(params);
-    await timerApi.deleteDocument(params["$collection"], params["$id"])
-                .then(response => {
-                    dispatch(destroyTimer(params["$id"]));
-                }).catch(error => error);
+    // console.log(params);
+    // await timerApi.deleteDocument(params["$collection"], params["$id"])
+    //             .then(response => {
+    //                 dispatch(destroyTimer(params["$id"]));
+    //             }).catch(error => error);
     /* when using appwrite as backend */
 }
 

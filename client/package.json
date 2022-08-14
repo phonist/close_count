@@ -62,7 +62,6 @@
       "last 1 safari version"
     ]
   },
-  "proxy": "http://localhost:8005",
   "devDependencies": {
     "@babel/plugin-syntax-flow": "^7.16.7",
     "@babel/plugin-transform-react-jsx": "^7.17.3",

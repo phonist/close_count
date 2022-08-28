@@ -13,7 +13,6 @@ export const CheckAuthentication = () => {
 
     if (authToken) {
         const decodedToken: any = jwtDecode(authToken);
-        // console.log(decodedToken);
         if (decodedToken.exp * 1000 < Date.now()) {
             store.dispatch(logoutAction());
         } else {

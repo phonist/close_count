@@ -101,13 +101,6 @@ export const attemptDestroyTimer = (params:any) => async (dispatch: Dispatch<Des
             dispatch(destroyTimer(params));
         })
         .catch(error => error);
-    /* when using appwrite as backend */
-    // console.log(params);
-    // await timerApi.deleteDocument(params["$collection"], params["$id"])
-    //             .then(response => {
-    //                 dispatch(destroyTimer(params["$id"]));
-    //             }).catch(error => error);
-    /* when using appwrite as backend */
 }
 
 

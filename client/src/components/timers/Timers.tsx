@@ -15,7 +15,6 @@ const Timers = () => {
   const auth = useSelector((state:AppState) => state.auth);
 
   useEffect(() => {
-    console.log(auth);
     if(auth.credentials._id){
       dispatch(attemptGetTimers(auth.credentials._id));
     }

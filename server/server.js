@@ -32,7 +32,9 @@ app.use(mongoSanitize());
 app.use(compression());
 
 // enable cors
-app.use(cors());
+app.use(cors({
+  origin: 'http://localhost:8005'
+}));
 app.options('*', cors());
 
 // Define Routes

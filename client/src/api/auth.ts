@@ -2,8 +2,6 @@ import request from 'superagent';
 import { handleSuccess, handleError } from '../utils/api';
 const apiURL = process.env.REACT_APP_API_URL || 'http://localhost:8080';
 
-request.head('Access-Control-Allow-Origin','*');
-
 export const register = (params:any) =>
     request.post(`${apiURL}/users`)
         .send(params)
@@ -12,6 +10,7 @@ export const register = (params:any) =>
     
 export const login = (params:any) =>
     request.post(`${apiURL}/auth`)
+        .set('Access-Control-Allow-Origin','*')
         .send(params)
         .then(handleSuccess)
         .catch(handleError);

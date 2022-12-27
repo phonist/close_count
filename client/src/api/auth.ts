@@ -11,6 +11,7 @@ export const register = (params:any) =>
 export const login = (params:any) =>
     request.post(`${apiURL}/auth`)
         .set('Access-Control-Allow-Origin','*')
+        .set('Content-Type','application/json')
         .send(params)
         .then(handleSuccess)
         .catch(handleError);

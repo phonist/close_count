@@ -4,7 +4,7 @@ module.exports = function(app) {
   app.use(
     '/api',
     createProxyMiddleware({
-      target: 'http://closecount.org',
+      target: 'https://closecount.org',
       changeOrigin: true,
     })
   );

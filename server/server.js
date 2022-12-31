@@ -32,8 +32,8 @@ app.use(mongoSanitize());
 app.use(compression());
 
 // enable cors
-app.options('*', cors());
-app.use(cors());
+// app.options('*', cors());
+// app.use(cors());
 
 // Define Routes
 app.use('/api/users', require('./routes/api/users'));

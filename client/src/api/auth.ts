@@ -10,9 +10,6 @@ export const register = (params:any) =>
     
 export const login = (params:any) =>
     request.post(`${apiURL}/auth`)
-        .set('Origin','https://close-count.vercel.app')
-        .set('Access-Control-Request-Method','POST')
-        .set('Access-Control-Request-Headers','X-PINGOTHER, Content-Type')
         .send(params)
         .then(handleSuccess)
         .catch(handleError);

@@ -12,6 +12,7 @@ export const attemptLogin = (params:any) => async (dispatch: Dispatch<LoadingUIA
             dispatch(loadingUserAction());
         })
         .catch(error => error);
+    console.log('check cors res',auth);
 
     /* when using appwrite as backend */
     // await authApi.createSession(params.email, params.password)

@@ -13,7 +13,6 @@ const app = express();
 const PORT = process.env.PORT || 8001;
 
 // Connect Database
-console.log(process.env.MONGO_URI);
 connectDB(process.env.MONGO_URI);
 
 // set security HTTP headers
@@ -34,7 +33,10 @@ app.use(compression());
 
 // enable cors
 // app.options('*', cors());
-// app.use(cors());
+var corsOptions = {
+  origin: process.env.origin
+};
+app.use(cors(corsOptions));
 
 // Define Routes
 app.use('/api/users', require('./routes/api/users'));

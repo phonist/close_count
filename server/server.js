@@ -32,11 +32,11 @@ app.use(mongoSanitize());
 app.use(compression());
 
 // enable cors
-// app.options('*', cors());
 var corsOptions = {
   origin: process.env.origin
 };
 app.use(cors(corsOptions));
+app.options('*', cors());
 
 // Define Routes
 app.use('/api/users', require('./routes/api/users'));
@@ -51,7 +51,6 @@ if (process.env.ENVIRONMENT == 'production') {
   app.use(express.static(root));
 
   app.get("/*", (req, res) => {
-    res.setHeader('Access-Control-Allow-Origin',`${process.env.origin}`);
     res.sendFile(path.join(root, 'index.html'));
   });
 

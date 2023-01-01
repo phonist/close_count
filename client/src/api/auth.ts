@@ -10,6 +10,7 @@ export const register = (params:any) =>
     
 export const login = (params:any) =>
     request.post(`${apiURL}/auth`)
+        .withCredentials()
         .send(params)
         .then(handleSuccess)
         .catch(handleError);

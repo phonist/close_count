@@ -51,6 +51,7 @@ if (process.env.ENVIRONMENT == 'production') {
   app.use(express.static(root));
 
   app.get("/*", (req, res) => {
+    res.setHeader('Access-Control-Allow-Origin',`${process.env.origin}`);
     res.sendFile(path.join(root, 'index.html'));
   });
 

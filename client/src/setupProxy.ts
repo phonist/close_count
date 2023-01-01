@@ -4,7 +4,7 @@ module.exports = function(app) {
   app.use(
     '/api',
     createProxyMiddleware({
-      changeOrigin: true,
+      changeOrigin: false,
     })
   );
 };

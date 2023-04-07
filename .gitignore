@@ -8,3 +8,5 @@ client/node_modules/
 .DS_Store
 client/src/.DS_Store
 client/src/components/.DS_Store
+.default_prod.conf
+.env_prod

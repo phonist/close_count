@@ -7,9 +7,12 @@ import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import Link from '@mui/material/Link';
 import { useDispatch } from 'react-redux';
+import { ThunkDispatch } from 'redux-thunk';
+import { AnyAction } from 'redux';
 import { Navigate } from 'react-router-dom';
 import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
+import { AppState } from '../../store';
 
 const drawerWidth: number = 240;
 
@@ -18,7 +21,7 @@ interface AppBarProps extends MuiAppBarProps {
 }
 
 const NavigationBar = (props: any) => {
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<ThunkDispatch<AppState, void, AnyAction>>();
   const { open, toggleDrawer, auth } = props;
 
   const handleLogout = (e: any) => {

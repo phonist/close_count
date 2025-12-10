@@ -3,9 +3,12 @@ import { Navigate } from 'react-router-dom';
 import { Avatar, Button, TextField, Link, Grid, Box, Typography } from '@mui/material';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import { useSelector, useDispatch } from 'react-redux';
+import { ThunkDispatch } from 'redux-thunk';
+import { AnyAction } from 'redux';
 import { attemptRegister } from '../../thunks/auth';
 import { CssBaseline, Container } from '@mui/material';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { AppState } from '../../store';
 
 
 function Copyright(props:any) {
@@ -24,7 +27,7 @@ function Copyright(props:any) {
 const theme = createTheme();
 
 const Register = (props: any) => {
-    const dispatch = useDispatch();
+    const dispatch = useDispatch<ThunkDispatch<AppState, void, AnyAction>>();
     const auth = useSelector((state:any) => state.auth);
     const [formData, setFormData] = useState({
       name: '',

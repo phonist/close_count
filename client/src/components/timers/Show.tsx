@@ -1,7 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { attemptDestroyTimer } from '../../thunks/timer';
 import { useDispatch } from 'react-redux';
+import { ThunkDispatch } from 'redux-thunk';
+import { AnyAction } from 'redux';
 import { CardContent, CardActions, Typography, Button } from '@mui/material';
+import { AppState } from '../../store';
 interface TimeLeft {
   days: Number,
   hours: Number,
@@ -10,7 +13,7 @@ interface TimeLeft {
 }
 
 const Show = (timer: any) => {
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<ThunkDispatch<AppState, void, AnyAction>>();
   const calculateTimeLeft = () => {
     const difference = +new Date(timer.timer.timer) - +new Date();
 
@@ -70,7 +73,7 @@ const Show = (timer: any) => {
         </CardContent>
         <CardActions>
           {/* <Button size="small" onClick={() => dispatch(attemptDestroyTimer(timer.timer._id))}>Delete</Button> */}
-          <Button size="small" onClick={() => dispatch(attemptDestroyTimer(timer.timer))}>Delete</Button>
+          <Button size="small" onClick={() => dispatch(attemptDestroyTimer(timer.timer._id))}>Delete</Button>
           {/* <Button size="small" onClick={() => startCountDown(_id)}>Edit</Button> */}
         </CardActions>
       </>

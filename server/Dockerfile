@@ -1,5 +1,5 @@
 # Pull Docker Hub base image
-FROM node:16-alpine3.14
+FROM node:24
 # Install yarn
 # RUN npm install --global yarn
 # Set working directory

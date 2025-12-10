@@ -1,5 +1,7 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { ThunkDispatch } from 'redux-thunk';
+import { AnyAction } from 'redux';
 import Show from './Show';
 import Create from './Create';
 import { attemptGetTimers } from '../../thunks/timer';
@@ -10,7 +12,7 @@ import { AppState } from '../../store';
 import Toolbar from '@mui/material/Toolbar';
 
 const Timers = () => {
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<ThunkDispatch<AppState, void, AnyAction>>();
   const data = useSelector((state:AppState) => state.timer);
   const auth = useSelector((state:AppState) => state.auth);
 

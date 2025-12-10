@@ -3,9 +3,12 @@ import { attemptStoreTimer } from '../../thunks/timer';
 //Material-UI
 import { Grid, Card, CardContent, Typography, Input, Button, Box } from '@mui/material';
 import { useDispatch } from 'react-redux';
+import { ThunkDispatch } from 'redux-thunk';
+import { AnyAction } from 'redux';
+import { AppState } from '../../store';
 
 const Create = () => {
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<ThunkDispatch<AppState, void, AnyAction>>();
   const [formData, setFormData] = useState({
     title: '',
     description: '',

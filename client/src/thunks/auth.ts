@@ -5,7 +5,7 @@ import { register, login, loadUser } from '../api/auth';
 
 export const attemptLogin = (params:any) => async (dispatch: Dispatch<LoadingUIActionType | SetAuthenticatedActionType | SetUserActionType | LoadingUserActionType>) => {
     dispatch(loadingUI(true));
-    const auth = await login(params)
+    await login(params)
         .then(response => {
             localStorage.setItem("token", `${response.token}`);//setting token to local storage
             dispatch(attemptLoadUser(response.token) as any);
@@ -68,7 +68,7 @@ export const attemptRegister = (params:any) => async (dispatch: Dispatch<SetAuth
 export const attemptLoadUser = (params:any) => async (dispatch: Dispatch<SetUserActionType | LoadingUserActionType>) => {
     dispatch(loadingUserAction());
 
-    const auth = await loadUser(params)
+    await loadUser(params)
         .then(response => {
             dispatch(setUserAction(response));
         })

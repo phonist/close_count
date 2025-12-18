@@ -5,7 +5,7 @@ import { AnyAction } from 'redux';
 import Show from './Show';
 import Create from './Create';
 import { attemptGetTimers } from '../../thunks/timer';
-import { Grid, Box, Container, Card, CssBaseline } from '@mui/material';
+import { Grid, Box, Container, Card } from '@mui/material';
 import Error from '../common/Error';
 import Loading from '../common/Loading';
 import { AppState } from '../../store';

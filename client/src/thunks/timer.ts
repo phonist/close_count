@@ -28,7 +28,7 @@ import {
 } from "../api/timer";
 
 export const attemptGetTimers = (params:any) => async (dispatch: Dispatch<GetTimersType>) => {
-    const auth = await getTimers(params)
+    await getTimers(params)
         .then(response => {
             dispatch(timers(response));
         })
@@ -51,7 +51,7 @@ export const attemptCreateTimer = (params:any) => async (dispatch: Dispatch<Crea
 }
 
 export const attemptStoreTimer = (params:any) => async (dispatch: Dispatch<StoreTimerType>) => {
-    const auth = await store(params)
+    await store(params)
         .then(response => {
             dispatch(storeTimer(response));
         })
@@ -96,7 +96,7 @@ export const attemptUpdateTimer = (params:any) => async (dispatch: Dispatch<Upda
 }
 
 export const attemptDestroyTimer = (params:any) => async (dispatch: Dispatch<DestroyTimerType>) => {
-    const auth = await destroy(params)
+    await destroy(params)
         .then(response => {
             dispatch(destroyTimer(params));
         })

@@ -12,7 +12,7 @@ import Box from '@mui/material/Box';
 import SideBar from '../layout/SideBar';
 import { CssBaseline } from '@mui/material';
 import { AppState } from '../../store';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 
 const Routing = () => {
   useEffect(() => {

@@ -5,11 +5,9 @@ FROM node:24
 # Set working directory
 WORKDIR /usr/app
 # Install app dependencies
-COPY package*.json ./
+COPY package.json yarn.lock ./
 
-RUN yarn config set networkTimeout 600000 \
- && yarn config set registry "https://registry.npmjs.org/" \
- && yarn install -qy --network-timeout 600000
+RUN yarn install --check-files --network-concurrency 1
 # Copy app to container
 COPY . .
 # Run the "start" script in package.json

@@ -10,8 +10,8 @@ services:
     networks:
       - mern-network
     volumes:
-      - ./client/src:/usr/app/src
-      - ./client/public:/usr/app/public
+      - ./client:/usr/app
+      - /usr/app/node_modules
     depends_on:
       - server
     environment:
@@ -33,15 +33,20 @@ services:
     networks:
       - mern-network
     volumes:
-      - ./server:/usr/app/src
+      - ./server:/usr/app
+      - /usr/app/node_modules
     depends_on:
       - db
     environment:
       - MONGO_URI=mongodb://close-count-mongodb:27017/closecount
+      - CLIENT_URL=http://localhost:3000
       - CLIENT=http://localhost:3000
       - PORT=8005
-      - ENVIRONMENT=production
-      - jwtSecret=closecounttoken
+      - ENVIRONMENT=development
+      - NODE_ENV=development
+      # WARNING: Change JWT_SECRET in production! Use .env file for secrets
+      - JWT_SECRET=${JWT_SECRET:-closecounttoken-dev-only}
+      - JWT_EXPIRE=5 days
     command: yarn server
     # command: /usr/app/node_modules/.bin/nodemon -L src/index.js
 

@@ -1,4 +1,3 @@
-import React from 'react'
 import {
     Outlet,
     Navigate
@@ -6,7 +5,7 @@ import {
 import { useSelector } from 'react-redux'
 import { AppState } from '../store';
 
-const GuestRoute = ({ authenticated }: any) => {
+const GuestRoute = () => {
     const auth = useSelector((state: AppState) => state.auth);
     return auth.authenticated ? <Navigate to = '/timers' /> : <Outlet />
 }

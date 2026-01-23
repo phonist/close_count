@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { attemptStoreTimer } from '../../thunks/timer';
 //Material-UI
 import { Grid, Card, CardContent, Typography, Input, Button, Box } from '@mui/material';

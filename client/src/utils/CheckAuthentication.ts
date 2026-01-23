@@ -19,7 +19,7 @@ export const CheckAuthentication = () => {
             store.dispatch({
                 type: SET_AUTHENTICATED
             });
-            store.dispatch(attemptLoadUser(authToken) as any);
+            store.dispatch(attemptLoadUser() as any);
         }
     }
 }

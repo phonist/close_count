@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Navigate } from 'react-router-dom';
 import { Avatar, Button, TextField, Link, Grid, Box, Typography } from '@mui/material';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
@@ -26,7 +26,7 @@ function Copyright(props:any) {
 
 const theme = createTheme();
 
-const Register = (props: any) => {
+const Register = () => {
     const dispatch = useDispatch<ThunkDispatch<AppState, void, AnyAction>>();
     const auth = useSelector((state:any) => state.auth);
     const [formData, setFormData] = useState({

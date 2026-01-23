@@ -23,4 +23,8 @@ const UserSchema = new mongoose.Schema({
   }
 });
 
+// Create indexes for better query performance
+UserSchema.index({ email: 1 });
+UserSchema.index({ date: -1 });
+
 module.exports = mongoose.model('user', UserSchema);

@@ -3,7 +3,6 @@ const router = express.Router();
 const gravatar = require('gravatar');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
-// const config = require('config');
 const { check, validationResult } = require('express-validator');
 const normalize = require('normalize-url');
 
@@ -20,7 +19,7 @@ router.post(
     'password',
     'Please enter a password with 6 or more characters'
   ).isLength({ min: 6 }),
-  async (req, res) => {
+  async (req, res, next) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
       return res.status(400).json({ errors: errors.array() });
@@ -67,16 +66,17 @@ router.post(
 
       jwt.sign(
         payload,
-        process.env.jwtSecret,
-        { expiresIn: '5 days' },
+        process.env.JWT_SECRET || process.env.jwtSecret,
+        { expiresIn: process.env.JWT_EXPIRE || '5 days' },
         (err, token) => {
-          if (err) throw err;
-          res.json({ token });
+          if (err) {
+            return next(err);
+          }
+          res.status(201).json({ token });
         }
       );
     } catch (err) {
-      console.error(err.message);
-      res.status(500).send('Server error');
+      next(err);
     }
   }
 );

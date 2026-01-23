@@ -1,34 +1,25 @@
 import { 
     timers,
-    createTimer,
     storeTimer,
-    showTimer,
-    editTimer,
     updateTimer,
     destroyTimer,
 } from "../actions/timer";
 import { Dispatch } from "redux";
 import { 
     GetTimersType, 
-    CreateTimerType,
     StoreTimerType,
-    ShowTimerType,
-    EditTimerType,
     UpdateTimerType,
     DestroyTimerType,
  } from "../types/TimerTypes";
 import {
     getTimers,
-    create,
     store,
-    show,
-    edit,
     update,
     destroy
 } from "../api/timer";
 
-export const attemptGetTimers = (params:any) => async (dispatch: Dispatch<GetTimersType>) => {
-    await getTimers(params)
+export const attemptGetTimers = () => async (dispatch: Dispatch<GetTimersType>) => {
+    await getTimers()
         .then(response => {
             dispatch(timers(response));
         })
@@ -42,15 +33,7 @@ export const attemptGetTimers = (params:any) => async (dispatch: Dispatch<GetTim
     
 }
 
-export const attemptCreateTimer = (params:any) => async (dispatch: Dispatch<CreateTimerType>) => {
-    const auth = await create(params)
-        .then(response => response.data)
-        .catch(error => error);
-
-    dispatch(createTimer(auth));
-}
-
-export const attemptStoreTimer = (params:any) => async (dispatch: Dispatch<StoreTimerType>) => {
+export const attemptStoreTimer = (params: { title: string; description: string; timer: string }) => async (dispatch: Dispatch<StoreTimerType>) => {
     await store(params)
         .then(response => {
             dispatch(storeTimer(response));
@@ -71,37 +54,19 @@ export const attemptStoreTimer = (params:any) => async (dispatch: Dispatch<Store
 
 }
 
-export const attemptShowTimer = (params:any) => async (dispatch: Dispatch<ShowTimerType>) => {
-    const auth = await show(params)
-        .then(response => response.data)
-        .catch(error => error);
-
-    dispatch(showTimer(auth));
-}
-
-export const attemptEditTimer = (params:any) => async (dispatch: Dispatch<EditTimerType>) => {
-    const auth = await edit(params)
-        .then(response => response.data)
-        .catch(error => error);
-
-    dispatch(editTimer(auth));
-}
-
-export const attemptUpdateTimer = (params:any) => async (dispatch: Dispatch<UpdateTimerType>) => {
-    const auth = await update(params)
-        .then(response => response.data)
-        .catch(error => error);
-
-    dispatch(updateTimer(auth));
-}
-
-export const attemptDestroyTimer = (params:any) => async (dispatch: Dispatch<DestroyTimerType>) => {
-    await destroy(params)
+export const attemptUpdateTimer = (params: { id: string; [key: string]: unknown }) => async (dispatch: Dispatch<UpdateTimerType>) => {
+    await update(params)
         .then(response => {
-            dispatch(destroyTimer(params));
+            dispatch(updateTimer(response));
         })
         .catch(error => error);
 }
 
-
+export const attemptDestroyTimer = (params: string) => async (dispatch: Dispatch<DestroyTimerType>) => {
+    await destroy(params)
+        .then(() => {
+            dispatch(destroyTimer(params));
+        })
+        .catch(error => error);
+}
 

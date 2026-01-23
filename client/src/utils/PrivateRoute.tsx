@@ -1,5 +1,3 @@
-import React from 'react'
-
 import {
     Navigate,
     Outlet
@@ -7,7 +5,7 @@ import {
 import { useSelector } from 'react-redux'
 import { AppState } from '../store';
 
-const PrivateRoute = ({ authenticated }:any) => {
+const PrivateRoute = () => {
     const auth = useSelector((state: AppState) => state.auth);
     return auth.authenticated ? <Outlet /> : <Navigate to="/login" />
 }

@@ -3,7 +3,6 @@ const router = express.Router();
 const bcrypt = require('bcryptjs');
 const auth = require('../../middleware/auth');
 const jwt = require('jsonwebtoken');
-// const config = require('config');
 const { check, validationResult } = require('express-validator');
 
 const User = require('../../models/User');
@@ -11,13 +10,15 @@ const User = require('../../models/User');
 // @route    GET api/auth
 // @desc     Get user by token
 // @access   Private
-router.get('/', auth, async (req, res) => {
+router.get('/', auth, async (req, res, next) => {
   try {
     const user = await User.findById(req.user.id).select('-password');
+    if (!user) {
+      return res.status(404).json({ msg: 'User not found' });
+    }
     res.json(user);
   } catch (err) {
-    console.error(err.message);
-    res.status(500).send('Server Error');
+    next(err);
   }
 });
 
@@ -28,7 +29,7 @@ router.post(
   '/',
   check('email', 'Please include a valid email').isEmail(),
   check('password', 'Password is required').exists(),
-  async (req, res) => {
+  async (req, res, next) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
       return res.status(400).json({ errors: errors.array() });
@@ -60,16 +61,17 @@ router.post(
       
       jwt.sign(
         payload,
-        process.env.jwtSecret,
-        { expiresIn: '5 days' },
+        process.env.JWT_SECRET || process.env.jwtSecret,
+        { expiresIn: process.env.JWT_EXPIRE || '5 days' },
         (err, token) => {
-          if (err) throw err;
+          if (err) {
+            return next(err);
+          }
           res.json({ token });
         }
       );
     } catch (err) {
-      console.error(err.message);
-      res.status(500).send('Server error');
+      next(err);
     }
   }
 );

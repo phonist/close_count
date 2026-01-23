@@ -1,4 +1,3 @@
-import React from 'react';
 import {
     Toolbar,
     IconButton,
@@ -38,8 +37,12 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
 }),
 );
 
-const SideBar = (props) => {
-    const { open, toggleDrawer } = props;
+interface SideBarProps {
+  open: boolean;
+  toggleDrawer: () => void;
+}
+
+const SideBar = ({ open, toggleDrawer }: SideBarProps) => {
 
     return (
         <Drawer variant="permanent" open={open}>

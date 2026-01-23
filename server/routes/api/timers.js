@@ -4,7 +4,6 @@ const { check, validationResult } = require('express-validator');
 const auth = require('../../middleware/auth');
 
 const Timer = require('../../models/Timer');
-const User = require('../../models/User');
 const checkObjectId = require('../../middleware/checkObjectId');
 
 // @route    POST api/timers
@@ -16,14 +15,12 @@ router.post(
   check('title', 'Title is required').notEmpty(),
   check('description', 'Description is required').notEmpty(),
   check('timer', 'Timer is required').notEmpty(),
-  async (req, res) => {
+  async (req, res, next) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
       return res.status(400).json({ errors: errors.array() });
     }
     try {
-      const user = await User.findById(req.user.id).select('-password');
-      
       const newTimer = new Timer({
         title: req.body.title,
         description: req.body.description,
@@ -32,9 +29,9 @@ router.post(
       });
       const timer = await newTimer.save();
 
-      res.json(timer);
+      res.status(201).json(timer);
     } catch (err) {
-      res.status(500).send('Server Error');
+      next(err);
     }
   }
 );
@@ -42,38 +39,40 @@ router.post(
 // @route    GET api/timers
 // @desc     Get all timers
 // @access   Private
-router.get('/:id', auth, async (req, res) => {
+router.get('/', auth, async (req, res, next) => {
   try {
-    const timers = await Timer.find({user: req.user.id}).sort({ date: -1 });
+    const timers = await Timer.find({ user: req.user.id }).sort({ createdAt: -1 });
     res.json(timers);
   } catch (err) {
-    res.status(500).send('Server Error');
+    next(err);
   }
 });
 
 // @route    GET api/timers/:id
 // @desc     Get timer by ID
 // @access   Private
-router.get('/:id', auth, checkObjectId('id'), async (req, res) => {
+router.get('/:id', auth, checkObjectId('id'), async (req, res, next) => {
   try {
     const timer = await Timer.findById(req.params.id);
 
     if (!timer) {
-      return res.status(404).json({ msg: 'Post not found' });
+      return res.status(404).json({ msg: 'Timer not found' });
+    }
+
+    if (timer.user.toString() !== req.user.id) {
+      return res.status(401).json({ msg: 'User not authorized' });
     }
 
     res.json(timer);
   } catch (err) {
-    console.error(err.message);
-
-    res.status(500).send('Server Error');
+    next(err);
   }
 });
 
 // @route    DELETE api/timers/:id
 // @desc     Delete a timer
 // @access   Private
-router.delete('/:id', [auth, checkObjectId('id')], async (req, res) => {
+router.delete('/:id', [auth, checkObjectId('id')], async (req, res, next) => {
   try {
     const timer = await Timer.findById(req.params.id);
 
@@ -86,25 +85,31 @@ router.delete('/:id', [auth, checkObjectId('id')], async (req, res) => {
       return res.status(401).json({ msg: 'User not authorized' });
     }
 
-    await timer.remove();
+    await timer.deleteOne();
 
     res.json({ msg: 'Timer removed' });
   } catch (err) {
-    console.error(err.message);
-
-    res.status(500).send('Server Error');
+    next(err);
   }
 });
 
 // @route    PUT api/timers/:id
 // @desc     Update a timer
 // @access   Private
-router.put('/:id', auth, checkObjectId('id'), async (req, res) => {
+router.put('/:id', auth, checkObjectId('id'), async (req, res, next) => {
   try {
     const timer = await Timer.findById(req.params.id);
 
+    if (!timer) {
+      return res.status(404).json({ msg: 'Timer not found' });
+    }
+
+    if (timer.user.toString() !== req.user.id) {
+      return res.status(401).json({ msg: 'User not authorized' });
+    }
+
     // Check if the timer has already been activated
-    if(timer.status === '1'){
+    if (timer.status === '1') {
       return res.status(400).json({ msg: 'Timer already activated' });
     }
 
@@ -112,10 +117,9 @@ router.put('/:id', auth, checkObjectId('id'), async (req, res) => {
 
     await timer.save();
 
-    return res.json(timer.status);
+    return res.json(timer);
   } catch (err) {
-    console.error(err.message);
-    res.status(500).send('Server Error');
+    next(err);
   }
 });
 

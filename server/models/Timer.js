@@ -4,7 +4,8 @@ const Schema = mongoose.Schema;
 const TimerSchema = new Schema({
   user: {
     type: Schema.Types.ObjectId,
-    ref: 'user'
+    ref: 'user',
+    required: true
   },
   title: {
     type: String,
@@ -22,7 +23,11 @@ const TimerSchema = new Schema({
     type: String,
     default: '0'
   },
-});
+}, { timestamps: true });
+
+// Create indexes for better query performance
+TimerSchema.index({ user: 1, createdAt: -1 });
+TimerSchema.index({ status: 1 });
 
 const Timer = mongoose.model('timer', TimerSchema);
 

@@ -1,38 +1,55 @@
 import { Appwrite } from 'appwrite';
 import { Server } from '../../utils/config';
 
-let timerApi = {
-    sdk: null,
+type AppwriteSdk = Appwrite;
 
-    provider: () => {
+const getCollectionId = (collectionId?: string): string => {
+    return collectionId ?? Server.collectionID;
+};
+
+const timerApi = {
+    sdk: null as AppwriteSdk | null,
+
+    provider: (): AppwriteSdk => {
         if (timerApi.sdk) {
           return timerApi.sdk;
         }
-        let appwrite = new Appwrite();
+        const appwrite = new Appwrite();
         appwrite.setEndpoint(Server.endpoint).setProject(Server.project);
         timerApi.sdk = appwrite;
         return appwrite;
     },
 
-    createDocument: (collectionId, data, read, write) => {
+    createDocument: (
+        collectionId: string | undefined,
+        data: Record<string, unknown>,
+        read?: string[],
+        write?: string[]
+    ) => {
         return timerApi
         .provider()
-        .database.createDocument(Server.collectionID, 'unique()', data, read, write);
+        .database.createDocument(getCollectionId(collectionId), 'unique()', data, read, write);
     },
 
-    listDocuments: (collectionId) => {
-        return timerApi.provider().database.listDocuments(Server.collectionID);
+    listDocuments: (collectionId?: string) => {
+        return timerApi.provider().database.listDocuments(getCollectionId(collectionId));
     },
 
-    updateDocument: (collectionId, documentId, data, read, write) => {
+    updateDocument: (
+        collectionId: string,
+        documentId: string,
+        data: Record<string, unknown>,
+        read?: string[],
+        write?: string[]
+    ) => {
         return timerApi
         .provider()
         .database.updateDocument(collectionId, documentId, data, read, write);
     },
 
-    deleteDocument: (collectionId, documentId) => {
+    deleteDocument: (collectionId: string, documentId: string) => {
         return timerApi.provider().database.deleteDocument(collectionId, documentId);
     },
-}
+};
 
 export default timerApi;

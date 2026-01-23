@@ -1,18 +1,22 @@
 const jwt = require('jsonwebtoken');
-// const config = require('config');
 
 module.exports = function (req, res, next) {
   // Get token from header
-  const token = req.header('Authorization');
+  const authHeader = req.header('Authorization');
 
   // Check if not token
-  if (!token) {
+  if (!authHeader) {
     return res.status(401).json({ msg: 'No token, authorization denied' });
   }
 
+  // Extract token from "Bearer <token>" format
+  const token = authHeader.startsWith('Bearer ') 
+    ? authHeader.substring(7) 
+    : authHeader;
+
   // Verify token
   try {
-    jwt.verify(token, process.env.jwtSecret, (error, decoded) => {
+    jwt.verify(token, process.env.JWT_SECRET || process.env.jwtSecret, (error, decoded) => {
       if (error) {
         return res.status(401).json({ msg: 'Token is not valid' });
       } else {
@@ -21,7 +25,8 @@ module.exports = function (req, res, next) {
       }
     });
   } catch (err) {
-    console.error('something wrong with auth middleware');
+    const logger = require('../utils/logger');
+    logger.error('Auth middleware error:', err.message);
     res.status(500).json({ msg: 'Server Error' });
   }
 };

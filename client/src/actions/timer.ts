@@ -1,17 +1,11 @@
 import { 
     GET_TIMERS,
-    CREATE_TIMER,
     STORE_TIMER,
-    SHOW_TIMER,
-    EDIT_TIMER,
     UPDATE_TIMER,
     DESTROY_TIMER,
     ERROR_TIMER,
     GetTimersType, 
-    CreateTimerType,
     StoreTimerType,
-    ShowTimerType,
-    EditTimerType,
     UpdateTimerType,
     DestroyTimerType,
     ErrorTimerType
@@ -19,28 +13,13 @@ import {
 
 import { Timer } from "../interfaces/Timer";
 
-export const timers = (timer: Timer) : GetTimersType => ({
+export const timers = (timer: Timer[]) : GetTimersType => ({
     type: GET_TIMERS,
-    payload: timer,
-});
-
-export const createTimer = (timer: Timer) : CreateTimerType => ({
-    type: CREATE_TIMER,
     payload: timer,
 });
 
 export const storeTimer = (timer: Timer) : StoreTimerType => ({
     type: STORE_TIMER,
-    payload: timer,
-});
-
-export const showTimer = (timer: Timer) : ShowTimerType => ({
-    type: SHOW_TIMER,
-    payload: timer,
-});
-
-export const editTimer = (timer: Timer) : EditTimerType => ({
-    type: EDIT_TIMER,
     payload: timer,
 });
 

@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { ThunkDispatch } from 'redux-thunk';
 import { AnyAction } from 'redux';
@@ -10,6 +10,7 @@ import Error from '../common/Error';
 import Loading from '../common/Loading';
 import { AppState } from '../../store';
 import Toolbar from '@mui/material/Toolbar';
+import { Timer } from '../../interfaces/Timer';
 
 const Timers = () => {
   const dispatch = useDispatch<ThunkDispatch<AppState, void, AnyAction>>();
@@ -17,8 +18,8 @@ const Timers = () => {
   const auth = useSelector((state:AppState) => state.auth);
 
   useEffect(() => {
-    if(auth.credentials._id){
-      dispatch(attemptGetTimers(auth.credentials._id));
+    if (auth.credentials._id) {
+      dispatch(attemptGetTimers());
     }
   }, [auth.credentials._id, dispatch]);
 
@@ -50,8 +51,8 @@ const Timers = () => {
           
             <Create />
           
-            {!data.loading && Object.entries(data.timers).map(([key, timer]) => (
-                <Grid item key={key} xs={4}>
+            {!data.loading && data.timers.map((timer: Timer) => (
+                <Grid item key={String(timer._id)} xs={4}>
                   <Card sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
                     <Show timer={timer} />
                   </Card>

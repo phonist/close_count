@@ -1,4 +1,3 @@
-import React from 'react';
 import { attemptLogout } from '../../thunks/auth'; 
 import MuiAppBar, { AppBarProps as MuiAppBarProps } from '@mui/material/AppBar';
 import { styled } from '@mui/material/styles';
@@ -9,7 +8,6 @@ import Link from '@mui/material/Link';
 import { useDispatch } from 'react-redux';
 import { ThunkDispatch } from 'redux-thunk';
 import { AnyAction } from 'redux';
-import { Navigate } from 'react-router-dom';
 import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
 import { AppState } from '../../store';
@@ -20,14 +18,18 @@ interface AppBarProps extends MuiAppBarProps {
   open?: boolean;
 }
 
-const NavigationBar = (props: any) => {
+interface NavigationBarProps {
+  open: boolean;
+  toggleDrawer: () => void;
+  auth: AppState['auth'];
+}
+
+const NavigationBar = ({ open, toggleDrawer, auth }: NavigationBarProps) => {
   const dispatch = useDispatch<ThunkDispatch<AppState, void, AnyAction>>();
-  const { open, toggleDrawer, auth } = props;
 
   const handleLogout = (e: any) => {
     e.preventDefault();
-    dispatch(attemptLogout(auth));
-    return <Navigate to="/login" />;
+    dispatch(attemptLogout());
   };
 
   const authLinks = (

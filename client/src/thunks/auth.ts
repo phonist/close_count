@@ -3,12 +3,12 @@ import { Dispatch } from "redux";
 import { SetAuthenticatedActionType, SetUnauthenticatedActionType, SetUserActionType, LoadingUserActionType, LoadingUIActionType } from "../types/AuthTypes";
 import { register, login, loadUser } from '../api/auth';
 
-export const attemptLogin = (params:any) => async (dispatch: Dispatch<LoadingUIActionType | SetAuthenticatedActionType | SetUserActionType | LoadingUserActionType>) => {
+export const attemptLogin = (params: { email: string; password: string }) => async (dispatch: Dispatch<LoadingUIActionType | SetAuthenticatedActionType | SetUserActionType | LoadingUserActionType>) => {
     dispatch(loadingUI(true));
     await login(params)
         .then(response => {
             localStorage.setItem("token", `${response.token}`);//setting token to local storage
-            dispatch(attemptLoadUser(response.token) as any);
+            dispatch(attemptLoadUser() as any);
             dispatch(loadingUserAction());
         })
         .catch(error => error);
@@ -28,17 +28,17 @@ export const attemptLogin = (params:any) => async (dispatch: Dispatch<LoadingUIA
     /* when using appwrite as backend */
 }
 
-export const attemptLogout = (params:any) => async (dispatch: Dispatch<SetUnauthenticatedActionType>) => {
+export const attemptLogout = () => async (dispatch: Dispatch<SetUnauthenticatedActionType>) => {
     localStorage.removeItem("token");
     dispatch(logoutAction());
     window.location.href = "/login";
 }
 
-export const attemptRegister = (params:any) => async (dispatch: Dispatch<SetAuthenticatedActionType | SetUnauthenticatedActionType>) => {
+export const attemptRegister = (params: { name: string; email: string; password: string }) => async (dispatch: Dispatch<SetAuthenticatedActionType | SetUnauthenticatedActionType>) => {
     const auth = await register(params)
         .then(response => {
             localStorage.setItem("token", `${response.token}`);//setting token to local storage
-            dispatch(attemptLoadUser(response.token) as any);
+            dispatch(attemptLoadUser() as any);
         })
         .catch(error => {
             dispatch(logoutAction())
@@ -65,10 +65,10 @@ export const attemptRegister = (params:any) => async (dispatch: Dispatch<SetAuth
     dispatch(registerAction(auth));
 }
 
-export const attemptLoadUser = (params:any) => async (dispatch: Dispatch<SetUserActionType | LoadingUserActionType>) => {
+export const attemptLoadUser = () => async (dispatch: Dispatch<SetUserActionType | LoadingUserActionType>) => {
     dispatch(loadingUserAction());
 
-    await loadUser(params)
+    await loadUser()
         .then(response => {
             dispatch(setUserAction(response));
         })

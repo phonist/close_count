@@ -1,25 +1,27 @@
 import { Appwrite } from 'appwrite';
 import { Server } from '../../utils/config';
 
-let authApi = {
-    sdk: null,
+type AppwriteSdk = Appwrite;
 
-    provider: () => {
+const authApi = {
+    sdk: null as AppwriteSdk | null,
+
+    provider: (): AppwriteSdk => {
         if (authApi.sdk) {
           return authApi.sdk;
         }
-        let appwrite = new Appwrite();
+        const appwrite = new Appwrite();
         appwrite.setEndpoint(Server.endpoint).setProject(Server.project);
         authApi.sdk = appwrite;
         return appwrite;
     },
 
-    register: ( params ) => {
-        let { email, password, name } = params;
+    register: (params: { email: string; password: string; name: string }) => {
+        const { email, password, name } = params;
         return authApi.provider().account.create('unique()', email, password, name);
     },
 
-    createSession: (email, password) => {
+    createSession: (email: string, password: string) => {
         return authApi.provider().account.createSession(email, password);
     },
 
@@ -27,7 +29,7 @@ let authApi = {
         return authApi.provider().account.createJWT();
     },
 
-    loadUser: ( params ) => {
+    loadUser: () => {
         return authApi.provider().account.get();
     },
     
@@ -38,6 +40,6 @@ let authApi = {
     deleteCurrentSession: () => {
         return authApi.provider().account.deleteSession('current');
     },
-}
+};
 
 export default authApi;

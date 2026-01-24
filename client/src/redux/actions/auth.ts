@@ -1,7 +1,7 @@
 import { 
     SET_AUTHENTICATED, SET_UNAUTHENTICATED, SET_USER, LOADING_USER, SET_ERRORS, LOADING_UI, CLEAR_ERRORS,
     SetAuthenticatedActionType, SetUnauthenticatedActionType, SetUserActionType, LoadingUserActionType, SetErrorsActionType, LoadingUIActionType, ClearErrorsActionType
-} from '../types/AuthTypes';
+} from '../../types/AuthTypes';
 import { Auth } from "../interfaces/Auth";
 
 export const registerAction = (auth: Auth) : SetAuthenticatedActionType => ({

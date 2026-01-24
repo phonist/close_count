@@ -1,4 +1,4 @@
-import { registerAction, logoutAction, setUserAction, loadingUserAction, loadingUI } from "../actions/auth";
+import { registerAction, logoutAction, setUserAction, loadingUserAction, loadingUI } from "../redux/actions/auth";
 import { Dispatch } from "redux";
 import { SetAuthenticatedActionType, SetUnauthenticatedActionType, SetUserActionType, LoadingUserActionType, LoadingUIActionType } from "../types/AuthTypes";
 import { register, login, loadUser } from '../api/auth';

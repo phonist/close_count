@@ -1,6 +1,6 @@
 import request from 'superagent';
 import { handleSuccess, handleError } from '../utils/api';
-import { Auth } from '../interfaces/Auth';
+import { Auth } from '../redux/interfaces/Auth';
 
 export interface AuthTokenResponse {
   token: string;

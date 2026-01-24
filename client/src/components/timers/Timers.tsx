@@ -10,7 +10,7 @@ import Error from '../common/Error';
 import Loading from '../common/Loading';
 import { AppState } from '../../store';
 import Toolbar from '@mui/material/Toolbar';
-import { Timer } from '../../interfaces/Timer';
+import { Timer } from '../../redux/interfaces/Timer';
 
 const Timers = () => {
   const dispatch = useDispatch<ThunkDispatch<AppState, void, AnyAction>>();

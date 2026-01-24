@@ -9,7 +9,7 @@ import {
     UpdateTimerType,
     DestroyTimerType,
     ErrorTimerType
-} from '../types/TimerTypes';
+} from '../../types/TimerTypes';
 
 import { Timer } from "../interfaces/Timer";
 

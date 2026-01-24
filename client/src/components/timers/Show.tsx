@@ -5,7 +5,7 @@ import { ThunkDispatch } from 'redux-thunk';
 import { AnyAction } from 'redux';
 import { CardContent, CardActions, Typography, Button } from '@mui/material';
 import { AppState } from '../../store';
-import { Timer } from '../../interfaces/Timer';
+import { Timer } from '../../redux/interfaces/Timer';
 interface TimeLeft {
   days: number;
   hours: number;

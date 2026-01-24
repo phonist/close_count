@@ -1,6 +1,6 @@
 import request from 'superagent';
 import { handleSuccess, handleError } from '../utils/api';
-import { Timer } from '../interfaces/Timer';
+import { Timer } from '../redux/interfaces/Timer';
 
 const apiURL = process.env.REACT_APP_API_URL || 'http://localhost:8005/api';
 

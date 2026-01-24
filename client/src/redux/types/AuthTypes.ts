@@ -1,4 +1,4 @@
-import { Auth } from '../interfaces/Auth'
+import { Auth } from '../redux/interfaces/Auth'
 
 //user reducer types
 export const SET_AUTHENTICATED='SET_AUTHENTICATED';

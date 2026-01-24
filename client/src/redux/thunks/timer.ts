@@ -3,7 +3,7 @@ import {
     storeTimer,
     updateTimer,
     destroyTimer,
-} from "../actions/timer";
+} from "../redux/actions/timer";
 import { Dispatch } from "redux";
 import { 
     GetTimersType, 

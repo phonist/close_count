@@ -1,4 +1,4 @@
-import { Timer } from '../interfaces/Timer';
+import { Timer } from '../redux/interfaces/Timer';
 
 export const GET_TIMERS = 'GET_TIMERS';
 export const STORE_TIMER = 'STORE_TIMER';

@@ -1,11 +1,11 @@
 import React, { useEffect } from 'react';
-import Routing from './components/routing';
+import Routing from './app/routes';
 
 // Redux
 import { Provider } from 'react-redux';
-import store from './store';
-import setAuthToken from './utils/setAuthToken';
-import { SET_UNAUTHENTICATED } from './types/AuthTypes';
+import { store } from './app/store';
+import setAuthToken from './features/auth/setAuthToken';
+import { setUnauthenticated } from './features/auth';
 
 const App = () => {
   useEffect(() => { 
@@ -15,9 +15,8 @@ const App = () => {
     }
     
     // log user out from all tabs if they log out in one tab
-    // eslint-disable-next-line no-unreachable
     const handleStorage = () => {
-      if (!localStorage.token) store.dispatch({ type: SET_UNAUTHENTICATED });
+      if (!localStorage.token) store.dispatch(setUnauthenticated());
     };
 
     window.addEventListener('storage', handleStorage);
@@ -25,8 +24,7 @@ const App = () => {
     return () => {
       window.removeEventListener('storage', handleStorage);
     };
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [setAuthToken, setUnauthenticated]);
 
   return (
     <React.StrictMode>

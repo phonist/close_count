@@ -2,6 +2,7 @@ services:
 
   client:
     container_name: close-count-client
+    hostname: close-count-client
     build: 
       context: ./client
       dockerfile: Dockerfile
@@ -25,6 +26,7 @@ services:
   
   server:
     container_name: close-count-server
+    hostname: close-count-server
     build:
       context: ./server
       dockerfile: Dockerfile
@@ -52,6 +54,7 @@ services:
 
   db:
     container_name: close-count-mongodb
+    hostname: close-count-mongodb
     image: mongo
     ports:
       - 27017:27017

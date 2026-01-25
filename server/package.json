@@ -2,11 +2,12 @@
   "name": "closecount",
   "version": "1.0.0",
   "description": "Count Down Application made with MERN stack",
-  "main": "server.js",
+  "main": "dist/index.js",
   "scripts": {
-    "start": "node server",
-    "server": "nodemon server",
-    "dev": "\"npm run server\""
+    "build": "tsc -p tsconfig.json",
+    "start": "node dist/index.js",
+    "server": "nodemon",
+    "dev": "npm run server"
   },
   "author": "Adrian Chong",
   "license": "MIT",
@@ -26,12 +27,26 @@
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^6.5.2",
     "normalize-url": "^5.3.0",
+    "swagger-jsdoc": "^6.2.8",
+    "swagger-ui-express": "^4.7.2",
     "express-rate-limit": "^6.7.0",
     "xss-clean": "^0.1.1"
   },
   "devDependencies": {
+    "@types/bcryptjs": "^2.4.2",
+    "@types/compression": "^1.7.4",
+    "@types/cors": "^2.8.13",
     "@types/express": "^4.17.13",
+    "@types/express-validator": "^3.0.0",
+    "@types/helmet": "^4.0.0",
+    "@types/jsonwebtoken": "^8.5.9",
+    "@types/node": "^20.11.30",
+    "@types/swagger-jsdoc": "^6.0.4",
+    "@types/swagger-ui-express": "^4.1.4",
     "concurrently": "^5.3.0",
-    "nodemon": "^2.0.6"
+    "nodemon": "^2.0.6",
+    "ts-node": "^10.9.2",
+    "tsconfig-paths": "^4.2.0",
+    "typescript": "^5.4.5"
   }
 }

@@ -68,65 +68,6 @@ Don't forget to give the project a star! Thanks again!
 4. Push to the Branch (`git push origin feature/<featureName>`)
 5. Open a Pull Request
 
-
-### Yaml File
-When changes are pushed to the master branch, the actions will be triggered. In fact, the master branch serves as the production deployment.
-
-```
-name: Production script
-
-on:
-  push:
-    branches: [ master ]
-
-jobs:
-  build:
-    runs-on: ubuntu-20.04
-
-    steps:
-      - uses: actions/checkout@v2
-      - name: Install Nodejs and NPM
-        run: |
-          curl -sL https://deb.nodesource.com/setup_16.x | sudo -E bash -
-          sudo apt install nodejs
-      - name: Install nodejs, npm and yarn
-        run: |
-          curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg
-          sudo apt-key add -echo "deb https://dl.yarnpkg.com/debian/ stable main" 
-          sudo tee /etc/apt/sources.list.d/yarn.list
-          sudo apt update && sudo apt install yarn
-          echo nodejs version
-          node -v
-          echo npm version
-          npm -v
-          echo yarn version
-          yarn -v
-  server:
-    needs: build
-    runs-on: ubuntu-20.04
-    steps:
-      - uses: actions/checkout@v2
-      - name: Install server dependencies
-        working-directory: ./server
-        run: |
-          yarn install
-  client:
-    needs: build
-    runs-on: ubuntu-20.04
-    steps:
-      - uses: actions/checkout@v2
-      - name: Install client dependencies
-        working-directory: ./client
-        run: |
-          yarn install     
-
-```
-
-Ubuntu-20.04 was chosen as the operating system for the workflow.
-First, install the YARN package manager.
-After that, run yarn install in both the server and client folders to install all required dependencies.
-
-
 <!-- LICENSE -->
 ## License
 

@@ -1,0 +1,27 @@
+name: Dev pipeline trigger
+
+on:
+  push:
+    branches: [ develop ]
+  workflow_dispatch:
+
+env:
+  AWS_REGION: ap-southeast-1
+  API_PIPELINE_NAME: closecount-dev-api-pipeline
+  WEB_PIPELINE_NAME: closecount-dev-web-pipeline
+
+jobs:
+  trigger-pipelines:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-session-token: ${{ secrets.AWS_SESSION_TOKEN }}
+          aws-region: ${{ env.AWS_REGION }}
+      - name: Trigger API pipeline
+        run: aws codepipeline start-pipeline-execution --name "$API_PIPELINE_NAME"
+      - name: Trigger Web pipeline
+        run: aws codepipeline start-pipeline-execution --name "$WEB_PIPELINE_NAME"

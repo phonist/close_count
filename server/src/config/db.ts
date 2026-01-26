@@ -1,12 +1,20 @@
 import mongoose from 'mongoose';
 import logger from '../utils/logger';
+import env from './env';
 
 const connectDB = async (uri: string) => {
   try {
-    await mongoose.connect(uri, {
+    const options: mongoose.ConnectOptions = {
       useNewUrlParser: true,
       useUnifiedTopology: true,
-    } as mongoose.ConnectOptions);
+    } as mongoose.ConnectOptions;
+
+    if (env.mongoCaFile) {
+      options.tls = true;
+      options.tlsCAFile = env.mongoCaFile;
+    }
+
+    await mongoose.connect(uri, options);
 
     mongoose.Promise = global.Promise;
     logger.info('MongoDB Connected...');

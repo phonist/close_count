@@ -1,0 +1,19 @@
+aws_region            = "ap-southeast-1"
+public_subnet_cidrs   = ["10.20.1.0/24", "10.20.2.0/24"]
+private_subnet_cidrs  = ["10.20.11.0/24", "10.20.12.0/24"]
+
+db_username = "change-me"
+db_password = "change-me"
+
+client_url     = "https://test.closecount.example.com"
+jwt_secret_arn = "arn:aws:secretsmanager:ap-southeast-1:123456789012:secret:closecount-test-jwt"
+
+codestar_connection_arn = "arn:aws:codestar-connections:ap-southeast-1:123456789012:connection/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
+repo_owner              = "phonist"
+repo_name               = "close_count"
+repo_branch             = "release"
+react_app_api_url       = "https://test-api.closecount.example.com"
+react_app_host          = "test.closecount.example.com"
+
+# domain_name      = "test.closecount.example.com"
+# hosted_zone_name = "closecount.example.com"

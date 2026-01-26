@@ -1,0 +1,23 @@
+{
+  "name": "close-count-infra-cdk",
+  "private": true,
+  "version": "0.1.0",
+  "license": "UNLICENSED",
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "watch": "tsc -w -p tsconfig.json",
+    "cdk": "cdk",
+    "synth": "bash scripts/load-env.sh cdk synth",
+    "diff": "bash scripts/load-env.sh cdk diff",
+    "deploy": "bash scripts/load-env.sh cdk deploy"
+  },
+  "devDependencies": {
+    "aws-cdk": "2.141.0",
+    "@types/node": "22.10.7",
+    "typescript": "5.4.5"
+  },
+  "dependencies": {
+    "aws-cdk-lib": "2.141.0",
+    "constructs": "10.3.0"
+  }
+}

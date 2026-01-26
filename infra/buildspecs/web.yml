@@ -1,0 +1,32 @@
+version: 0.2
+
+env:
+  variables:
+    CI: "false"
+
+phases:
+  install:
+    commands:
+      - echo Installing dependencies
+      - cd client
+      - yarn install --frozen-lockfile
+  pre_build:
+    commands:
+      - echo Setting build env
+      - echo "REACT_APP_API_URL=$REACT_APP_API_URL" > .env.production
+      - echo "REACT_APP_HOST=$REACT_APP_HOST" >> .env.production
+  build:
+    commands:
+      - echo Build React app
+      - yarn build
+  post_build:
+    commands:
+      - echo Sync to S3
+      - aws s3 sync build s3://$WEB_BUCKET --delete
+      - echo Invalidate CloudFront
+      - aws cloudfront create-invalidation --distribution-id $CLOUDFRONT_DISTRIBUTION_ID --paths "/*"
+
+artifacts:
+  files:
+    - '**/*'
+  base-directory: client/build

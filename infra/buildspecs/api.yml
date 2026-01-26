@@ -12,7 +12,7 @@ phases:
   build:
     commands:
       - echo Build API image
-      - docker build -t $ECR_REPO:$IMAGE_TAG -f server/Dockerfile.prod server
+      - docker build -t $ECR_REPO:$IMAGE_TAG -f server/Dockerfile server
       - docker push $ECR_REPO:$IMAGE_TAG
       - printf '[{"name":"%s","imageUri":"%s"}]' $ECS_CONTAINER_NAME $ECR_REPO:$IMAGE_TAG > imagedefinitions.json
   post_build:

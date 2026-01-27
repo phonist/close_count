@@ -40,6 +40,10 @@ type AppConfig = {
     containerPort: number;
     desiredCount: number;
     clientUrl: string;
+    apiDomainName?: string;
+    apiHostedZoneName?: string;
+    apiCertificateArn?: string;
+    apiCloudfrontEnabled?: boolean;
     jwtSecretArn: string;
   };
   frontend: {
@@ -99,6 +103,10 @@ const ecsApi = new EcsApiStack(app, `${envName}-ecs-api`, {
   desiredCount: config.ecsApi.desiredCount,
   envName,
   clientUrl: config.ecsApi.clientUrl,
+  apiDomainName: config.ecsApi.apiDomainName,
+  apiHostedZoneName: config.ecsApi.apiHostedZoneName,
+  apiCertificateArn: config.ecsApi.apiCertificateArn,
+  apiCloudfrontEnabled: config.ecsApi.apiCloudfrontEnabled,
   mongoUriSecretArn: documentdb.mongoUriSecretArn,
   jwtSecretArn: config.ecsApi.jwtSecretArn,
   docdbSgId: documentdb.docdbSgId,

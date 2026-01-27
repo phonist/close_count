@@ -5,8 +5,6 @@ client/build
 client/.eslintcache
 client/node_modules/
 .env
-infra/cdk/config
-!infra/cdk/config/example.json
 .DS_Store
 client/src/.DS_Store
 client/src/components/.DS_Store

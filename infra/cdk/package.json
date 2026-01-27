@@ -9,7 +9,8 @@
     "cdk": "cdk",
     "synth": "bash scripts/load-env.sh cdk synth",
     "diff": "bash scripts/load-env.sh cdk diff",
-    "deploy": "bash scripts/load-env.sh cdk deploy"
+    "deploy": "bash scripts/load-env.sh cdk deploy",
+    "bootstrap": "bash scripts/load-env.sh npx cdk bootstrap"
   },
   "devDependencies": {
     "aws-cdk": "2.141.0",

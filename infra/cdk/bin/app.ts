@@ -32,7 +32,6 @@ type AppConfig = {
   documentdb: {
     dbName: string;
     dbUsername: string;
-    dbPassword: string;
     instanceClass: string;
     clusterSize: number;
   };
@@ -86,7 +85,6 @@ const documentdb = new DocumentDbStack(app, `${envName}-documentdb`, {
   privateSubnetIds: network.privateSubnetIds,
   dbName: config.documentdb.dbName,
   dbUsername: config.documentdb.dbUsername,
-  dbPassword: config.documentdb.dbPassword,
   instanceClass: config.documentdb.instanceClass,
   clusterSize: config.documentdb.clusterSize,
   tags: config.tags,

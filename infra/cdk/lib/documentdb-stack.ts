@@ -11,7 +11,6 @@ export interface DocumentDbStackProps extends StackProps {
   privateSubnetIds: string[];
   dbName: string;
   dbUsername: string;
-  dbPassword: string;
   instanceClass: string;
   clusterSize: number;
   tags: Record<string, string>;
@@ -46,10 +45,24 @@ export class DocumentDbStack extends Stack {
       tags: [{ key: "Name", value: `${props.namePrefix}-docdb-subnets` }],
     });
 
+    const credentialsSecret = new secretsmanager.Secret(
+      this,
+      "DocDbCredentials",
+      {
+        secretName: `${props.namePrefix}-docdb-credentials`,
+        generateSecretString: {
+          secretStringTemplate: JSON.stringify({ username: props.dbUsername }),
+          generateStringKey: "password",
+        },
+      },
+    );
+
     const cluster = new docdb.CfnDBCluster(this, "DocDbCluster", {
       dbClusterIdentifier: `${props.namePrefix}-docdb`,
       masterUsername: props.dbUsername,
-      masterUserPassword: props.dbPassword,
+      masterUserPassword: credentialsSecret
+        .secretValueFromJson("password")
+        .unsafeUnwrap(),
       dbSubnetGroupName: subnetGroup.ref,
       vpcSecurityGroupIds: [docdbSg.securityGroupId],
       backupRetentionPeriod: 7,
@@ -69,14 +82,14 @@ export class DocumentDbStack extends Stack {
 
     const mongoUri = Fn.join("", [
       "mongodb://",
-      props.dbUsername,
+      credentialsSecret.secretValueFromJson("username").unsafeUnwrap(),
       ":",
-      props.dbPassword,
+      credentialsSecret.secretValueFromJson("password").unsafeUnwrap(),
       "@",
       cluster.attrEndpoint,
       ":27017/",
       props.dbName,
-      "?tls=true&tlsAllowInvalidHostnames=true&tlsAllowInvalidCertificates=true&replicaSet=rs0&readPreference=secondaryPreferred&retryWrites=false",
+      "?tls=true&replicaSet=rs0&readPreference=secondaryPreferred&retryWrites=false",
     ]);
 
     const mongoSecret = new secretsmanager.Secret(this, "MongoUriSecret", {

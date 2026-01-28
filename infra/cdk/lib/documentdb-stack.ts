@@ -53,6 +53,8 @@ export class DocumentDbStack extends Stack {
         generateSecretString: {
           secretStringTemplate: JSON.stringify({ username: props.dbUsername }),
           generateStringKey: "password",
+          // DocumentDB disallows these characters in master passwords.
+          excludeCharacters: "/@\" ",
         },
       },
     );

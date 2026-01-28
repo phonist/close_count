@@ -10,7 +10,7 @@
     "synth": "bash scripts/load-env.sh cdk synth",
     "diff": "bash scripts/load-env.sh cdk diff",
     "deploy": "bash scripts/load-env.sh cdk deploy",
-    "bootstrap": "bash scripts/load-env.sh npx cdk bootstrap",
+    "bootstrap": "bash scripts/load-env.sh cdk bootstrap",
     "destroy": "bash scripts/load-env.sh cdk destroy"
   },
   "devDependencies": {

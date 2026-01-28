@@ -61,6 +61,7 @@ From `infra/cdk`:
 npm install
 npm run build
 npm run synth
+npm run bootstrap
 ```
 
 ### Deploy order (dev)
@@ -73,6 +74,11 @@ npm run deploy dev-ecs-api --require-approval never
 npm run deploy dev-pipeline --require-approval never
 ```
 Repeat for test/prod.
+
+### Destroy 
+```
+npm run destroy --all
+```
 
 ### Common issues
 * **Missing env vars**: run CDK via the scripts (they load `.env`).

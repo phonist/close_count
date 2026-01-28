@@ -45,8 +45,8 @@ resource "aws_iam_role_policy" "task_execution_secrets" {
     Version = "2012-10-17",
     Statement = [
       {
-        Effect = "Allow",
-        Action = ["secretsmanager:GetSecretValue"],
+        Effect   = "Allow",
+        Action   = ["secretsmanager:GetSecretValue"],
         Resource = [var.mongo_uri_secret_arn, var.jwt_secret_arn]
       }
     ]
@@ -144,8 +144,8 @@ resource "aws_ecs_task_definition" "api" {
 
   container_definitions = jsonencode([
     {
-      name  = "api",
-      image = "${aws_ecr_repository.api.repository_url}:latest",
+      name      = "api",
+      image     = "${aws_ecr_repository.api.repository_url}:latest",
       essential = true,
       portMappings = [
         { containerPort = var.container_port, hostPort = var.container_port }

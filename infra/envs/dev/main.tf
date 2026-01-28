@@ -44,18 +44,18 @@ module "documentdb" {
 }
 
 module "ecs_api" {
-  source                = "../../modules/ecs-api"
-  name_prefix           = local.name_prefix
-  vpc_id                = module.network.vpc_id
-  public_subnet_ids     = module.network.public_subnet_ids
-  private_subnet_ids    = module.network.private_subnet_ids
-  container_port        = 8005
-  desired_count         = var.api_desired_count
-  env_name              = var.env
-  client_url            = var.client_url
-  mongo_uri_secret_arn  = module.documentdb.mongo_uri_secret_arn
-  jwt_secret_arn        = var.jwt_secret_arn
-  tags                  = local.tags
+  source               = "../../modules/ecs-api"
+  name_prefix          = local.name_prefix
+  vpc_id               = module.network.vpc_id
+  public_subnet_ids    = module.network.public_subnet_ids
+  private_subnet_ids   = module.network.private_subnet_ids
+  container_port       = 8005
+  desired_count        = var.api_desired_count
+  env_name             = var.env
+  client_url           = var.client_url
+  mongo_uri_secret_arn = module.documentdb.mongo_uri_secret_arn
+  jwt_secret_arn       = var.jwt_secret_arn
+  tags                 = local.tags
 }
 
 module "frontend" {
@@ -66,20 +66,27 @@ module "frontend" {
   tags             = local.tags
 }
 
+module "api_cloudfront" {
+  source       = "../../modules/api-cloudfront"
+  name_prefix  = local.name_prefix
+  alb_dns_name = module.ecs_api.alb_dns_name
+  tags         = local.tags
+}
+
 module "pipeline" {
-  source                        = "../../modules/pipeline"
-  name_prefix                   = local.name_prefix
-  codestar_connection_arn       = var.codestar_connection_arn
-  repo_owner                    = var.repo_owner
-  repo_name                     = var.repo_name
-  repo_branch                   = var.repo_branch
-  ecr_repo_url                  = module.ecs_api.ecr_repo_url
-  ecs_cluster_name              = module.ecs_api.ecs_cluster_name
-  ecs_service_name              = module.ecs_api.ecs_service_name
-  ecs_container_name            = module.ecs_api.ecs_container_name
-  web_bucket_name               = module.frontend.web_bucket_name
-  cloudfront_distribution_id    = module.frontend.cloudfront_distribution_id
-  react_app_api_url             = var.react_app_api_url
-  react_app_host                = var.react_app_host
-  tags                          = local.tags
+  source                     = "../../modules/pipeline"
+  name_prefix                = local.name_prefix
+  codestar_connection_arn    = var.codestar_connection_arn
+  repo_owner                 = var.repo_owner
+  repo_name                  = var.repo_name
+  repo_branch                = var.repo_branch
+  ecr_repo_url               = module.ecs_api.ecr_repo_url
+  ecs_cluster_name           = module.ecs_api.ecs_cluster_name
+  ecs_service_name           = module.ecs_api.ecs_service_name
+  ecs_container_name         = module.ecs_api.ecs_container_name
+  web_bucket_name            = module.frontend.web_bucket_name
+  cloudfront_distribution_id = module.frontend.cloudfront_distribution_id
+  react_app_api_url          = var.react_app_api_url
+  react_app_host             = var.react_app_host
+  tags                       = local.tags
 }

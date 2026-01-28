@@ -66,12 +66,13 @@ npm run synth
 ### Deploy order (dev)
 Deploy in this order:
 ```
-npm run deploy -- dev-network
-npm run deploy -- dev-documentdb
-npm run deploy -- dev-frontend
-npm run deploy -- dev-ecs-api --require-approval never
-npm run deploy -- dev-pipeline --require-approval never
+npm run deploy dev-network
+npm run deploy dev-documentdb
+npm run deploy dev-frontend
+npm run deploy dev-ecs-api --require-approval never
+npm run deploy dev-pipeline --require-approval never
 ```
+Repeat for test/prod.
 
 ### Common issues
 * **Missing env vars**: run CDK via the scripts (they load `.env`).

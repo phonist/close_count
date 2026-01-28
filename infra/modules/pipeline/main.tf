@@ -169,16 +169,16 @@ resource "aws_iam_role_policy" "codebuild_web" {
 }
 
 resource "aws_codebuild_project" "api" {
-  name          = "${var.name_prefix}-api-build"
-  service_role  = aws_iam_role.codebuild_api.arn
+  name         = "${var.name_prefix}-api-build"
+  service_role = aws_iam_role.codebuild_api.arn
   artifacts {
     type = "CODEPIPELINE"
   }
   environment {
-    compute_type                = "BUILD_GENERAL1_SMALL"
-    image                       = "aws/codebuild/standard:7.0"
-    type                        = "LINUX_CONTAINER"
-    privileged_mode             = true
+    compute_type    = "BUILD_GENERAL1_SMALL"
+    image           = "aws/codebuild/standard:7.0"
+    type            = "LINUX_CONTAINER"
+    privileged_mode = true
     environment_variable {
       name  = "AWS_REGION"
       value = data.aws_region.current.name

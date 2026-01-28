@@ -28,11 +28,28 @@ cp infra/envs/dev/terraform.tfvars.example infra/envs/dev/terraform.tfvars
 ```
 cd infra/envs/dev
 terraform init
-terraform apply
+```
+3) Format and validate:
+```
+terraform fmt -recursive
+terraform validate
+```
+4) Plan with the dev vars file:
+```
+terraform plan -var-file=terraform.tfvars
+```
+5) Apply:
+```
+terraform apply -var-file=terraform.tfvars
+```
+6) Destroy (optional):
+```
+terraform destroy -var-file=terraform.tfvars
 ```
 Repeat for test/prod.
 
 ## Notes
+- `terraform.tfvars` should not be committed if it contains secrets
 - API container expects `MONGO_URI` and `JWT_SECRET` as secrets (Secrets Manager)
 - `server/Dockerfile.prod` is used for ECS builds
 - React builds use `REACT_APP_API_URL` and `REACT_APP_HOST`

@@ -79,8 +79,8 @@ resource "aws_s3_bucket_policy" "web" {
     Version = "2012-10-17",
     Statement = [
       {
-        Sid      = "AllowCloudFrontRead",
-        Effect   = "Allow",
+        Sid    = "AllowCloudFrontRead",
+        Effect = "Allow",
         Principal = {
           Service = "cloudfront.amazonaws.com"
         },

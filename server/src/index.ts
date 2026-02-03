@@ -61,8 +61,14 @@ app.use('/api/auth', authLimiter);
 app.use('/api/users', authLimiter);
 
 // enable cors with specific origins
-const corsOptions = {
-  origin: env.clientUrl,
+const corsOptions: cors.CorsOptions = {
+  origin: (origin, callback) => {
+    if (!origin || env.allowedOrigins.includes(origin)) {
+      callback(null, true);
+      return;
+    }
+    callback(new Error(`Not allowed by CORS: ${origin}`));
+  },
   credentials: true,
   optionsSuccessStatus: 200,
 };

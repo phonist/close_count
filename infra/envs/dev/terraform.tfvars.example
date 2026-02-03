@@ -1,0 +1,25 @@
+aws_region            = "ap-southeast-1"
+public_subnet_cidrs   = ["10.10.1.0/24", "10.10.2.0/24"]
+private_subnet_cidrs  = ["10.10.11.0/24", "10.10.12.0/24"]
+
+# DocumentDB
+# db_username and db_password should be stored in a secrets manager or injected by your workflow
+# For Terraform local runs, provide via a .tfvars file that is not committed.
+db_username = "change-me"
+db_password = "change-me"
+
+# ECS
+client_url     = "https://dev.closecount.example.com"
+jwt_secret_arn = "arn:aws:secretsmanager:ap-southeast-1:123456789012:secret:closecount-dev-jwt"
+
+# Pipelines
+codestar_connection_arn = "arn:aws:codestar-connections:ap-southeast-1:123456789012:connection/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
+repo_owner              = "phonist"
+repo_name               = "close_count"
+repo_branch             = "develop"
+react_app_api_url       = "https://dev-api.closecount.example.com"
+react_app_host          = "dev.closecount.example.com"
+
+# Optional: CloudFront custom domain (requires ACM cert in ap-southeast-1)
+# domain_name      = "dev.closecount.example.com"
+# hosted_zone_name = "closecount.example.com"

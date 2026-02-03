@@ -28,7 +28,7 @@
     "mongoose": "^6.5.2",
     "normalize-url": "^5.3.0",
     "swagger-jsdoc": "^6.2.8",
-    "swagger-ui-express": "^4.7.2",
+    "swagger-ui-express": "^5.0.1",
     "express-rate-limit": "^6.7.0",
     "xss-clean": "^0.1.1"
   },

@@ -1,0 +1,7 @@
+node_modules
+dist
+cdk.out
+.env
+config
+cdk.context.json
+!config/example.json

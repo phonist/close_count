@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { attemptDestroyTimer } from '../thunks';
+import { attemptDestroyTimer, attemptGetTimers } from '../thunks';
 import { useAppDispatch } from '../../../app/hooks';
 import {
   CardContent,
@@ -57,8 +57,21 @@ const Show = ({ timer }: ShowProps) => {
   });
 
   const pad = (value: number) => String(value).padStart(2, '0');
-  const isTimesUp =
-    timeLeft.days === 0 && timeLeft.hours === 0 && timeLeft.minutes === 0 && timeLeft.seconds === 0;
+  const [isTimesUp, setIsTimesUp] = useState(false);
+
+  useEffect(() => {
+    const isZero =
+      timeLeft.days === 0 &&
+      timeLeft.hours === 0 &&
+      timeLeft.minutes === 0 &&
+      timeLeft.seconds === 0;
+    setIsTimesUp(isZero);
+  }, [timeLeft.days, timeLeft.hours, timeLeft.minutes, timeLeft.seconds]);
+
+  const handleStartNext = () => {
+    dispatch(attemptGetTimers());
+  };
+
   const timerComponents = (
     [
       ...(timeLeft.days > 0 ? (['days'] as Array<keyof TimeLeft>) : []),
@@ -99,16 +112,36 @@ const Show = ({ timer }: ShowProps) => {
                 sx={{
                   p: 2,
                   borderRadius: 2,
-                  background: 'linear-gradient(135deg, rgba(248,113,113,0.12), rgba(252,165,165,0.25))',
-                  border: '1px solid rgba(248,113,113,0.35)',
+                  background: 'linear-gradient(135deg, rgba(59,130,246,0.12), rgba(191,219,254,0.4))',
+                  border: '1px solid rgba(59,130,246,0.25)',
                 }}
               >
-                <Typography variant="subtitle2" sx={{ fontWeight: 600, color: 'error.main' }}>
-                  Time’s up
-                </Typography>
-                <Typography variant="body2" color="text.secondary">
-                  This timer has reached its target.
-                </Typography>
+                <Stack spacing={1}>
+                  <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                    <Chip size="small" label="Completed" />
+                    {timer.isRecurring && <Chip size="small" label="Ready for next run" />}
+                  </Box>
+                  <Typography variant="body2" color="text.secondary">
+                    {timer.isRecurring
+                      ? 'This run has completed.'
+                      : 'This timer has reached its target.'}
+                  </Typography>
+                  {timer.isRecurring && (
+                    <>
+                      <Typography variant="subtitle2" sx={{ fontWeight: 600 }}>
+                        Last run: {formatDate(targetDate)} · {formatTime(targetDate)}
+                      </Typography>
+                      <Button
+                        size="small"
+                        variant="outlined"
+                        sx={{ alignSelf: 'flex-start' }}
+                        onClick={handleStartNext}
+                      >
+                        Start next
+                      </Button>
+                    </>
+                  )}
+                </Stack>
               </Box>
             ) : (
               <Stack direction="row" spacing={2} justifyContent="space-between">

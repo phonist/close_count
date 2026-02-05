@@ -7,6 +7,7 @@ import {
   advanceTimerIfNeeded,
   computeNextRunAt,
   parseDateValue,
+  forceAdvanceTimer,
 } from './timers.service';
 import type { CreateTimerRequest, TimerListResponse, TimerResponse } from './timers.dtos';
 import type { TimerDocument } from '../../models/timer.model';
@@ -169,4 +170,38 @@ const activateTimer = async (
   }
 };
 
-export { createTimerHandler, listTimers, getTimer, deleteTimerHandler, activateTimer };
+const advanceTimerHandler = async (
+  req: Request,
+  res: Response<TimerResponse | { msg: string }>,
+  next: NextFunction
+) => {
+  try {
+    if (!req.user?.id) {
+      return res.status(401).json({ msg: 'Unauthorized' });
+    }
+
+    const timer = await findTimerById(req.params.id);
+
+    if (!timer) {
+      return res.status(404).json({ msg: 'Timer not found' });
+    }
+
+    if (timer.user.toString() !== req.user.id) {
+      return res.status(401).json({ msg: 'User not authorized' });
+    }
+
+    const advanced = await forceAdvanceTimer(timer, new Date(Date.now() + 1000));
+    return res.json(toTimerResponse(advanced));
+  } catch (err) {
+    next(err);
+  }
+};
+
+export {
+  createTimerHandler,
+  listTimers,
+  getTimer,
+  deleteTimerHandler,
+  activateTimer,
+  advanceTimerHandler,
+};

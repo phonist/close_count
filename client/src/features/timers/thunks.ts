@@ -1,4 +1,4 @@
-import { getTimers, store, update, destroy } from './api';
+import { getTimers, store, update, destroy, show, advance } from './api';
 import { addTimer, removeTimer, setTimerError, setTimerLoading, setTimers, updateTimer } from './timersSlice';
 import type { AppDispatch } from '../../app/store';
 
@@ -7,6 +7,26 @@ export const attemptGetTimers = () => async (dispatch: AppDispatch) => {
   await getTimers()
     .then((response) => {
       dispatch(setTimers(response));
+    })
+    .catch((error) => {
+      dispatch(setTimerError(error));
+    });
+};
+
+export const attemptGetTimer = (id: string) => async (dispatch: AppDispatch) => {
+  await show({ id })
+    .then((response) => {
+      dispatch(updateTimer(response));
+    })
+    .catch((error) => {
+      dispatch(setTimerError(error));
+    });
+};
+
+export const attemptAdvanceTimer = (id: string) => async (dispatch: AppDispatch) => {
+  await advance({ id })
+    .then((response) => {
+      dispatch(updateTimer(response));
     })
     .catch((error) => {
       dispatch(setTimerError(error));

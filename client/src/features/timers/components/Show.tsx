@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { attemptDestroyTimer, attemptGetTimers } from '../thunks';
+import { attemptDestroyTimer, attemptAdvanceTimer } from '../thunks';
 import { useAppDispatch } from '../../../app/hooks';
 import {
   CardContent,
@@ -27,6 +27,85 @@ interface ShowProps {
 const Show = ({ timer }: ShowProps) => {
   const dispatch = useAppDispatch();
   const targetDate = timer.nextRunAt ?? timer.timer;
+  const nextRunAt = timer.nextRunAt ?? null;
+  const computeNextRunAt = () => {
+    if (!timer.recurrence) {
+      return null;
+    }
+    const startAt = new Date(timer.timer);
+    if (Number.isNaN(startAt.getTime())) {
+      return null;
+    }
+    const now = new Date();
+    const interval = timer.recurrence.interval ?? 1;
+
+    if (timer.recurrence.frequency === 'daily') {
+      let next = new Date(startAt);
+      while (next <= now) {
+        next.setDate(next.getDate() + interval);
+      }
+      return next.toISOString();
+    }
+
+    if (timer.recurrence.frequency === 'weekly') {
+      const daysOfWeek =
+        timer.recurrence.daysOfWeek && timer.recurrence.daysOfWeek.length > 0
+          ? timer.recurrence.daysOfWeek
+          : [startAt.getDay()];
+      const baseTime = new Date(startAt);
+      const cursor = new Date(now.getTime() + 1000);
+      if (cursor < startAt) {
+        cursor.setTime(startAt.getTime());
+      }
+      cursor.setHours(
+        baseTime.getHours(),
+        baseTime.getMinutes(),
+        baseTime.getSeconds(),
+        baseTime.getMilliseconds()
+      );
+      const maxDays = 365 * 5;
+      for (let i = 0; i < maxDays; i += 1) {
+        const weeksBetween = Math.floor(
+          (cursor.getTime() -
+            new Date(startAt.getFullYear(), startAt.getMonth(), startAt.getDate()).getTime()) /
+            (7 * 24 * 60 * 60 * 1000)
+        );
+        if (weeksBetween % interval === 0 && daysOfWeek.includes(cursor.getDay())) {
+          if (cursor > now) {
+            return cursor.toISOString();
+          }
+        }
+        cursor.setDate(cursor.getDate() + 1);
+        cursor.setHours(
+          baseTime.getHours(),
+          baseTime.getMinutes(),
+          baseTime.getSeconds(),
+          baseTime.getMilliseconds()
+        );
+      }
+      return null;
+    }
+
+    const dayOfMonth = timer.recurrence.dayOfMonth ?? startAt.getDate();
+    let next = new Date(startAt);
+    while (true) {
+      const year = next.getFullYear();
+      const month = next.getMonth();
+      const daysInMonth = new Date(year, month + 1, 0).getDate();
+      const cappedDay = Math.min(dayOfMonth, daysInMonth);
+      const candidate = new Date(year, month, cappedDay);
+      candidate.setHours(
+        startAt.getHours(),
+        startAt.getMinutes(),
+        startAt.getSeconds(),
+        startAt.getMilliseconds()
+      );
+      if (candidate > now) {
+        return candidate.toISOString();
+      }
+      next.setMonth(next.getMonth() + interval);
+    }
+  };
   const formatTime = (value: string) => {
     const date = new Date(value);
     if (Number.isNaN(date.getTime())) {
@@ -58,6 +137,11 @@ const Show = ({ timer }: ShowProps) => {
 
   const pad = (value: number) => String(value).padStart(2, '0');
   const [isTimesUp, setIsTimesUp] = useState(false);
+  const now = new Date();
+  const nextRunAtDate = nextRunAt ? new Date(nextRunAt) : null;
+  const shouldComputeNext =
+    timer.isRecurring && (!nextRunAtDate || Number.isNaN(nextRunAtDate.getTime()) || nextRunAtDate <= now);
+  const displayNextRunAt = shouldComputeNext ? computeNextRunAt() : nextRunAt;
 
   useEffect(() => {
     const isZero =
@@ -69,7 +153,7 @@ const Show = ({ timer }: ShowProps) => {
   }, [timeLeft.days, timeLeft.hours, timeLeft.minutes, timeLeft.seconds]);
 
   const handleStartNext = () => {
-    dispatch(attemptGetTimers());
+    dispatch(attemptAdvanceTimer(String(timer._id)));
   };
 
   const timerComponents = (
@@ -104,7 +188,11 @@ const Show = ({ timer }: ShowProps) => {
               {timer.description}
             </Typography>
             <Typography variant="caption" color="text.secondary">
-              {timer.isRecurring ? 'Next run' : 'Date'} · {formatDate(targetDate)} · {formatTime(targetDate)}
+              {timer.isRecurring
+                ? displayNextRunAt
+                  ? `Next run · ${formatDate(displayNextRunAt)} · ${formatTime(displayNextRunAt)}`
+                  : 'Next run pending'
+                : `Date · ${formatDate(targetDate)} · ${formatTime(targetDate)}`}
             </Typography>
             <Divider />
             {isTimesUp ? (
@@ -129,7 +217,11 @@ const Show = ({ timer }: ShowProps) => {
                   {timer.isRecurring && (
                     <>
                       <Typography variant="subtitle2" sx={{ fontWeight: 600 }}>
-                        Last run: {formatDate(targetDate)} · {formatTime(targetDate)}
+                        {displayNextRunAt
+                          ? `Next run: ${formatDate(displayNextRunAt)} · ${formatTime(
+                              displayNextRunAt
+                            )}`
+                          : 'Next run pending'}
                       </Typography>
                       <Button
                         size="small"

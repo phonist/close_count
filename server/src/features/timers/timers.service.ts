@@ -172,6 +172,19 @@ const findTimerById = (id: string) => Timer.findById(id);
 
 const deleteTimer = (timer: TimerDocument) => timer.deleteOne();
 
+const forceAdvanceTimer = async (timer: TimerDocument, now = new Date()) => {
+  if (!timer.isRecurring || !timer.recurrence) {
+    return timer;
+  }
+
+  const startAt = parseDateValue(timer.timer) ?? timer.nextRunAt ?? now;
+  const nextRunAt = computeNextRunAt(startAt, timer.recurrence, now);
+  timer.lastRunAt = timer.nextRunAt ?? startAt;
+  timer.nextRunAt = nextRunAt;
+  await timer.save();
+  return timer;
+};
+
 export {
   createTimer,
   listTimersByUser,
@@ -179,5 +192,6 @@ export {
   deleteTimer,
   computeNextRunAt,
   advanceTimerIfNeeded,
+  forceAdvanceTimer,
   parseDateValue,
 };

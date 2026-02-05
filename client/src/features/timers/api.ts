@@ -48,6 +48,12 @@ export const update = (params: { id: string; [key: string]: unknown }): Promise<
         .then(handleSuccess<Timer>)
         .catch(handleError);
 
+export const advance = (params: { id: string }): Promise<Timer> =>
+    request.post(`${apiURL}/timers/${params.id}/advance`)
+        .set({ Authorization: getAuthHeader() })
+        .then(handleSuccess<Timer>)
+        .catch(handleError);
+
 export const destroy = (params: string): Promise<{ msg: string }> =>
     request.delete(`${apiURL}/timers/${params}`)
         .set({ Authorization: getAuthHeader() })

@@ -6,15 +6,18 @@ import {
   Card,
   CardContent,
   Typography,
-  Input,
   Button,
   Box,
-  Checkbox,
   FormControlLabel,
   FormControl,
   InputLabel,
   Select,
   MenuItem,
+  TextField,
+  Switch,
+  Divider,
+  ToggleButton,
+  ToggleButtonGroup,
 } from '@mui/material';
 import { useAppDispatch } from '../../../app/hooks';
 
@@ -28,13 +31,15 @@ const getLocalTimezoneOffset = () => {
 };
 
 type RecurrenceFrequency = 'daily' | 'weekly' | 'monthly';
+const DAYS = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+const getTodayValue = () => new Date().toISOString().slice(0, 10);
 
 const Create = () => {
   const dispatch = useAppDispatch();
   const [formData, setFormData] = useState({
     title: '',
     description: '',
-    timer: Date(),
+    timer: getTodayValue(),
     isRecurring: false,
     frequency: 'daily' as RecurrenceFrequency,
     interval: 1,
@@ -73,14 +78,6 @@ const Create = () => {
   const onDayOfMonthChange = (e: any) =>
     setFormData({ ...formData, dayOfMonth: Number(e.target.value) });
 
-  const toggleDayOfWeek = (day: number) => {
-    if (daysOfWeek.includes(day)) {
-      setFormData({ ...formData, daysOfWeek: daysOfWeek.filter((d) => d !== day) });
-      return;
-    }
-    setFormData({ ...formData, daysOfWeek: [...daysOfWeek, day] });
-  };
-
   const handleSubmit = (e: any) => {
     e.preventDefault();
     const recurrence = isRecurring
@@ -103,143 +100,170 @@ const Create = () => {
   };
 
   return (
-    <Grid container justifyContent="center" spacing={2}>
-      <Grid item xs={10}>
-        <Card>
-          <CardContent>
-            <Typography variant="h6" gutterBottom component="div">
-            Set Timer
+    <Card
+      sx={{
+        borderRadius: 2,
+        border: '1px solid rgba(148, 163, 184, 0.4)',
+        boxShadow: '0 12px 30px rgba(15, 23, 42, 0.08)',
+        background: 'rgba(255,255,255,0.9)',
+        backdropFilter: 'blur(6px)',
+      }}
+    >
+      <CardContent sx={{ p: { xs: 2.5, md: 3 } }}>
+        <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mb: 2 }}>
+          <Box>
+            <Typography variant="subtitle1" sx={{ fontWeight: 600 }}>
+              Create timer
             </Typography>
-            <Box component="form" onSubmit={handleSubmit} noValidate>
-              <Grid container spacing={1}>
-                  <Grid container item xs={3} spacing={1}>
-                    <Input
-                      placeholder='Title'
-                      id="title"
-                      type="string"
-                      name="title"
-                      value={title}
-                      onChange={onChange}
+            <Typography variant="caption" color="text.secondary">
+              One-off or recurring reminders.
+            </Typography>
+          </Box>
+          <FormControlLabel
+            control={<Switch checked={isRecurring} onChange={onToggleRecurring} />}
+            label="Recurring"
+            sx={{ ml: 0 }}
+          />
+        </Box>
+        <Divider sx={{ mb: 2 }} />
+        <Box component="form" onSubmit={handleSubmit} noValidate>
+          <Grid container spacing={2}>
+            <Grid item xs={12}>
+              <TextField
+                fullWidth
+                label="Title"
+                id="title"
+                name="title"
+                value={title}
+                onChange={onChange}
+                size="small"
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <TextField
+                fullWidth
+                label="Description"
+                id="description"
+                name="description"
+                value={description}
+                onChange={onChange}
+                size="small"
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <TextField
+                fullWidth
+                label="Start date"
+                id="timer"
+                type="date"
+                name="timer"
+                value={timer}
+                onChange={onChange}
+                size="small"
+                InputLabelProps={{ shrink: true }}
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <Button fullWidth variant="contained" type="submit" sx={{ textTransform: 'none' }}>
+                Add Timer
+              </Button>
+            </Grid>
+
+            <Grid item xs={12}>
+              <Divider />
+            </Grid>
+
+            <Grid item xs={12}>
+              <Box
+                sx={{
+                  display: isRecurring ? 'block' : 'none',
+                }}
+              >
+                <Grid container spacing={2}>
+                  <Grid item xs={12}>
+                    <FormControl fullWidth size="small">
+                      <InputLabel id="frequency-label">Frequency</InputLabel>
+                      <Select
+                        labelId="frequency-label"
+                        id="frequency"
+                        name="frequency"
+                        value={frequency}
+                        label="Frequency"
+                        onChange={onFrequencyChange}
+                      >
+                        <MenuItem value="daily">Daily</MenuItem>
+                        <MenuItem value="weekly">Weekly</MenuItem>
+                        <MenuItem value="monthly">Monthly</MenuItem>
+                      </Select>
+                    </FormControl>
+                  </Grid>
+                  <Grid item xs={12}>
+                    <TextField
+                      fullWidth
+                      label="Interval"
+                      id="interval"
+                      name="interval"
+                      type="number"
+                      inputProps={{ min: 1 }}
+                      value={interval}
+                      onChange={onIntervalChange}
+                      size="small"
                     />
                   </Grid>
-                  <Grid container item xs={3} spacing={1}>
-                    <Input
-                      placeholder='Description'
-                      id="description"
-                      type="string"
-                      name="description"
-                      value={description}
-                      onChange={onChange}
-                    />
-                  </Grid>
-                  <Grid container item xs={3} spacing={1}>
-                    <Input
-                      placeholder='Timer'
-                      id="timer"
-                      type="date"
-                      name="timer"
-                      value={timer}
-                      onChange={onChange}
-                    />
-                  </Grid>
-                  <Grid container item xs={3} justifyContent="flex-end" spacing={1}>
-                    <Button 
-                      variant='outlined'
-                      type='submit'>
-                      Add Timer
-                    </Button>
-                  </Grid>
-                  <Grid container item xs={12} spacing={1}>
-                    <FormControlLabel
-                      control={
-                        <Checkbox
-                          checked={isRecurring}
-                          onChange={onToggleRecurring}
-                        />
-                      }
-                      label="Recurring"
-                    />
-                  </Grid>
-                  {isRecurring && (
-                    <>
-                      <Grid container item xs={3} spacing={1}>
-                        <FormControl fullWidth>
-                          <InputLabel id="frequency-label">Frequency</InputLabel>
-                          <Select
-                            labelId="frequency-label"
-                            id="frequency"
-                            name="frequency"
-                            value={frequency}
-                            label="Frequency"
-                            onChange={onFrequencyChange}
+                  {frequency === 'weekly' && (
+                    <Grid item xs={12}>
+                      <ToggleButtonGroup
+                        value={daysOfWeek}
+                        onChange={(_, value) => setFormData({ ...formData, daysOfWeek: value })}
+                        aria-label="days of week"
+                        size="small"
+                      >
+                        {DAYS.map((label, day) => (
+                          <ToggleButton
+                            key={label}
+                            value={day}
+                            aria-label={label}
+                            sx={{ textTransform: 'none' }}
                           >
-                            <MenuItem value="daily">Daily</MenuItem>
-                            <MenuItem value="weekly">Weekly</MenuItem>
-                            <MenuItem value="monthly">Monthly</MenuItem>
-                          </Select>
-                        </FormControl>
-                      </Grid>
-                      <Grid container item xs={3} spacing={1}>
-                        <Input
-                          placeholder="Interval"
-                          id="interval"
-                          name="interval"
-                          type="number"
-                          inputProps={{ min: 1 }}
-                          value={interval}
-                          onChange={onIntervalChange}
-                        />
-                      </Grid>
-                      {frequency === 'weekly' && (
-                        <Grid container item xs={6} spacing={1}>
-                          {['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].map(
-                            (label, day) => (
-                              <FormControlLabel
-                                key={label}
-                                control={
-                                  <Checkbox
-                                    checked={daysOfWeek.includes(day)}
-                                    onChange={() => toggleDayOfWeek(day)}
-                                  />
-                                }
-                                label={label}
-                              />
-                            )
-                          )}
-                        </Grid>
-                      )}
-                      {frequency === 'monthly' && (
-                        <Grid container item xs={3} spacing={1}>
-                          <Input
-                            placeholder="Day of month"
-                            id="dayOfMonth"
-                            name="dayOfMonth"
-                            type="number"
-                            inputProps={{ min: 1, max: 31 }}
-                            value={dayOfMonth}
-                            onChange={onDayOfMonthChange}
-                          />
-                        </Grid>
-                      )}
-                      <Grid container item xs={3} spacing={1}>
-                        <Input
-                          placeholder="Timezone (e.g. -08:00)"
-                          id="timezone"
-                          name="timezone"
-                          type="string"
-                          value={timezone}
-                          onChange={onChange}
-                        />
-                      </Grid>
-                    </>
+                            {label}
+                          </ToggleButton>
+                        ))}
+                      </ToggleButtonGroup>
+                    </Grid>
                   )}
-              </Grid>
-            </Box>
-          </CardContent>
-        </Card>
-      </Grid>
-    </Grid>
-    
+                  {frequency === 'monthly' && (
+                    <Grid item xs={12}>
+                      <TextField
+                        fullWidth
+                        label="Day of month"
+                        id="dayOfMonth"
+                        name="dayOfMonth"
+                        type="number"
+                        inputProps={{ min: 1, max: 31 }}
+                        value={dayOfMonth}
+                        onChange={onDayOfMonthChange}
+                        size="small"
+                      />
+                    </Grid>
+                  )}
+                  <Grid item xs={12}>
+                    <TextField
+                      fullWidth
+                      label="Timezone (e.g. -08:00)"
+                      id="timezone"
+                      name="timezone"
+                      value={timezone}
+                      onChange={onChange}
+                      size="small"
+                    />
+                  </Grid>
+                </Grid>
+              </Box>
+            </Grid>
+          </Grid>
+        </Box>
+      </CardContent>
+    </Card>
   );
 };
 

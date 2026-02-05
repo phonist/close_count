@@ -27,26 +27,24 @@ interface ShowProps {
 const Show = ({ timer }: ShowProps) => {
   const dispatch = useAppDispatch();
   const targetDate = timer.nextRunAt ?? timer.timer;
+  const formatTime = (value: string) => {
+    const date = new Date(value);
+    if (Number.isNaN(date.getTime())) {
+      return '00:00:00';
+    }
+    const pad = (num: number) => String(num).padStart(2, '0');
+    return `${pad(date.getHours())}:${pad(date.getMinutes())}:${pad(date.getSeconds())}`;
+  };
   const calculateTimeLeft = () => {
     const difference = +new Date(targetDate) - +new Date();
+    const safeDiff = Math.max(0, difference);
 
-    let timeLeft: TimeLeft = {
-      days: 0,
-      hours: 0,
-      minutes: 0,
-      seconds: 0
-    }
-
-    if (difference > 0) {
-      timeLeft = {
-        days: Math.floor(difference / (1000 * 60 * 60 * 24)),
-        hours: Math.floor((difference / (1000 * 60 * 60)) % 24),
-        minutes: Math.floor((difference / 1000 / 60) % 60),
-        seconds: Math.floor((difference / 1000) % 60),
-      };
-    }
-
-    return timeLeft;
+    return {
+      days: Math.floor(safeDiff / (1000 * 60 * 60 * 24)),
+      hours: Math.floor((safeDiff / (1000 * 60 * 60)) % 24),
+      minutes: Math.floor((safeDiff / 1000 / 60) % 60),
+      seconds: Math.floor((safeDiff / 1000) % 60),
+    };
   };
 
   const [timeLeft, setTimeLeft] = useState(calculateTimeLeft());
@@ -58,18 +56,26 @@ const Show = ({ timer }: ShowProps) => {
     return () => clearTimeout(timer);
   });
 
-  const timerComponents = (Object.keys(timeLeft) as Array<keyof TimeLeft>)
-    .filter((interval) => timeLeft[interval] > 0)
-    .map((interval) => (
-      <Box key={interval} sx={{ textAlign: 'center' }}>
-        <Typography variant="h5" sx={{ fontWeight: 600, lineHeight: 1 }}>
-          {timeLeft[interval]}
-        </Typography>
-        <Typography variant="caption" sx={{ textTransform: 'uppercase', letterSpacing: '0.08em' }}>
-          {interval}
-        </Typography>
-      </Box>
-    ));
+  const pad = (value: number) => String(value).padStart(2, '0');
+  const isTimesUp =
+    timeLeft.days === 0 && timeLeft.hours === 0 && timeLeft.minutes === 0 && timeLeft.seconds === 0;
+  const timerComponents = (
+    [
+      ...(timeLeft.days > 0 ? (['days'] as Array<keyof TimeLeft>) : []),
+      'hours',
+      'minutes',
+      'seconds',
+    ] as Array<keyof TimeLeft>
+  ).map((interval) => (
+    <Box key={interval} sx={{ textAlign: 'center' }}>
+      <Typography variant="h5" sx={{ fontWeight: 600, lineHeight: 1 }}>
+        {interval === 'days' ? timeLeft[interval] : pad(timeLeft[interval])}
+      </Typography>
+      <Typography variant="caption" sx={{ textTransform: 'uppercase', letterSpacing: '0.08em' }}>
+        {interval}
+      </Typography>
+    </Box>
+  ));
 
   return (
       <>
@@ -85,17 +91,29 @@ const Show = ({ timer }: ShowProps) => {
               {timer.description}
             </Typography>
             <Typography variant="caption" color="text.secondary">
-              {timer.isRecurring ? 'Next run' : 'Date'} · {formatDate(targetDate)}
+              {timer.isRecurring ? 'Next run' : 'Date'} · {formatDate(targetDate)} · {formatTime(targetDate)}
             </Typography>
             <Divider />
-            {timerComponents.length ? (
+            {isTimesUp ? (
+              <Box
+                sx={{
+                  p: 2,
+                  borderRadius: 2,
+                  background: 'linear-gradient(135deg, rgba(248,113,113,0.12), rgba(252,165,165,0.25))',
+                  border: '1px solid rgba(248,113,113,0.35)',
+                }}
+              >
+                <Typography variant="subtitle2" sx={{ fontWeight: 600, color: 'error.main' }}>
+                  Time’s up
+                </Typography>
+                <Typography variant="body2" color="text.secondary">
+                  This timer has reached its target.
+                </Typography>
+              </Box>
+            ) : (
               <Stack direction="row" spacing={2} justifyContent="space-between">
                 {timerComponents}
               </Stack>
-            ) : (
-              <Typography variant="body2" sx={{ fontWeight: 600 }}>
-                Times Up!
-              </Typography>
             )}
           </Stack>
         </CardContent>

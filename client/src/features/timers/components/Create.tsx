@@ -33,6 +33,7 @@ const getLocalTimezoneOffset = () => {
 type RecurrenceFrequency = 'daily' | 'weekly' | 'monthly';
 const DAYS = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 const getTodayValue = () => new Date().toISOString().slice(0, 10);
+const padTime = (value: number) => String(value).padStart(2, '0');
 
 const Create = () => {
   const dispatch = useAppDispatch();
@@ -40,6 +41,9 @@ const Create = () => {
     title: '',
     description: '',
     timer: getTodayValue(),
+    hour: 0,
+    minute: 0,
+    second: 0,
     isRecurring: false,
     frequency: 'daily' as RecurrenceFrequency,
     interval: 1,
@@ -52,6 +56,9 @@ const Create = () => {
     title,
     description,
     timer,
+    hour,
+    minute,
+    second,
     isRecurring,
     frequency,
     interval,
@@ -78,8 +85,28 @@ const Create = () => {
   const onDayOfMonthChange = (e: any) =>
     setFormData({ ...formData, dayOfMonth: Number(e.target.value) });
 
+  const onTimeChange = (key: 'hour' | 'minute' | 'second') => (e: any) =>
+    setFormData({ ...formData, [key]: Number(e.target.value) });
+
+  const now = new Date();
+  const isToday = timer === getTodayValue();
+  const currentTotalSeconds = now.getHours() * 3600 + now.getMinutes() * 60 + now.getSeconds();
+  const selectedTotalSeconds = hour * 3600 + minute * 60 + second;
+  const isPastSelection = isToday && selectedTotalSeconds < currentTotalSeconds;
+
+  const buildIsoDateTime = () => {
+    const dateValue = timer || getTodayValue();
+    const timeValue = `${padTime(hour)}:${padTime(minute)}:${padTime(second)}`;
+    const localDate = new Date(`${dateValue}T${timeValue}`);
+    return Number.isNaN(localDate.getTime()) ? new Date().toISOString() : localDate.toISOString();
+  };
+
   const handleSubmit = (e: any) => {
     e.preventDefault();
+    if (isPastSelection) {
+      return;
+    }
+    const timerIso = buildIsoDateTime();
     const recurrence = isRecurring
       ? {
           frequency,
@@ -91,7 +118,7 @@ const Create = () => {
     const payload = {
       title,
       description,
-      timer,
+      timer: timerIso,
       isRecurring,
       recurrence,
       timezone: isRecurring ? timezone : undefined,
@@ -159,12 +186,63 @@ const Create = () => {
                 name="timer"
                 value={timer}
                 onChange={onChange}
+                inputProps={{ min: getTodayValue() }}
                 size="small"
                 InputLabelProps={{ shrink: true }}
+                error={isPastSelection}
+                helperText={isPastSelection ? 'Select a future time.' : ' '}
+              />
+            </Grid>
+            <Grid item xs={4}>
+              <TextField
+                fullWidth
+                label="HH"
+                id="hour"
+                name="hour"
+                type="number"
+                inputProps={{ min: 0, max: 23 }}
+                value={hour}
+                onChange={onTimeChange('hour')}
+                size="small"
+                error={isPastSelection}
+              />
+            </Grid>
+            <Grid item xs={4}>
+              <TextField
+                fullWidth
+                label="MM"
+                id="minute"
+                name="minute"
+                type="number"
+                inputProps={{ min: 0, max: 59 }}
+                value={minute}
+                onChange={onTimeChange('minute')}
+                size="small"
+                error={isPastSelection}
+              />
+            </Grid>
+            <Grid item xs={4}>
+              <TextField
+                fullWidth
+                label="SS"
+                id="second"
+                name="second"
+                type="number"
+                inputProps={{ min: 0, max: 59 }}
+                value={second}
+                onChange={onTimeChange('second')}
+                size="small"
+                error={isPastSelection}
               />
             </Grid>
             <Grid item xs={12}>
-              <Button fullWidth variant="contained" type="submit" sx={{ textTransform: 'none' }}>
+              <Button
+                fullWidth
+                variant="contained"
+                type="submit"
+                sx={{ textTransform: 'none' }}
+                disabled={isPastSelection}
+              >
                 Add Timer
               </Button>
             </Grid>

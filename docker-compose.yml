@@ -41,7 +41,7 @@ services:
       - db
     environment:
       - MONGO_URI=mongodb://close-count-mongodb:27017/closecount
-      - CLIENT_URL=http://localhost:3000
+      - CLIENT_URL=http://localhost:3000,http://localhost:8005
       - CLIENT=http://localhost:3000
       - PORT=8005
       - ENVIRONMENT=development

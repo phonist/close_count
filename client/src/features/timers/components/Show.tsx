@@ -3,6 +3,7 @@ import { attemptDestroyTimer } from '../thunks';
 import { useAppDispatch } from '../../../app/hooks';
 import { CardContent, CardActions, Typography, Button } from '@mui/material';
 import { Timer } from '../types';
+import formatDate from '../../../shared/utils/formatDate';
 interface TimeLeft {
   days: number;
   hours: number;
@@ -16,8 +17,9 @@ interface ShowProps {
 
 const Show = ({ timer }: ShowProps) => {
   const dispatch = useAppDispatch();
+  const targetDate = timer.nextRunAt ?? timer.timer;
   const calculateTimeLeft = () => {
-    const difference = +new Date(timer.timer) - +new Date();
+    const difference = +new Date(targetDate) - +new Date();
 
     let timeLeft: TimeLeft = {
       days: 0,
@@ -69,7 +71,7 @@ const Show = ({ timer }: ShowProps) => {
             {timer.description}
           </Typography>
           <Typography>
-            Date: {timer.timer}
+            {timer.isRecurring ? 'Next:' : 'Date:'} {formatDate(targetDate)}
           </Typography>
           {timerComponents.length ? timerComponents : <span> Times Up!</span>}
         </CardContent>

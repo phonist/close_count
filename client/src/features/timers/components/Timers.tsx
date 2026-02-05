@@ -20,14 +20,6 @@ const Timers = () => {
     }
   }, [auth.credentials._id, dispatch]);
 
-  /* when using appwrite as backend */
-  // useEffect(() => {
-  //   if(auth.credentials["$id"]){
-  //     dispatch(attemptGetTimers(auth.credentials._id));
-  //   }
-  // }, [auth.credentials["$id"], dispatch]);
-  /* when using appwrite as backend */
-
   return (
     <Box
       component="main"

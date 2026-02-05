@@ -4,6 +4,9 @@ import {
   listTimersByUser,
   findTimerById,
   deleteTimer,
+  advanceTimerIfNeeded,
+  computeNextRunAt,
+  parseDateValue,
 } from './timers.service';
 import type { CreateTimerRequest, TimerListResponse, TimerResponse } from './timers.dtos';
 import type { TimerDocument } from '../../models/timer.model';
@@ -15,6 +18,11 @@ const toTimerResponse = (timer: TimerDocument): TimerResponse => ({
   description: timer.description,
   timer: timer.timer,
   status: timer.status,
+  isRecurring: timer.isRecurring,
+  recurrence: timer.recurrence ?? null,
+  timezone: timer.timezone ?? null,
+  nextRunAt: timer.nextRunAt?.toISOString?.() ?? null,
+  lastRunAt: timer.lastRunAt?.toISOString?.() ?? null,
   createdAt: timer.createdAt?.toISOString?.() ?? new Date().toISOString(),
   updatedAt: timer.updatedAt?.toISOString?.() ?? new Date().toISOString(),
 });
@@ -30,11 +38,21 @@ const createTimerHandler = async (
     }
 
     const payload = req.body as CreateTimerRequest;
+    const startAt = parseDateValue(payload.timer);
+    const isRecurring = Boolean(payload.isRecurring);
+    const nextRunAt =
+      startAt && isRecurring && payload.recurrence
+        ? computeNextRunAt(startAt, payload.recurrence)
+        : startAt ?? undefined;
     const newTimer = createTimer({
       title: payload.title,
       description: payload.description,
       timer: payload.timer,
       user: req.user.id,
+      isRecurring,
+      recurrence: payload.recurrence,
+      timezone: payload.timezone,
+      nextRunAt,
     });
 
     const timer = await newTimer.save();
@@ -55,7 +73,10 @@ const listTimers = async (
     }
 
     const timers = await listTimersByUser(req.user.id);
-    res.json(timers.map(toTimerResponse));
+    const updatedTimers = await Promise.all(
+      timers.map((timer) => advanceTimerIfNeeded(timer))
+    );
+    res.json(updatedTimers.map(toTimerResponse));
   } catch (err) {
     next(err);
   }
@@ -81,7 +102,8 @@ const getTimer = async (
       return res.status(401).json({ msg: 'User not authorized' });
     }
 
-    res.json(toTimerResponse(timer));
+    const updatedTimer = await advanceTimerIfNeeded(timer);
+    res.json(toTimerResponse(updatedTimer));
   } catch (err) {
     next(err);
   }

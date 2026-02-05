@@ -16,7 +16,19 @@ export const getTimers = (): Promise<Timer[]> =>
         .then(handleSuccess<Timer[]>)
         .catch(handleError);
 
-export const store = (params: { title: string; description: string; timer: string }): Promise<Timer> =>
+export const store = (params: {
+  title: string;
+  description: string;
+  timer: string;
+  isRecurring?: boolean;
+  recurrence?: {
+    frequency: 'daily' | 'weekly' | 'monthly';
+    interval?: number;
+    daysOfWeek?: number[];
+    dayOfMonth?: number;
+  };
+  timezone?: string;
+}): Promise<Timer> =>
     request.post(`${apiURL}/timers`)
         .set({ Authorization: getAuthHeader() })
         .send(params)

@@ -13,7 +13,19 @@ export const attemptGetTimers = () => async (dispatch: AppDispatch) => {
     });
 };
 
-export const attemptStoreTimer = (params: { title: string; description: string; timer: string }) => async (dispatch: AppDispatch) => {
+export const attemptStoreTimer = (params: {
+  title: string;
+  description: string;
+  timer: string;
+  isRecurring?: boolean;
+  recurrence?: {
+    frequency: 'daily' | 'weekly' | 'monthly';
+    interval?: number;
+    daysOfWeek?: number[];
+    dayOfMonth?: number;
+  };
+  timezone?: string;
+}) => async (dispatch: AppDispatch) => {
   await store(params)
     .then((response) => {
       dispatch(addTimer(response));

@@ -48,7 +48,6 @@ const Create = () => {
     frequency: 'daily' as RecurrenceFrequency,
     interval: 1,
     daysOfWeek: [] as number[],
-    dayOfMonth: 1,
     timezone: getLocalTimezoneOffset(),
   });
 
@@ -63,7 +62,6 @@ const Create = () => {
     frequency,
     interval,
     daysOfWeek,
-    dayOfMonth,
     timezone,
   } = formData;
 
@@ -81,9 +79,6 @@ const Create = () => {
 
   const onIntervalChange = (e: any) =>
     setFormData({ ...formData, interval: Number(e.target.value) });
-
-  const onDayOfMonthChange = (e: any) =>
-    setFormData({ ...formData, dayOfMonth: Number(e.target.value) });
 
   const onTimeChange = (key: 'hour' | 'minute' | 'second') => (e: any) =>
     setFormData({ ...formData, [key]: Number(e.target.value) });
@@ -112,7 +107,7 @@ const Create = () => {
           frequency,
           interval: Number(interval) || 1,
           ...(frequency === 'weekly' ? { daysOfWeek } : {}),
-          ...(frequency === 'monthly' ? { dayOfMonth: Number(dayOfMonth) || 1 } : {}),
+          ...(frequency === 'monthly' ? {} : {}),
         }
       : undefined;
     const payload = {
@@ -180,7 +175,7 @@ const Create = () => {
             <Grid item xs={12}>
               <TextField
                 fullWidth
-                label="Start date"
+                label="Date"
                 id="timer"
                 type="date"
                 name="timer"
@@ -307,21 +302,6 @@ const Create = () => {
                           </ToggleButton>
                         ))}
                       </ToggleButtonGroup>
-                    </Grid>
-                  )}
-                  {frequency === 'monthly' && (
-                    <Grid item xs={12}>
-                      <TextField
-                        fullWidth
-                        label="Day of month"
-                        id="dayOfMonth"
-                        name="dayOfMonth"
-                        type="number"
-                        inputProps={{ min: 1, max: 31 }}
-                        value={dayOfMonth}
-                        onChange={onDayOfMonthChange}
-                        size="small"
-                      />
                     </Grid>
                   )}
                   <Grid item xs={12}>

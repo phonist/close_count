@@ -37,7 +37,7 @@ const Show = ({ timer }: ShowProps) => {
       return null;
     }
     const now = new Date();
-    const interval = timer.recurrence.interval ?? 1;
+    const interval = Math.max(1, timer.recurrence.interval ?? 1);
 
     if (timer.recurrence.frequency === 'daily') {
       let next = new Date(startAt);
@@ -86,11 +86,13 @@ const Show = ({ timer }: ShowProps) => {
       return null;
     }
 
-    const dayOfMonth = timer.recurrence.dayOfMonth ?? startAt.getDate();
-    let next = new Date(startAt);
-    while (true) {
-      const year = next.getFullYear();
-      const month = next.getMonth();
+    const dayOfMonth = startAt.getDate();
+    const baseMonthIndex = startAt.getFullYear() * 12 + startAt.getMonth();
+    const maxIterations = 12 * 10;
+    for (let i = 0; i < maxIterations; i += 1) {
+      const monthIndex = baseMonthIndex + i * interval;
+      const year = Math.floor(monthIndex / 12);
+      const month = monthIndex % 12;
       const daysInMonth = new Date(year, month + 1, 0).getDate();
       const cappedDay = Math.min(dayOfMonth, daysInMonth);
       const candidate = new Date(year, month, cappedDay);
@@ -100,11 +102,14 @@ const Show = ({ timer }: ShowProps) => {
         startAt.getSeconds(),
         startAt.getMilliseconds()
       );
+      if (candidate < startAt) {
+        continue;
+      }
       if (candidate > now) {
         return candidate.toISOString();
       }
-      next.setMonth(next.getMonth() + interval);
     }
+    return null;
   };
   const formatTime = (value: string) => {
     const date = new Date(value);

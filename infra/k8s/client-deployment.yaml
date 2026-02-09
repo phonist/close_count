@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: closecount-client
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: closecount-client
+  template:
+    metadata:
+      labels:
+        app: closecount-client
+    spec:
+      containers:
+        - name: client
+          image: close-count-client:dev
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 3000
+          env:
+            - name: REACT_APP_SERVER
+              value: http://closecount.local
+            - name: REACT_APP_HOST
+              value: closecount.local
+            - name: REACT_APP_API_URL
+              value: http://closecount.local/api
+            - name: CHOKIDAR_USEPOLLING
+              value: "true"

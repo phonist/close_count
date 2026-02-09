@@ -7,7 +7,7 @@ WORKDIR /usr/app
 # Install app dependencies
 COPY package.json yarn.lock ./
 
-RUN yarn install --check-files --network-concurrency 1
+RUN yarn install --check-files --network-concurrency 2
 # Copy app to container
 COPY . .
 # Run the "start" script in package.json

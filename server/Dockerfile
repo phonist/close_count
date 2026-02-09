@@ -6,7 +6,7 @@ FROM node:24
 WORKDIR /usr/app
 # Install app dependencies
 COPY package.json yarn.lock ./
-RUN yarn install --check-files --network-concurrency 1
+RUN yarn install
 # RUN yarn global add -qy nodemon@2.0.6
 # Copy app to container
 COPY . .

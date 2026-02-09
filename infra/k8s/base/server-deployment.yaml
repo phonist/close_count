@@ -1,0 +1,75 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: closecount-server
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: closecount-server
+  template:
+    metadata:
+      labels:
+        app: closecount-server
+    spec:
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1000
+        runAsGroup: 1000
+        fsGroup: 1000
+        seccompProfile:
+          type: RuntimeDefault
+      containers:
+        - name: server
+          image: close-count-server
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 8005
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+                - ALL
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 8005
+            initialDelaySeconds: 20
+            periodSeconds: 10
+            timeoutSeconds: 2
+            failureThreshold: 3
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: 8005
+            initialDelaySeconds: 10
+            periodSeconds: 5
+            timeoutSeconds: 2
+            failureThreshold: 3
+          resources:
+            requests:
+              cpu: 100m
+              memory: 128Mi
+            limits:
+              cpu: 500m
+              memory: 512Mi
+          env:
+            - name: MONGO_URI
+              value: mongodb://closecount-mongodb:27017/closecount
+            - name: CLIENT_URL
+              value: https://closecount.example.com
+            - name: CLIENT
+              value: https://closecount.example.com
+            - name: PORT
+              value: "8005"
+            - name: ENVIRONMENT
+              value: production
+            - name: NODE_ENV
+              value: production
+            - name: JWT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: closecount-server-secrets
+                  key: JWT_SECRET
+            - name: JWT_EXPIRE
+              value: 5 days

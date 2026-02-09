@@ -1,0 +1,22 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namespace: closecount
+resources:
+  - ../../base
+  - mongo-headless-service.yaml
+  - mongo-service.yaml
+  - mongo-statefulset.yaml
+  - ingress.yaml
+  - pdb-server.yaml
+  - pdb-client.yaml
+  - hpa-server.yaml
+  - hpa-client.yaml
+secretGenerator:
+  - name: closecount-server-secrets
+    envs:
+      - secrets/server-secrets.env
+generatorOptions:
+  disableNameSuffixHash: true
+patches:
+  - path: patch-server-prod.yaml
+  - path: patch-client-prod.yaml

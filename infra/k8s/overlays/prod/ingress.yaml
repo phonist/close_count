@@ -11,10 +11,10 @@ spec:
   ingressClassName: nginx
   tls:
     - hosts:
-        - closecount.example.com
+        - closecount.local
       secretName: closecount-tls
   rules:
-    - host: closecount.example.com
+    - host: closecount.local
       http:
         paths:
           - path: /api

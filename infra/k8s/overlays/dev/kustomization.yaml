@@ -16,4 +16,6 @@ images:
     newTag: dev
 patches:
   - path: patch-server-env.yaml
+  - path: patch-server-runtime.yaml
   - path: patch-client-env.yaml
+  - path: patch-client-runtime.yaml

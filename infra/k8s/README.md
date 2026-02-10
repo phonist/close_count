@@ -15,6 +15,25 @@ This directory now uses a base + overlay structure:
 - `kubectl`
 - `docker`
 
+### Deploy (script)
+```bash
+infra/k8s/scripts/deploy-dev.sh
+```
+
+### Destroy (script)
+```bash
+# Deletes overlay resources
+infra/k8s/scripts/destroy-dev.sh
+
+# Also delete PV/PVC (data loss)
+infra/k8s/scripts/destroy-dev.sh --delete-pv-pvc
+
+# Also delete kind cluster
+infra/k8s/scripts/destroy-dev.sh --delete-cluster
+```
+
+### Manual steps (reference)
+
 ### 1) Create cluster
 ```bash
 kind create cluster --name closecount --config infra/k8s/kind-config.yaml
@@ -64,15 +83,44 @@ kind delete cluster --name closecount
 
 ## Production baseline overlay
 
-Before deploy:
+### Prereqs (cluster)
+- A reachable kube context (`kubectl cluster-info` works).
+- ingress-nginx installed (IngressClass `nginx`).
+- cert-manager installed with a `ClusterIssuer` named `letsencrypt-prod` (or adjust the ingress annotation).
+- A default StorageClass (Mongo StatefulSet uses a PVC without `storageClassName`).
+
+### Configure (repo)
+1) Update `infra/k8s/overlays/prod/ingress.yaml`:
+   - Replace `closecount.example.com` with your real domain.
+   - Ensure DNS points at your ingress controller load balancer.
+
+2) Ensure your application env vars match your real domain:
+   - Server/client deployments in `infra/k8s/base` currently use `https://closecount.example.com` and `https://closecount.example.com/api`.
+   - Patch them in `infra/k8s/overlays/prod` (recommended) or edit base if you truly want it global.
+
+3) Set server secret:
 ```bash
 cp infra/k8s/overlays/prod/secrets/server-secrets.env.example \
   infra/k8s/overlays/prod/secrets/server-secrets.env
 ```
 
-Then set a strong `JWT_SECRET` and deploy:
+Then set a strong `JWT_SECRET` and deploy.
+
+### Deploy (script)
 ```bash
-kubectl apply -k infra/k8s/overlays/prod
+infra/k8s/scripts/deploy-prod.sh
+```
+
+### Destroy (script)
+```bash
+# Deletes overlay resources
+infra/k8s/scripts/destroy-prod.sh
+
+# Also delete PVCs (data loss)
+infra/k8s/scripts/destroy-prod.sh --delete-pvcs
+
+# Also delete the namespace (deletes everything in it)
+infra/k8s/scripts/destroy-prod.sh --delete-namespace
 ```
 
 Notes:

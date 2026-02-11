@@ -5,4 +5,14 @@ export interface Timer {
     timer: string;
     title: string;
     user: string;
+    isRecurring: boolean;
+    recurrence?: {
+        frequency: 'daily' | 'weekly' | 'monthly';
+        interval?: number;
+        daysOfWeek?: number[];
+        dayOfMonth?: number;
+    } | null;
+    timezone?: string | null;
+    nextRunAt?: string | null;
+    lastRunAt?: string | null;
 }

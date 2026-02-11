@@ -1,0 +1,18 @@
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: closecount-mongo-allow-server
+spec:
+  podSelector:
+    matchLabels:
+      app: closecount-mongodb
+  policyTypes:
+    - Ingress
+  ingress:
+    - from:
+        - podSelector:
+            matchLabels:
+              app: closecount-server
+      ports:
+        - protocol: TCP
+          port: 27017

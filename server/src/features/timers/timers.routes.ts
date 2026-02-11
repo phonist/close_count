@@ -9,6 +9,7 @@ import {
   getTimer,
   deleteTimerHandler,
   activateTimer,
+  advanceTimerHandler,
 } from './timers.controller';
 
 const router = Router();
@@ -186,5 +187,41 @@ router.delete('/:id', auth, checkObjectId('id'), deleteTimerHandler);
  *               $ref: '#/components/schemas/ErrorMessage'
  */
 router.put('/:id', auth, checkObjectId('id'), activateTimer);
+
+/**
+ * @openapi
+ * /api/timers/{id}/advance:
+ *   post:
+ *     summary: Advance a recurring timer to its next run
+ *     tags: [Timers]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *     responses:
+ *       200:
+ *         description: Updated timer
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/TimerResponse'
+ *       401:
+ *         description: Unauthorized
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/ErrorMessage'
+ *       404:
+ *         description: Timer not found
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/ErrorMessage'
+ */
+router.post('/:id/advance', auth, checkObjectId('id'), advanceTimerHandler);
 
 export default router;

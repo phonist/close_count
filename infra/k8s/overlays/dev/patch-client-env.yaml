@@ -1,0 +1,18 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: closecount-client
+spec:
+  template:
+    spec:
+      containers:
+        - name: client
+          env:
+            - name: REACT_APP_SERVER
+              value: http://closecount.local
+            - name: REACT_APP_HOST
+              value: closecount.local
+            - name: REACT_APP_API_URL
+              value: http://closecount.local/api
+            - name: CHOKIDAR_USEPOLLING
+              value: "true"

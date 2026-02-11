@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   name: closecount-client
 spec:
-  replicas: 1
+  replicas: 2
   selector:
     matchLabels:
       app: closecount-client
@@ -30,6 +30,14 @@ spec:
             capabilities:
               drop:
                 - ALL
+          # CRA can take a while to compile on startup; avoid liveness killing it before it begins serving.
+          startupProbe:
+            httpGet:
+              path: /
+              port: 3000
+            periodSeconds: 5
+            timeoutSeconds: 2
+            failureThreshold: 60 # 5 minutes
           livenessProbe:
             httpGet:
               path: /
@@ -54,9 +62,13 @@ spec:
               cpu: 2000m
               memory: 2Gi
           env:
+            - name: HOST
+              value: 0.0.0.0
+            - name: PORT
+              value: "3000"
             - name: REACT_APP_SERVER
-              value: https://closecount.example.com
+              value: http://closecount.local
             - name: REACT_APP_HOST
-              value: closecount.example.com
+              value: http://closecount.local
             - name: REACT_APP_API_URL
-              value: https://closecount.example.com/api
+              value: https://closecount.local/api

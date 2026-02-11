@@ -10,8 +10,8 @@ spec:
         - name: client
           resources:
             requests:
-              cpu: 200m
-              memory: 256Mi
-            limits:
-              cpu: 1000m
+              cpu: 500m
               memory: 1Gi
+            limits:
+              cpu: 2000m
+              memory: 2Gi

@@ -11,6 +11,13 @@ resources:
   - pdb-client.yaml
   - hpa-server.yaml
   - hpa-client.yaml
+images:
+  - name: close-count-server
+    newName: docker.io/library/close-count-server
+    newTag: latest
+  - name: close-count-client
+    newName: docker.io/library/close-count-client
+    newTag: latest
 secretGenerator:
   - name: closecount-server-secrets
     envs:

@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   name: closecount-server
 spec:
-  replicas: 1
+  replicas: 2
   selector:
     matchLabels:
       app: closecount-server
@@ -48,12 +48,6 @@ spec:
             failureThreshold: 3
           resources:
             requests:
-            #   cpu: 100m
-            #   memory: 128Mi
-            # limits:
-            #   cpu: 500m
-            #   memory: 512Mi
-            requests:
               cpu: 250m
               memory: 256Mi
             limits:
@@ -63,9 +57,9 @@ spec:
             - name: MONGO_URI
               value: mongodb://closecount-mongodb:27017/closecount
             - name: CLIENT_URL
-              value: https://closecount.example.com
+              value: https://closecount.local
             - name: CLIENT
-              value: https://closecount.example.com
+              value: https://closecount.local
             - name: PORT
               value: "8005"
             - name: ENVIRONMENT

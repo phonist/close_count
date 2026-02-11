@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: closecount-server
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: closecount-server
+  template:
+    metadata:
+      labels:
+        app: closecount-server
+    spec:
+      containers:
+        - name: server
+          image: close-count-server:dev
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 8005
+          env:
+            - name: MONGO_URI
+              value: mongodb://closecount-mongodb:27017/closecount
+            - name: CLIENT_URL
+              value: http://closecount.local
+            - name: CLIENT
+              value: http://closecount.local
+            - name: PORT
+              value: "8005"
+            - name: ENVIRONMENT
+              value: development
+            - name: NODE_ENV
+              value: development
+            - name: JWT_SECRET
+              value: closecounttoken-dev-only
+            - name: JWT_EXPIRE
+              value: 5 days

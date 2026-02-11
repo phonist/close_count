@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: closecount-mongodb
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: closecount-mongodb
+  template:
+    metadata:
+      labels:
+        app: closecount-mongodb
+    spec:
+      containers:
+        - name: mongo
+          image: mongo:6
+          ports:
+            - containerPort: 27017
+          volumeMounts:
+            - name: mongo-data
+              mountPath: /data/db
+      volumes:
+        - name: mongo-data
+          persistentVolumeClaim:
+            claimName: closecount-mongo-pvc

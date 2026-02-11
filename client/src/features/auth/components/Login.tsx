@@ -1,6 +1,20 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Avatar, Button, TextField, FormControlLabel, Checkbox, Link, Grid, Box, Typography } from '@mui/material';
+import {
+  Avatar,
+  Button,
+  TextField,
+  FormControlLabel,
+  Checkbox,
+  Link,
+  Grid,
+  Box,
+  Typography,
+  Card,
+  CardContent,
+  Divider,
+  Stack,
+} from '@mui/material';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import { useAppDispatch, useAppSelector } from '../../../app/hooks';
 import { attemptLogin } from '../thunks';
@@ -44,67 +58,77 @@ const Login = () => {
 
   return (
     <ThemeProvider theme={theme}>
-      <Container component="main" maxWidth="xs">
+      <Container component="main" maxWidth="sm">
         <CssBaseline />
-          <Box
-            sx={{
-              marginTop: 8,
-              display: 'flex',
-              flexDirection: 'column',
-              alignItems: 'center',
-            }}
-          >
-            <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
-              <LockOutlinedIcon />
-            </Avatar>
-            <Typography component="h1" variant="h5">
-              Sign in
-            </Typography>
-            <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
-              <TextField
-                margin="normal"
-                required
-                fullWidth
-                id="email"
-                label="Email Address"
-                name="email"
-                autoComplete="email"
-                autoFocus
-                onChange={onChange}
-              />
-              <TextField
-                margin="normal"
-                required
-                fullWidth
-                name="password"
-                label="Password"
-                type="password"
-                id="password"
-                autoComplete="current-password"
-                onChange={onChange}
-              />
-              <FormControlLabel
-                control={<Checkbox value="remember" color="primary" />}
-                label="Remember me"
-              />
-              <Button
-                type="submit"
-                fullWidth
-                variant="contained"
-                sx={{ mt: 3, mb: 2 }}
-              >
-                Sign In
-              </Button>
-              <Grid container>
-                <Grid item>
-                  <Link href="/register" variant="body2">
-                    {"Don't have an account? Sign Up"}
-                  </Link>
-                </Grid>
-              </Grid>
-            </Box>
-          </Box>
-          <Copyright sx={{ mt: 8, mb: 4 }} />
+        <Box
+          sx={{
+            minHeight: '100vh',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            py: 6,
+          }}
+        >
+          <Card sx={{ width: '100%', borderRadius: 2, border: '1px solid #e5e7eb', boxShadow: 'none' }}>
+            <CardContent sx={{ p: { xs: 3, md: 4 } }}>
+              <Stack spacing={2}>
+                <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5 }}>
+                  <Avatar sx={{ bgcolor: 'primary.main' }}>
+                    <LockOutlinedIcon />
+                  </Avatar>
+                  <Box>
+                    <Typography component="h1" variant="h5">
+                      Sign in
+                    </Typography>
+                    <Typography variant="body2" color="text.secondary">
+                      Welcome back to Close Count.
+                    </Typography>
+                  </Box>
+                </Box>
+                <Divider />
+                <Box component="form" onSubmit={handleSubmit} noValidate>
+                  <Stack spacing={2}>
+                    <TextField
+                      required
+                      fullWidth
+                      id="email"
+                      label="Email Address"
+                      name="email"
+                      autoComplete="email"
+                      autoFocus
+                      onChange={onChange}
+                    />
+                    <TextField
+                      required
+                      fullWidth
+                      name="password"
+                      label="Password"
+                      type="password"
+                      id="password"
+                      autoComplete="current-password"
+                      onChange={onChange}
+                    />
+                    <FormControlLabel
+                      control={<Checkbox value="remember" color="primary" />}
+                      label="Remember me"
+                    />
+                    <Button type="submit" fullWidth variant="contained">
+                      Sign In
+                    </Button>
+                    <Grid container>
+                      <Grid item>
+                        <Link href="/register" variant="body2">
+                          {"Don't have an account? Sign Up"}
+                        </Link>
+                      </Grid>
+                    </Grid>
+                  </Stack>
+                </Box>
+              </Stack>
+            </CardContent>
+          </Card>
+        </Box>
+        <Copyright sx={{ mb: 3 }} />
       </Container>
     </ThemeProvider>
   );

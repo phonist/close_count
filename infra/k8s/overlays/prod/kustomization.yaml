@@ -1,0 +1,29 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namespace: closecount
+resources:
+  - ../../base
+  - mongo-headless-service.yaml
+  - mongo-service.yaml
+  - mongo-statefulset.yaml
+  - ingress.yaml
+  - pdb-server.yaml
+  - pdb-client.yaml
+  - hpa-server.yaml
+  - hpa-client.yaml
+images:
+  - name: close-count-server
+    newName: docker.io/library/close-count-server
+    newTag: latest
+  - name: close-count-client
+    newName: docker.io/library/close-count-client
+    newTag: latest
+secretGenerator:
+  - name: closecount-server-secrets
+    envs:
+      - secrets/server-secrets.env
+generatorOptions:
+  disableNameSuffixHash: true
+patches:
+  - path: patch-server-prod.yaml
+  - path: patch-client-prod.yaml
